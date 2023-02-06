@@ -274,4 +274,10 @@
     .ownertext{
         padding: 25px 0;
     }
+    .owner .title-text{
+        padding: 25px 0;
+    }
+    .aftersale .title-text{
+        padding: 25px 0;
+    }
 }
