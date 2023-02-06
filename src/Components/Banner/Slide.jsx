@@ -39,7 +39,7 @@ const Slide = () => {
             strength={500}
             className="single-banner"
             bgImage={slide3}
-          >
+           >
             <div className="overlay">
               <div className="inoverlay">
                 <div className="leftb"></div>
@@ -187,6 +187,8 @@ const Slide = () => {
           </Parallax>
         </Element>
       </BannerAnim>
+
+
 
       {/* <Arrow arrowType="prev" key="prev" prefixCls="user-arrow" >
              <div className="arrow">Prev</div>

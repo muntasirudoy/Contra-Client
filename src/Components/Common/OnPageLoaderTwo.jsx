@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const OnPageLoaderTwo = ({ number }) => {
   return (
-    <div className="on-page-loader-two">
+    <div className="on-page-loader-two" style={{display:"flex",justifyContent:"center",width:"98%"}}>
       {number == 3 ? (
         <>
           <div className="border-round border-1 surface-border p-4 surface-card">

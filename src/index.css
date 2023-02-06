@@ -2,6 +2,9 @@
     margin-top: 15px;
 }
 
+.mid-header-all{
+    border-bottom: 1px solid #e7e7e7;
+}
 
 @media (min-width:320px) and (max-width:575.98px) {
 
@@ -198,8 +201,56 @@
     :root {
         --swiper-navigation-size: 28px;
     }
-
+    .companyprofiletext {
+        padding: 25px;
+    }
+    .companydetails {
+        margin: 20px 0;
+    }
+    .aboutpage {
+        padding: 40px 0 0px;
+        box-sizing: border-box;
+    }
+    .expert .all-carde {
+        margin-top: 0px;
+        padding: 40px;
+        box-sizing: border-box;
+    }
+    .expert .carde{
+        height: 350px;
+        margin-top: 15px;
+    }
+    .csrtext {
+        padding: 25px;
+    }
     .footer {
         padding: 35px;
+    }
+
+    .avialableflats .p-chip {
+        width: 100%!important;
+        border-radius: 5px !important;
+    }
+
+    .p-panelmenu{
+        justify-content: center;
+        width: 100%!important;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .avialablecard {
+        box-sizing: border-box;
+        padding: 0 40px ;
+    }
+    .p-panelmenu .p-panelmenu-panel {
+        margin-bottom: 4px;
+        width: 45%;
+    }
+    .image-gallary .gallaryimg {
+        height: 90px;
+    }
+    .flatsdetails .image{
+        height: auto;
     }
 }
