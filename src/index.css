@@ -253,4 +253,25 @@
     .flatsdetails .image{
         height: auto;
     }
+    .aftersale{
+        padding: 25px;
+        box-sizing: border-box;
+        margin-bottom: 0px;
+    }
+    .subheading p{
+        font-size: 14px;
+    }
+    .aftersale img{
+        display: none;
+    }
+    .aftersaletext {
+        padding: 25px 0;
+    }
+    .owner{
+        padding: 25px;
+        box-sizing: border-box;
+    }
+    .ownertext{
+        padding: 25px 0;
+    }
 }

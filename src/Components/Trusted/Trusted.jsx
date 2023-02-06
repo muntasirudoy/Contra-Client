@@ -36,6 +36,14 @@ const Trusted = () => {
           navigation
           loop={true}
           breakpoints={{
+            1140: {
+              width: 1140,
+              slidesPerView: 4,
+            },
+            940: {
+              width: 940,
+              slidesPerView: 4,
+            },
             // when window width is >= 640px
             640: {
               width: 640,
@@ -44,7 +52,7 @@ const Trusted = () => {
             // when window width is >= 768px
             768: {
               width: 768,
-              slidesPerView: 4,
+              slidesPerView: 3,
             },
             575: {
               width: 575,
