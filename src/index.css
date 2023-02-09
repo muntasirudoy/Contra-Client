@@ -203,7 +203,9 @@
     }
     .companyprofiletext {
         padding: 25px;
+
     }
+
     .companydetails {
         margin: 20px 0;
     }
@@ -226,12 +228,10 @@
     .footer {
         padding: 35px;
     }
-
     .avialableflats .p-chip {
         width: 100%!important;
         border-radius: 5px !important;
     }
-
     .p-panelmenu{
         justify-content: center;
         width: 100%!important;

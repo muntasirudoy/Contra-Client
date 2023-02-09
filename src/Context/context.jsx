@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { authListener, createDocuments } from "../dbconfig";
+import { authListener, createDocuments, getCurrentUser } from "../dbconfig";
 
 export const Store = createContext({
   currentUser: null,
@@ -15,8 +15,15 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     authListener(async (user) => {
       if (user) {
-        await createDocuments(user);
-        setCurrentUser(user);
+       let res = await createDocuments(user);
+       if(res){
+        try{
+          let users = await getCurrentUser(user.uid)
+          setCurrentUser(users)
+        }catch(error){
+
+        }
+       }
       } else {
         navigate("/");
       }

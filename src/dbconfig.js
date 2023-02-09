@@ -62,8 +62,9 @@ export const createDocuments = async (userData, additionalInfo) => {
 
   if (!snapshot.exists()) {
     const userInfo = {
-      username: userData.displayName ? userData.displayName : additionalInfo,
+      username: userData.displayName ? userData.displayName : additionalInfo.username,
       email: userData.email,
+      userStatus:additionalInfo.userStatus
     };
     try {
       await setDoc(docRef, userInfo);
@@ -71,7 +72,7 @@ export const createDocuments = async (userData, additionalInfo) => {
       console.log(error.message);
     }
   }
-  return await docRef;
+  return  docRef;
 };
 
 // create user with email and password
@@ -90,7 +91,7 @@ export const authListener = async (callback) => {
 };
 // auth signout
 export const authSignout = async () => {
-  console.log("signout");
+
   return await signOut(auth);
 };
 // get individual user

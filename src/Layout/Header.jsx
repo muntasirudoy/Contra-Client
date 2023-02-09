@@ -11,25 +11,29 @@ import {
 import logo from "/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./layout.css";
-import { getUserInfo } from "../dbconfig";
+import { auth, authSignout, getCurrentUser, getUserInfo } from "../dbconfig";
 import { Store } from "../Context/context";
 import { Menubar } from "primereact/menubar";
+import { clientStore } from "../Context/clientContext";
 
 const Header = () => {
-  const { currentUser, setCurrentuser } = useContext(Store);
+  const { currentUser, setCurrentUser } = useContext(Store);
+
   const navigate = useNavigate();
   const handleAdmin = () => {
     navigate(currentUser ? "/dashboard" : "/login?redirect=/dashboard");
   };
 
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   console.log("hello");
-    //   let res = getUserInfo();
-    //   console.log(res);
-    // };
-    // fetchData();
-  }, []);
+  const handleClient = () => {
+    navigate(
+      currentUser ? "/client-profile" : "/login?redirect=/client-profile"
+    );
+  };
+
+  const handleSignOut = async () => {
+    setCurrentUser("");
+    authSignout();
+  };
 
   const items = [
     {
@@ -153,17 +157,28 @@ const Header = () => {
       label: "ACCOUNTS",
       items: [
         {
-          label: (
-            <a style={{ width: "100%" }} onClick={handleAdmin}>
-              Admin
-            </a>
-          ),
+          label:
+            currentUser?.userStatus == "authority" ? (
+              <a style={{ width: "100%" }} onClick={handleAdmin}>
+                Admin
+              </a>
+            ) : currentUser?.userStatus == "client" ? (
+              <a className="nav-link" onClick={handleClient}>
+                Client's Dashboard
+              </a>
+            ) : (
+              <>
+                <Link to="/login">Client Login</Link>
+              </>
+            ),
         },
+
+
         {
-          label: (
-            <Link id="RouterNavLink" className="nav-link" to="/">
-              Clients
-            </Link>
+          label: currentUser?.userStatus == "client" && (
+            <a className="nav-link" onClick={handleSignOut}>
+              Logout
+            </a>
           ),
         },
       ],

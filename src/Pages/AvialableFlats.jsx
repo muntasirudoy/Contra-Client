@@ -27,7 +27,9 @@ export const AvialableFlats = () => {
         );
         setLoader(false);
         setPdata(res);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error.message)
+      }
     }
     fetchData();
   }, []);

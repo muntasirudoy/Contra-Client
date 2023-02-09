@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Dropdown } from "primereact/dropdown";
 import { createDocuments, createUserWithEmailPassword } from "../dbconfig";
 const defaultFormField = {
   username: "",
@@ -8,7 +9,7 @@ const defaultFormField = {
   confirmPassword: "",
 };
 
-const Signup = () => {
+const ClientSignup = () => {
   const [formField, setFormField] = useState(defaultFormField);
   const [error, setError] = useState("");
   const { username, password, confirmPassword, email } = formField;
@@ -26,15 +27,15 @@ const Signup = () => {
       return;
     }
     try {
-      const { user } = await createUserWithEmailPassword(email, password);
-      let obj ={
+      let obj = {
         username,
-        userStatus:"authority"
+        userSatus:"client"
       }
+      const { user } = await createUserWithEmailPassword(email, password);
       const res = await createDocuments(user, obj);
 
       if (res) {
-        navigate("/dashboard");
+        navigate("/client-profile");
       }
     } catch (error) {
       setError(error.message);
@@ -87,9 +88,9 @@ const Signup = () => {
                 {error && error}
               </p>
             )}
-            <button className="client-form-btn" onClick={handleSubmit}>SIGNUP</button>
+            <button onClick={handleSubmit}>SIGNUP</button>
             <div className="action">
-              Already have an account? <Link to="/login"> LOGIN</Link>
+              Already have an account? <Link to="/client-login"> LOGIN</Link>
             </div>
           </div>
         </div>
@@ -98,4 +99,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ClientSignup;

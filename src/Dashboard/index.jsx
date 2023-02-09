@@ -97,15 +97,18 @@ const Dashboard = () => {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    if (!currentUser) {
-      navigate("/");
-    } else {
-      const fetchData = async () => {
-        let res = await getCurrentUser(currentUser.uid);
+    const fetchData = async () => {
+      let res = await getCurrentUser(currentUser.uid);
+      if (res?.userStatus !== "authority") {
+        navigate("/");
+      } else {
         setUserInfo(res);
-      };
-      fetchData();
-    }
+      }
+    };
+    fetchData();
+
+
+
   }, [userInfo]);
 
   if (!currentUser) {
