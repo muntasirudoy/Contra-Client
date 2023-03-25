@@ -179,11 +179,26 @@
     box-sizing: border-box;
 }
 
+.dashboard-cards .text h2 {
+    color: #23353c;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 22px;
+}
+
+.dashboard-cards .text p {
+    color: #404040;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+}
+
 
 .dashboard-card-list-3 .card-list .text h2 {
     color: #002f43;
     font-weight: 600;
     font-size: 22px;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .dashboard-card-list-3 .card-list .icons {
@@ -233,12 +248,14 @@
     font-size: 26px;
     font-weight: 600;
     color: #014a69;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .dashboar-heading p {
     font-size: 16px;
     font-weight: 400;
     color: #6e6e6e;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .profile {
@@ -251,6 +268,7 @@
     font-size: 18px;
     font-weight: 600;
     color: #0f5e80;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .profile span {
@@ -258,6 +276,7 @@
     cursor: pointer;
     box-sizing: border-box;
     height: 50px;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 
@@ -293,6 +312,7 @@
 
 .dashboard-projects.ready .ant-table a {
     color: #002f43;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 
@@ -303,7 +323,6 @@
 
 .tableCards {
     margin-top: 20px;
-    height: 500px;
     width: 100%;
 }
 
@@ -319,6 +338,7 @@
 .tableCardsHeader h2 {
     font-size: 20px;
     font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .tableSingleCard.head {
@@ -338,7 +358,7 @@
     margin: 10px 0;
     display: flex;
     justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
     transition: 0.3s;
     text-align: center;
 
@@ -346,8 +366,10 @@
 
 .tableSingleCard span {
     font-weight: 600;
-    font-size: 14px;
-
+    font-family: 'Source Sans Pro', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tableSingleCard:hover {
@@ -360,7 +382,14 @@
 
 .tableSingleCard.users span.slno {
     width: 7% !important;
+    
 }
+.tableSingleCard.users span {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
 
 .tableSingleCard.users {
     text-align: center;
@@ -371,6 +400,7 @@
     width: 30%;
     text-align: center;
     border-right: 1px solid rgb(219, 219, 219);
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 
@@ -405,6 +435,7 @@
 .message-box .details p {
     font-weight: 600;
     font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .ant-card .ant-card-head {
@@ -435,4 +466,28 @@
 
 .dashboard-project-container .p-dropdown {
     width: 100% !important;
+}
+
+.clientsProjectDetails .allItems{
+    width: 100%;
+    display: flex;
+}
+
+.clientsProjectDetails .allItems .singleProjectCards{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    row-gap: 30px;
+}
+.clientsProjectDetails .allItems .singleProjectCards .singleCard{
+    width: 23%;
+    height: 350px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+
+.dashboardClientSingleProject .header{
+
 }

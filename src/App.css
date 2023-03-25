@@ -9,7 +9,7 @@
 
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  
   overflow-x: hidden;
 }
 
@@ -701,18 +701,18 @@ tr:last-of-type td:last-child {
   text-align: center;
  }
 .clients-profile-card .text h4{
- color: #485567;
+  color: #333d4c;
 font-size: 18px;
 }
 .clients-profile-card .text p{
-  color: #485567;
+  color: #333d4c;
  font-size: 14px;
  }
  .clients-profile {
   padding-bottom: 50px;
  }
  .clients-profile .ant-list-header{
-  background:#485567;
+  color: #333d4c;
   border-radius: 8px;
   color: rgb(240, 240, 240);
   font-size: 16px;
@@ -731,7 +731,7 @@ font-size: 18px;
  .clients-profile .ant-list-item a{
   font-size: 14px;
   font-weight: 500;
-  color: #485567;
+  color: #333d4c;
   padding-left: 7px;
   transition: 0.3s;
  }
@@ -746,32 +746,25 @@ font-size: 18px;
  .clients-profile .right .column{
   margin-top: 15px;
  }
- .clients-profile .right input{
-  padding: 0 25px;
- width: 95%;
- padding: 7px 10px;
- border: 1px solid #dadada;
- border-radius: 5px;
- margin-top: 5px;
-}
+
 .clients-profile .right input:focus{
   outline: none;
 }
 .clients-profile .right label{
   font-size: 14px;
-  color: #485567;
+  color: #333d4c;
   font-weight: 600;
 }
 .clients-profile h2{
   font-weight: 600;
-  color: #485567;
+  color: #333d4c;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 .clients-profile .right p{
   font-weight: 500;
-  color: #485567;
+  color: #333d4c;
   font-size: 14px;
   margin-left: 37px;
 }
@@ -781,4 +774,53 @@ font-size: 18px;
 }
 .client-form-btn{
   margin-top: 15px;
+}
+
+
+.ant-tabs {
+  color: #333d4c!important;
+}
+.ant-tabs  .ant-form-item .ant-form-item-label >label{
+  color: #333d4c!important;
+  font-size: 15px;
+}
+
+.ant-tabs .ant-tabs-tab-btn{
+font-size: 16px;
+padding: 7px 15px;
+border-top-right-radius: 10px;
+border-top-left-radius: 10px;
+color: rgb(59, 59, 59);
+}
+:where(.css-dev-only-do-not-override-x4aeqy).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white;
+  background: #285496;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+
+.ant-tabs .ant-tabs-tab{
+padding: 0;
+}
+.ant-tabs .ant-input{
+  background: transparent!important;
+}
+.ant-tabs .ant-input-affix-wrapper{
+  background: transparent!important;
+}
+
+.hide-form{
+  height: 0px;
+  opacity: 0;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.show-form{
+  height: 800px;
+  transition: 0.3s;
+  opacity: 1;
+  overflow: hidden;
+}
+:where(.css-dev-only-do-not-override-102n619) a{
+  color: #242f3f;
 }

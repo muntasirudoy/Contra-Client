@@ -19,7 +19,7 @@ export const ContextProvider = ({ children }) => {
        if(res){
         try{
           let users = await getCurrentUser(user.uid)
-          setCurrentUser(users)
+          setCurrentUser({...users,user})
         }catch(error){
 
         }

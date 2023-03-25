@@ -1,4 +1,4 @@
-import { Col, Divider, List, Row, Tag, Typography } from "antd";
+import { Col, Divider, List, Progress, Row, Tag, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "../../../Context/context";
@@ -9,10 +9,14 @@ import { AiFillProfile } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
 import { BiUserPin } from 'react-icons/bi';
 import { MdPayment } from 'react-icons/md';
+
+import Loader from "../../Common/Loader"
 const ClientProfile = () => {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(Store);
   const [userInfo, setUserInfo] = useState("");
+  const { currentEvent } = useContext(eventStore);
+  const [count, setCount] = useState("");
   const data = [{
     lable : <Link to="/client-profile/client-personal-info" >Personal Information</Link>,
     icon: <FaHouseUser fontSize={18}/>
@@ -33,6 +37,19 @@ const ClientProfile = () => {
     icon: <BiUserPin fontSize={18}/>
   }
   ];
+
+useEffect(()=>{
+  const countProfilePercentage=(obj)=>{
+    let count =  Object.values(obj).filter(val => val === '').length
+    setCount(Math.round(100 - count*8.3333333333333333333))
+  }  
+  currentUser &&  countProfilePercentage(currentUser)
+  
+},[currentUser,currentEvent])
+
+if(!currentUser){
+  return <Loader />
+}else{
   return (
     <Layout>
       <div className="container clients-profile">
@@ -45,11 +62,14 @@ const ClientProfile = () => {
                 </div>
                 <div className="text">
                   <h4>
-                    <b>MR. {currentUser?.username}</b>
+                    <b>MR. {currentUser?.username} </b> 
                   </h4>
                   <p>{currentUser?.email}</p>
                 </div>
                 <Tag color="volcano">Client</Tag>
+                <Progress style={{marginTop:"10px"}} percent={count} status="active"   />
+              {count == 100  ? "" : <p style={{fontSize:"14px",fontWeight:"600"}}>Please Complete your Profile!</p>}
+        
               </div>
               <List
                 bordered
@@ -65,13 +85,14 @@ const ClientProfile = () => {
           </Col>
           <Col xs={24} sm={24} md={18} lg={18}>
             <div className="right">
-              <Outlet />
+              <Outlet values={"use"}/>
             </div>
           </Col>
         </Row>
       </div>
     </Layout>
   );
+   }
 };
 
 export default ClientProfile;

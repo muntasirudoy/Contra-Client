@@ -29,6 +29,7 @@ const Login = () => {
     setLoader(true);
     try {
       let res = await loginUserWithEmailPassword(email, password);
+      console.log(res);
       if (res) {
         setLoader(false);
         navigator(redirect);

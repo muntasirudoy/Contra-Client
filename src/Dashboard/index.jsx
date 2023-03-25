@@ -27,7 +27,7 @@ const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { currentUser, setCurrentUser } = useContext(Store);
   const [userInfo, setUserInfo] = useState("");
-
+const navigate =     useNavigate() 
   const items = [
     getItem(
       <Link to="dashboard-home"> DASHBOARD</Link>,
@@ -47,7 +47,7 @@ const Dashboard = () => {
         getItem("Management", "13"),
         getItem("Corporate social", "14"),
       ]),
-      userInfo?.role == "Admin" &&
+      currentUser?.role == "Admin" &&
         getItem("Projects", "sub5", null, [
           getItem(<Link to="dashboard-all-projects">All Projects </Link>, "23"),
           getItem(<Link to="dashboard-avilable-project">Avilable </Link>, "15"),
@@ -63,12 +63,12 @@ const Dashboard = () => {
         getItem(<Link to="dashboard-after-sale">After Sale </Link>, "19"),
       ]),
     ]),
-    getItem(
+    currentUser?.role == "Admin" && getItem(
       <Link to="your-clients">Your Clients </Link>,
       "sub7",
       <SettingOutlined />
     ),
-    userInfo?.role == "Admin" &&
+    currentUser?.role == "Admin" &&
       getItem(
         <Link to="all-users">All Users</Link>,
         "sub10",
@@ -95,21 +95,14 @@ const Dashboard = () => {
     setCurrentUser("");
     authSignout();
   };
-  const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      let res = await getCurrentUser(currentUser.uid);
-      if (res?.userStatus !== "authority") {
-        navigate("/");
-      } else {
-        setUserInfo(res);
-      }
-    };
-    fetchData();
 
+useEffect(()=>{
+  if(currentUser?.userStatus == "client"){
+    authSignout();
+    navigate("/")
+  }
+},[currentUser])
 
-
-  }, [userInfo]);
 
   if (!currentUser) {
     return <Loader />;
@@ -123,13 +116,14 @@ const Dashboard = () => {
         <ConfigProvider
           theme={{
             token: {
-              colorPrimary: "#014a69",
+              colorPrimary: "#285496",
               colorBgLayout: "#f5f8ff",
               colorBgBase: "#edf0f9",
-              borderRadius: 3,
+              borderRadius: 5,
               colorTextBase: "gray",
               colorBgTextActive: "white",
               fontFamily: "Arial, Helvetica, sans-serif",
+              boxShadow:"none"
             },
           }}
         >
@@ -141,7 +135,7 @@ const Dashboard = () => {
           >
             <div
               style={{
-                margin: " 0 16px",
+                margin: " 0 20px",
                 padding: "30px 0px",
                 boxSizing: "border-box",
               }}
@@ -184,12 +178,10 @@ const Dashboard = () => {
               />
               <div className="profile">
                 <p>
-                  {currentUser?.displayName
-                    ? currentUser.displayName
-                    : userInfo.username}{" "}
+                  {currentUser?.username}
                 </p>
                 <div className="profile-image">
-                  <img src={currentUser?.photoURL} alt="" />
+                 <img src={currentUser.user.photoURL} alt="Photo" />
                 </div>
                 <span onClick={signout}>
                   <GrLogout fontSize={24} />
@@ -198,7 +190,10 @@ const Dashboard = () => {
             </Header>
             <Content
               style={{
-                margin: "10px 50px",
+                margin: "15px",
+                padding: "30px",
+                background:"white",
+                boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
               }}
             >
               <Outlet />

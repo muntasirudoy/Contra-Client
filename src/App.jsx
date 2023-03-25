@@ -1,5 +1,4 @@
 import "./App.css";
-import Layout from "./Layout";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import "./Components/Common/common.css";
@@ -39,13 +38,17 @@ import Dashboard_Land_Owner_Message from "./Dashboard/Dashboard_Land_Owner_Messa
 import Dashboard_Contactus_Message from "./Dashboard/Dashboard_Contactus_Message";
 import Dashboard_Buyer_Message from "./Dashboard/Dashboard_Buyer_Message";
 import Dashboard_All_Users from "./Dashboard/Dashboard_All_Users";
-import ClientLogin  from "./Pages/ClientLogin";
+import ClientLogin from "./Pages/ClientLogin";
 import ClientSignup from "./Pages/ClientSignup";
 import ClientProfile from "./Components/Clients/ClientProfile";
 import ClientsProjects from "./Components/Clients/ClientsProjects";
 import ClientsPayment from "./Components/Clients/ClientsPayment";
 import ClientsNominee from "./Components/Clients/ClientsNominee";
 import ClientPersonal from "./Components/Clients/ClientPersonal";
+import { Store } from "./Context/context";
+import { useContext } from "react";
+import Dashboard_YourClient_Details from "./Dashboard/Dashboard_YourClient_Details";
+import Dashboard_YourClient_Single_Projects from "./Dashboard/Dashboard_YourClient_Single_Projects";
 
 function App() {
   // const routeMap = [
@@ -109,12 +112,25 @@ function App() {
         <Route path="client-login" element={<ClientLogin />} />
         <Route path="client-signup" element={<ClientSignup />} />
         <Route path="client-profile" element={<ClientProfile />}>
-           <Route index element={<ClientPersonal />} />
-          <Route path="/client-profile/client-projects" element={<ClientsProjects/>} />
-          <Route path="/client-profile/client-payment" element={<ClientsPayment/>} />
-          <Route path="/client-profile/client-nominee" element={<ClientsNominee />} />
-          <Route path="/client-profile/client-personal-info" element={<ClientPersonal />} />
-          </Route> 
+          <Route index element={<ClientPersonal />} />
+          <Route
+            path="/client-profile/client-projects"
+            element={<ClientsProjects />}
+          />
+          <Route
+            path="/client-profile/client-payment"
+            element={<ClientsPayment />}
+          />
+          <Route
+            path="/client-profile/client-nominee"
+            element={<ClientsNominee />}
+          />
+          <Route
+            path="/client-profile/client-personal-info"
+            element={<ClientPersonal />}
+          />
+        </Route>
+        {/* dashboard start */}
         <Route path="dashboard" element={<Dashboard />}>
           <Route index element={<Dashboard_Main />} />
           <Route path="dashboard-about" element={<Dashboard_About />} />
@@ -123,7 +139,16 @@ function App() {
             path="dashboard-why-choose"
             element={<Dashboard_Why_Choose />}
           />
-          <Route path="your-clients" element={<Dashboard_Your_Clients />} />
+          <Route
+            path="your-clients"
+            element={<Dashboard_Your_Clients />}
+          ></Route>
+          <Route
+            path="your-clients/:id"
+            element={<Dashboard_YourClient_Details />}> 
+               
+            </Route>
+            <Route path="your-clients/:id/:id" element={<Dashboard_YourClient_Single_Projects />} />
           <Route path="all-users" element={<Dashboard_All_Users />} />
           <Route
             path="dashboard-all-projects"

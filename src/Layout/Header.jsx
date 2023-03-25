@@ -15,18 +15,21 @@ import { auth, authSignout, getCurrentUser, getUserInfo } from "../dbconfig";
 import { Store } from "../Context/context";
 import { Menubar } from "primereact/menubar";
 import { clientStore } from "../Context/clientContext";
+import { Button, Dropdown } from "antd";
+import { Chip } from "primereact/chip";
+import Navbar from "./Navbar";
 
 const Header = () => {
   const { currentUser, setCurrentUser } = useContext(Store);
 
   const navigate = useNavigate();
   const handleAdmin = () => {
-    navigate(currentUser ? "/dashboard" : "/login?redirect=/dashboard");
+    navigate(currentUser?.userStatus == "authority" ? "/dashboard" : "/login?redirect=/dashboard");
   };
 
   const handleClient = () => {
     navigate(
-      currentUser ? "/client-profile" : "/login?redirect=/client-profile"
+      currentUser?.userStatus == "client" ? "/client-profile" : "/login?redirect=/client-profile"
     );
   };
 
@@ -168,11 +171,10 @@ const Header = () => {
               </a>
             ) : (
               <>
-                <Link to="/login">Client Login</Link>
+                <Link to="/client-login">Client Login</Link>
               </>
             ),
         },
-
 
         {
           label: currentUser?.userStatus == "client" && (
@@ -184,6 +186,21 @@ const Header = () => {
       ],
     },
   ];
+
+  const content = (
+    <>
+      {/* <span className="font-medium mr-4 ml-3">{currentUser?.username}</span> */}
+      <img className="mr-0" src="/person3.jpg" alt="" />
+    </>
+  );
+  const content2 = (
+    <>
+    <Link to="/login"><Chip label="Login" style={{fontWeight:"600"}} icon="pi pi-sign-in" /></Link>
+    <Link to="/client-signup"><Chip label="Signup" style={{fontWeight:"600"}} icon="pi pi-sync" /></Link>
+    </>
+  );
+
+
 
   const start = (
     <Link id="RouterNavLink" className="nav-link" to="/">
@@ -213,6 +230,35 @@ const Header = () => {
         <div className="container">
           <div className="mid-header">
             <Menubar model={items} start={start} />
+            {/* <Navbar /> */}
+            {currentUser ? (
+              <div className="user-account">
+                <Chip
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0",
+                  }}
+                  template={content}
+                />
+              </div>
+            ):
+            
+           <>
+              <Chip
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0",
+                    background:"none",
+                    gap:"10px"
+                  }}
+                  template={content2}
+                />
+           </>
+            }
           </div>
         </div>
       </div>
