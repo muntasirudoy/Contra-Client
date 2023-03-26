@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from "primereact/dropdown";
-import { createDocuments, createUserWithEmailPassword } from "../dbconfig";
+import { createDocuments, createUserWithEmailPassword, getCurrentUser } from "../dbconfig";
+import { Store } from "../Context/context";
 const defaultFormField = {
   username: "",
   email: "",
@@ -13,7 +14,7 @@ const ClientSignup = () => {
   const [formField, setFormField] = useState(defaultFormField);
   const [error, setError] = useState("");
   const { username, password, confirmPassword, email } = formField;
-
+  const { currentUser, setCurrentUser } = useContext(Store);
   const navigate = useNavigate();
   const handleForm = (e) => {
     const { name, value } = e.target;
@@ -29,12 +30,14 @@ const ClientSignup = () => {
     try {
       let obj = {
         username,
-        userSatus:"client"
+        userStatus:"client"
       }
       const { user } = await createUserWithEmailPassword(email, password);
       const res = await createDocuments(user, obj);
-
+      
       if (res) {
+        let users = await getCurrentUser(user.uid)
+        setCurrentUser({...users,user})
         navigate("/client-profile");
       }
     } catch (error) {

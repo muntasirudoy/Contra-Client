@@ -1,9 +1,10 @@
 
 import React, { useContext, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { loginUserWithEmailPassword, signinWithGooglePopup } from "../dbconfig";
+import { getCurrentUser, loginUserWithEmailPassword, signinWithGooglePopup } from "../dbconfig";
 import GoogleButton from "react-google-button";
 import Loader from "../Components/Common/Loader";
+import { Store } from "../Context/context";
 
 const ClientLogin = () => {
   const emailRef = useRef();
@@ -13,15 +14,9 @@ const ClientLogin = () => {
   const redirectUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectUrl ? redirectUrl : "/client-profile";
   const [loader, setLoader] = useState(false);
+
   const navigator = useNavigate();
-  const googleSignIn = async () => {
-    let res = await signinWithGooglePopup();
-    if (res.user) {
-      navigator("/client-profile");
-    } else {
-      navigator("/");
-    }
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,10 +25,9 @@ const ClientLogin = () => {
     setLoader(true);
     try {
       let res = await loginUserWithEmailPassword(email, password);
-      console.log(res)
       if (res) {
         setLoader(false);
-        navigator(redirect);
+        navigator("/client-profile");
       } else {
         setLoader(true);
       }
@@ -71,10 +65,8 @@ const ClientLogin = () => {
                 ref={passwordRef}
               />
               <button onClick={handleSubmit}>LOGIN</button>
-              <p className="or">or</p>
-              <div className="google-log">
-                <GoogleButton type="light" onClick={googleSignIn} />
-              </div>
+      
+
               {error && (
                 <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
                   {" "}

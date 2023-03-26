@@ -15,15 +15,13 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     authListener(async (user) => {
       if (user) {
-       let res = await createDocuments(user);
-       if(res){
+
         try{
           let users = await getCurrentUser(user.uid)
           setCurrentUser({...users,user})
         }catch(error){
 
         }
-       }
       } else {
         navigate("/");
       }

@@ -62,17 +62,18 @@ export const createDocuments = async (userData, additionalInfo) => {
 
   if (!snapshot.exists()) {
     const userInfo = {
-      username: userData.displayName ? userData.displayName : additionalInfo.username,
+      username: additionalInfo.username,
       email: userData.email,
       userStatus:additionalInfo.userStatus
     };
+    
     try {
       await setDoc(docRef, userInfo);
+      return docRef
     } catch (error) {
       console.log(error.message);
     }
   }
-  return  docRef;
 };
 
 // create user with email and password

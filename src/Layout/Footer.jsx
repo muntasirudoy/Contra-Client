@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Row, Col } from "antd";
 
 import "./layout.css";
 import Footertext from "../Components/Common/Footertext";
+import { Link } from "react-router-dom";
+import { Store } from "../Context/context";
 
 export const Footer = () => {
+  const { currentUser } = useContext(Store);
   return (
     <div className="footer">
       <div className="container foot">
@@ -25,6 +28,19 @@ export const Footer = () => {
               <Footertext li="Leave Managemetn System(LMS)" />
               <Footertext li="Contact Us" />
               <Footertext li="Our Profile" />
+
+              {!currentUser && (
+                <Link style={{ color: "white" }} to="/login">
+                  Admin Login
+                </Link>
+              )}
+
+
+               {currentUser?.userStatus == "authority" && (
+                <Link style={{ color: "white" }} to="/dashboard">
+                  Admin Dashboard
+                </Link>
+              )}
             </ul>
           </div>
           <div className="col-12 md:col-4 lg:col-3 footer-col">

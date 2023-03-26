@@ -1,8 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { loginUserWithEmailPassword, signinWithGooglePopup } from "../dbconfig";
+import { createDocuments, getCurrentUser, loginUserWithEmailPassword, signinWithGooglePopup } from "../dbconfig";
 import GoogleButton from "react-google-button";
 import Loader from "../Components/Common/Loader";
+import { Store } from "../Context/context";
 
 const Login = () => {
   const emailRef = useRef();
@@ -13,10 +14,18 @@ const Login = () => {
   const redirect = redirectUrl ? redirectUrl : "/";
   const [loader, setLoader] = useState(false);
   const navigator = useNavigate();
+  const { currentUser, setCurrentUser } = useContext(Store);
   const googleSignIn = async () => {
     let res = await signinWithGooglePopup();
     if (res.user) {
+      let obj ={
+        username: res.user.displayName,
+        email:res.user.email,
+        userStatus:"authority"
+      }
+      await createDocuments(res.user, obj);
       navigator("/dashboard");
+      
     } else {
       navigator("/");
     }

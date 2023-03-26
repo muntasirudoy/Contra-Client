@@ -2,7 +2,7 @@ import { Col, Divider, List, Progress, Row, Tag, Typography } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "../../../Context/context";
-import { getCurrentUser } from "../../../dbconfig";
+import { authSignout, getCurrentUser } from "../../../dbconfig";
 import Layout from "../../../Layout";
 import { FaHouseUser } from 'react-icons/fa';
 import { AiFillProfile } from 'react-icons/ai';
@@ -12,11 +12,16 @@ import { MdPayment } from 'react-icons/md';
 
 import Loader from "../../Common/Loader"
 const ClientProfile = () => {
-  const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useContext(Store);
-  const [userInfo, setUserInfo] = useState("");
 
-  const [count, setCount] = useState("");
+  const { currentUser, setCurrentUser } = useContext(Store);
+
+  const handleSignOut = async () => {
+    setCurrentUser("");
+    authSignout();
+  };
+
+
+  const [count, setCount] = useState(0);
   const data = [{
     lable : <Link to="/client-profile/client-personal-info" >Personal Information</Link>,
     icon: <FaHouseUser fontSize={18}/>
@@ -33,7 +38,7 @@ const ClientProfile = () => {
     icon: <HiUsers fontSize={18}/>
   },
   {
-    lable : <Link to="/client-profile/client-personal-info" >Personal Information</Link>,
+    lable : <a onClick={handleSignOut}> Logout</a> ,
     icon: <BiUserPin fontSize={18}/>
   }
   ];
@@ -67,7 +72,7 @@ if(!currentUser){
                   <p>{currentUser?.email}</p>
                 </div>
                 <Tag color="volcano">Client</Tag>
-                <Progress style={{marginTop:"10px"}} percent={count} status="active"   />
+                <Progress  style={{marginTop:"10px"}} percent={count == 100 ? 0 : count} status="active"   />
               {count == 100  ? "" : <p style={{fontSize:"14px",fontWeight:"600"}}>Please Complete your Profile!</p>}
         
               </div>

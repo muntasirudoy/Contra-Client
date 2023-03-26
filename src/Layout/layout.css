@@ -157,6 +157,8 @@
     align-items: center;
     gap: 10px;
     margin-left: 50px;
+    width: 260px;
+    justify-content: flex-end;
 }
 .user-account img{
     width: 35px;

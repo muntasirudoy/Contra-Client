@@ -1,4 +1,4 @@
-import React, {useContext } from "react";
+import React, { useContext } from "react";
 import {
   PhoneOutlined,
   MailOutlined,
@@ -10,23 +10,28 @@ import {
 import logo from "/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./layout.css";
-import {authSignout} from "../dbconfig";
+import { authSignout } from "../dbconfig";
 import { Store } from "../Context/context";
 import { Menubar } from "primereact/menubar";
 import { Chip } from "primereact/chip";
-
 
 const Header = () => {
   const { currentUser, setCurrentUser } = useContext(Store);
 
   const navigate = useNavigate();
   const handleAdmin = () => {
-    navigate(currentUser?.userStatus == "authority" ? "/dashboard" : "/login?redirect=/dashboard");
+    navigate(
+      currentUser?.userStatus == "authority"
+        ? "/dashboard"
+        : "/login?redirect=/dashboard"
+    );
   };
 
   const handleClient = () => {
     navigate(
-      currentUser?.userStatus == "client" ? "/client-profile" : "/login?redirect=/client-profile"
+      currentUser?.userStatus == "client"
+        ? "/client-profile"
+        : "/login?redirect=/client-profile"
     );
   };
 
@@ -153,54 +158,75 @@ const Header = () => {
       ],
     },
 
-    {
-      label: "ACCOUNTS",
-      items: [
-        {
-          label:
-            currentUser?.userStatus == "authority" ? (
-              <a style={{ width: "100%" }} onClick={handleAdmin}>
-                Admin
-              </a>
-            ) : currentUser?.userStatus == "client" ? (
-              <a className="nav-link" onClick={handleClient}>
-                Client's Dashboard
-              </a>
-            ) : (
-              <>
-                           <a className="nav-link" onClick={handleSignOut}>
-              Logout
-            </a>
-              </>
-            ),
-        },
+    // {
+    //   label: "ACCOUNTS",
+    //   items: [
+    //     {
+    //       label:
+    //         currentUser?.userStatus == "authority" ? (
+    //           <a style={{ width: "100%" }} onClick={handleAdmin}>
+    //             Admin
+    //           </a>
+    //         ) : currentUser?.userStatus == "client" ? (
+    //           <a className="nav-link" onClick={handleClient}>
+    //             Client's Dashboard
+    //           </a>
+    //         ) : (
+    //           <>
+    //             <a className="nav-link" onClick={handleSignOut}>
+    //               Logout
+    //             </a>
+    //           </>
+    //         ),
+    //     },
 
-        {
-          label: currentUser?.userStatus == "client" && (
-            <a className="nav-link" onClick={handleSignOut}>
-              Logout
-            </a>
-          ),
-        },
-      ],
-    },
+    //     {
+    //       label: currentUser?.userStatus == "client" && (
+    //         <a className="nav-link" onClick={handleSignOut}>
+    //           Logout
+    //         </a>
+    //       ),
+    //     },
+    //     {
+    //       label: (
+    //         <Link id="RouterNavLink" className="nav-link" to="/login">
+    //         Login
+    //         </Link>
+    //       ),
+    //     },
+    //     {
+    //       label: currentUser?.userStatus == "client" && (
+    //         <a className="nav-link" onClick={handleSignOut}>
+    //           Logout
+    //         </a>
+    //       ),
+    //     },
+        
+    //   ],
+    // },
   ];
 
   const content = (
     <>
       {/* <span className="font-medium mr-4 ml-3">{currentUser?.username}</span> */}
+      <p style={{padding:"0 20px 0 15px",fontWeight:"600"}}>{currentUser?.username}</p>
       <img className="mr-0" src="/person3.jpg" alt="" />
     </>
   );
   const content2 = (
     <>
-    <Link to="/login"><Chip label="Login" style={{fontWeight:"600"}} icon="pi pi-sign-in" /></Link>
-    <Link to="/client-signup"><Chip label="Signup" style={{fontWeight:"600"}} icon="pi pi-sync" /></Link>
-    
+      <Link to="/client-login">
+        <Chip
+          label="Login"
+          style={{ fontWeight: "600" }}
+          icon="pi pi-sign-in"
+        />
+      </Link>
+      <Link to="/client-signup">
+        <Chip label="Signup" style={{ fontWeight: "600" }} icon="pi pi-sync" />
+      </Link>
     </>
   );
-
-
 
   const start = (
     <Link id="RouterNavLink" className="nav-link" to="/">
@@ -243,22 +269,21 @@ const Header = () => {
                   template={content}
                 />
               </div>
-            ):
-            
-           <>
-              <Chip
+            ) : (
+              <>
+                <Chip
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     padding: "0",
-                    background:"none",
-                    gap:"10px"
+                    background: "none",
+                    gap: "10px",
                   }}
                   template={content2}
                 />
-           </>
-            }
+              </>
+            )}
           </div>
         </div>
       </div>
