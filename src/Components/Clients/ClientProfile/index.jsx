@@ -15,7 +15,7 @@ const ClientProfile = () => {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(Store);
   const [userInfo, setUserInfo] = useState("");
-  const { currentEvent } = useContext(eventStore);
+
   const [count, setCount] = useState("");
   const data = [{
     lable : <Link to="/client-profile/client-personal-info" >Personal Information</Link>,
@@ -45,7 +45,7 @@ useEffect(()=>{
   }  
   currentUser &&  countProfilePercentage(currentUser)
   
-},[currentUser,currentEvent])
+},[currentUser])
 
 if(!currentUser){
   return <Loader />

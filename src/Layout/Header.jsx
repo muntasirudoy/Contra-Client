@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {useContext } from "react";
 import {
-  HomeOutlined,
   PhoneOutlined,
   MailOutlined,
   FacebookFilled,
@@ -11,13 +10,11 @@ import {
 import logo from "/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import "./layout.css";
-import { auth, authSignout, getCurrentUser, getUserInfo } from "../dbconfig";
+import {authSignout} from "../dbconfig";
 import { Store } from "../Context/context";
 import { Menubar } from "primereact/menubar";
-import { clientStore } from "../Context/clientContext";
-import { Button, Dropdown } from "antd";
 import { Chip } from "primereact/chip";
-import Navbar from "./Navbar";
+
 
 const Header = () => {
   const { currentUser, setCurrentUser } = useContext(Store);
@@ -171,7 +168,9 @@ const Header = () => {
               </a>
             ) : (
               <>
-                <Link to="/client-login">Client Login</Link>
+                           <a className="nav-link" onClick={handleSignOut}>
+              Logout
+            </a>
               </>
             ),
         },
@@ -197,6 +196,7 @@ const Header = () => {
     <>
     <Link to="/login"><Chip label="Login" style={{fontWeight:"600"}} icon="pi pi-sign-in" /></Link>
     <Link to="/client-signup"><Chip label="Signup" style={{fontWeight:"600"}} icon="pi pi-sync" /></Link>
+    
     </>
   );
 
