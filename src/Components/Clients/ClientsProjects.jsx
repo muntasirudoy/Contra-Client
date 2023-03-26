@@ -18,6 +18,7 @@ import { EyeOutlined, LoadingOutlined, LockOutlined } from "@ant-design/icons";
 import {
   createDocumentsForClientProjectInfo,
   getAllClientProjects,
+  getIndividualClientProjectInfo,
   updateIndividualUser,
 } from "../../dbconfig";
 
@@ -57,10 +58,12 @@ const ClientProjects = ({ showForm }) => {
   };
 
   useEffect(() => {
+    console.log('hello');
     setSkltn(true);
     const fetchData = async () => {
       try {
-        const res = await getAllClientProjects(currentUser.id);
+        const res = await getIndividualClientProjectInfo("client_project_info",currentUser.id);
+        console.log(res);
         setSkltn(false);
         setClientProjects(res);
       } catch (error) {

@@ -7,19 +7,19 @@ import { LoadingOutlined, LockOutlined } from "@ant-design/icons";
 import { updateIndividualUser } from "../../dbconfig";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
-const ClientPersonal = ({ valueFromDashboardClientProject : personalInfo}) => {
+const ClientPersonal = ({ valueFromDashboardClientProject : personalInfo,params}) => {
   const { currentUser } = useContext(Store);
   // const { currentEvent,setCurrentEvent } = useContext(eventStore);
   const [form] = Form.useForm();
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [res, setRes] = useState("");
   const formRef = useRef(null);
+  const [btnLoader, setBtnLoader] = useState(false);
+
 
   const onFinish = async (values) => {
     setBtnLoader(true)
     const data = {
       ...values,
-      id:currentUser.id,
+      id:params ? params : currentUser.id,
       apartmentName: values.apartmentName ? values.apartmentName : "",
       lastName: values.lastName ? values.lastName : "",
       mobile: values.mobile ? values.mobile : "",

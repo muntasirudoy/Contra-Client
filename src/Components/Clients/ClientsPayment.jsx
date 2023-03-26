@@ -7,6 +7,7 @@ import { EyeOutlined, LoadingOutlined, LockOutlined } from "@ant-design/icons";
 import {
   createDocumentsForClientProjectInfo,
   getAllClientProjects,
+  getIndividualClientProjectInfo,
   updateIndividualUser,
 } from "../../dbconfig";
 
@@ -47,7 +48,7 @@ const ClientsPayment = ({ values }) => {
     setSkltn(true)
     const fetchData =async()=>{
      try {
-      const res = await getAllClientProjects(currentUser.id)
+      const res = await getIndividualClientProjectInfo(currentUser.id)
       setSkltn(false)
       setClientProjects(res)
      } catch (error) {

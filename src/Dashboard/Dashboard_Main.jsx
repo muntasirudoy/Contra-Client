@@ -1,11 +1,28 @@
-import React, { useState } from "react";
-import { PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  LockOutlined,
+  PlusOutlined,
+  UnorderedListOutlined,
+} from "@ant-design/icons";
 import "./dashboard.css";
 import Card_List from "./Card_List";
 import { Dialog } from "primereact/dialog";
+import {
+  getIndividualProjectInfoForPayment,
+  updateIndividualUser,
+} from "../dbconfig";
+import { Button, Col, Form, Input, Row } from "antd";
+import Loader from "../Components/Common/Loader";
+import OnPageLoader from "../Components/Common/OnPageLoader";
+
 const Dashboard_Main = () => {
   const [displayBasic, setDisplayBasic] = useState(false);
   const [position, setPosition] = useState("center");
+  const [projectId, setProjectId] = useState("");
+  const [loader, setLoader] = useState(false);
+
+  const [form] = Form.useForm();
+  const formRef = useRef(null);
   const onClick = (name, position) => {
     dialogFuncMap[`${name}`](true);
 
@@ -19,6 +36,33 @@ const Dashboard_Main = () => {
   };
   const onHide = (name) => {
     dialogFuncMap[`${name}`](false);
+  };
+
+  const onFinish = async (values) => {
+    const data = {
+      ...values,
+    };
+    try {
+      let res = await updateIndividualUser(data);
+      if (res) {
+      }
+    } catch (error) {}
+  };
+
+  const onSearchProjectByProjectId = async () => {
+    setLoader(true);
+    let res = await getIndividualProjectInfoForPayment(
+      "client_project_info",
+      projectId
+    );
+
+    if (res) {
+      setLoader(false);
+      form.setFieldValue("projectName", res.projectName);
+      form.setFieldValue("aptPrice", res.aptPrice);
+      form.setFieldValue("address", res.address);
+      form.setFieldValue("totalPrice", res.totalPrice);
+    }
   };
 
   return (
@@ -66,7 +110,7 @@ const Dashboard_Main = () => {
                 Category list
               </h3>
               <button onClick={() => onClick("displayBasic")}>
-                <PlusOutlined /> Add
+                <PlusOutlined /> Make Payment
               </button>
             </div>
             <div className="dashboard-card-list-3">
@@ -83,7 +127,7 @@ const Dashboard_Main = () => {
                 Category list
               </h3>
               <button onClick={() => onClick("displayBasic")}>
-                <PlusOutlined /> Add
+                <PlusOutlined /> Add user
               </button>
             </div>
             <div className="dashboard-card-list-3">
@@ -115,9 +159,74 @@ const Dashboard_Main = () => {
       <Dialog
         header="Header"
         visible={displayBasic}
-        style={{ width: "50vw" }}
+        style={{ width: "40vw" }}
         onHide={() => onHide("displayBasic")}
-      ></Dialog>
+      >
+        {loader ? (
+          <OnPageLoader />
+        ) : (
+          <>
+            <Form.Item label="Project ID" name="projectid">
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                suffix={
+                  <Button
+                    onClick={onSearchProjectByProjectId}
+                    style={{ background: "#285496", color: "white" }}
+                  >
+                    Find
+                  </Button>
+                }
+                onInput={(e) => setProjectId(e.target.value)}
+                placeholder="Find project by project ID"
+              />
+            </Form.Item>
+
+            <Form
+              layout="vertical"
+              form={form}
+              ref={formRef}
+              style={{ marginTop: "20px" }}
+              onFinish={onFinish}
+            >
+              <Row gutter={[24, 0]}>
+                <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Item label="Project Name" name="projectName">
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Project Name"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Item label="Address" name="address">
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Address"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Item label="Apartment Price" name="aptPrice">
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Apartment Price"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Item label="Total Price" name="totalPrice">
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Total Price"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
+          </>
+        )}
+      </Dialog>
     </>
   );
 };

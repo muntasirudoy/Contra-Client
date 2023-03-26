@@ -7,34 +7,56 @@ import { useLocation } from "react-router-dom";
 import ClientProjectCard from "../Components/Common/ClientProjectCard";
 import Skelton from "../Components/Common/Skelton";
 import { Store } from "../Context/context";
-import {
-  createDocumentsForClientProjectInfo,
-} from "../dbconfig";
+import { createDocumentsForClientProjectInfo } from "../dbconfig";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
-const ClientAllProjects = ({ showForm, clientProjects }) => {
+const ClientAllProjects = ({ showForm, clientProjects, params }) => {
   const { currentUser } = useContext(Store);
 
   const [form] = Form.useForm();
   const [btnLoader, setBtnLoader] = useState(false);
   const [skltn, setSkltn] = useState(false);
   const [openForm, setOpenForm] = useState("hide-form");
-  const [ formCardStatus, setFormCardStatus] = useState(true)
-  const [ sellBtnText, setSellBtnText] = useState("Sell a Project")
+  const [formCardStatus, setFormCardStatus] = useState(true);
+  const [sellBtnText, setSellBtnText] = useState("Sell a Project");
 
   const formRef = useRef(null);
 
   const onFinish = async (values) => {
     setBtnLoader(true);
-    const { projectName, land, foundation, address, refference } = values;
-    const data = {
-      ...values,
-      id: currentUser.id,
+    const {
       projectName,
       land,
       foundation,
       address,
       refference,
+      projjectid,
+      floor,
+      unit,
+      rate,
+      aptPrice,
+      parkingPrice,
+      utility,
+      totalPrice,
+      totalPriceInWord,
+    } = values;
+    const data = {
+      ...values,
+      id: params,
+      projectName,
+      land,
+      foundation,
+      address,
+      refference,
+      projjectid,
+      floor,
+      unit,
+      rate,
+      aptPrice,
+      parkingPrice,
+      utility,
+      totalPrice,
+      totalPriceInWord,
     };
     try {
       let res = await createDocumentsForClientProjectInfo(data);
@@ -45,7 +67,6 @@ const ClientAllProjects = ({ showForm, clientProjects }) => {
       setBtnLoader(true);
     }
   };
-
 
   // useEffect(() => {
   //   setSkltn(true);
@@ -70,16 +91,16 @@ const ClientAllProjects = ({ showForm, clientProjects }) => {
   const handleOpenForm = () => {
     if (openForm == "hide-form") {
       setOpenForm("show-form");
-      setFormCardStatus(false)
-      setSellBtnText("Show Project's")
+      setFormCardStatus(false);
+      setSellBtnText("Show Project's");
     } else {
       setOpenForm("hide-form");
-      setFormCardStatus(true)
-      setSellBtnText("Sell a Project")
+      setFormCardStatus(true);
+      setSellBtnText("Sell a Project");
     }
   };
 
-  const location = useLocation()
+  const location = useLocation();
   console.log(location);
   return (
     <div className="clientsProjectDetails">
@@ -104,7 +125,7 @@ const ClientAllProjects = ({ showForm, clientProjects }) => {
             style={{ marginTop: "20px" }}
             onFinish={onFinish}
           >
-            <Divider style={{padding:"0px 0 50px" }}>
+            <Divider style={{ padding: "0px 0 50px" }}>
               <h2 style={{ textAlign: "center", color: "#333d4c " }}>
                 Project's Details
               </h2>
@@ -152,14 +173,13 @@ const ClientAllProjects = ({ showForm, clientProjects }) => {
               </Col>
             </Row>
 
-            <Divider style={{padding:"50px 0" }}>
+            <Divider style={{ padding: "50px 0" }}>
               {" "}
               <h2 style={{ textAlign: "center", color: "#333d4c" }}>
                 Project Pricing & Specification
               </h2>
             </Divider>
             <Row gutter={[24, 0]}>
-
               <Col xs={24} sm={12} md={12} lg={6} xl={6}>
                 <Form.Item label="Project Types">
                   <Radio.Group>
@@ -269,21 +289,20 @@ const ClientAllProjects = ({ showForm, clientProjects }) => {
       ) : (
         <>
           <Divider />
-            {formCardStatus &&
-            
+          {formCardStatus && (
             <div className="allItems">
-            <div className="singleProjectCards">
-              {clientProjects &&
-                clientProjects.map((e) => (
-                  <>
-                    <ClientProjectCard data={e} />
-                  </>
-                ))}
+              <div className="singleProjectCards">
+                {clientProjects &&
+                  clientProjects.map((e) => (
+                    <>
+                      <ClientProjectCard data={e} />
+                    </>
+                  ))}
+              </div>
             </div>
-          </div> 
-            }
+          )}
         </>
-      ) }
+      )}
     </div>
   );
 };

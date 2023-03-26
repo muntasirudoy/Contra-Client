@@ -62,9 +62,8 @@ const Dashboard_Your_Clients = () => {
             <div className="tableCardsHeader">
               <div className="tableSingleCard head">
                 <span className="slno">SL. NO</span>
-                <span>CATEGORY NAME</span>
-                <span>CATEGORY TYPE</span>
-                <span>CATEGORY DETAILS</span>
+                <span>CLIENTS NAME</span>
+                <span>EMAIL</span>
               </div>
             </div>
             {skltn ? (
@@ -77,7 +76,6 @@ const Dashboard_Your_Clients = () => {
                     <span className="slno">{i + 1}</span>
                     <span>{e.username}</span>
                     <span>{e.email}</span>
-                    <span>{e.projectName}</span>
                   </div>
                 </Link>
               ))

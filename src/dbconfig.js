@@ -596,7 +596,17 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       land,
       foundation,
       address,
-      refference} = data;
+      refference,
+      projjectid,
+      floor,
+      unit,
+      rate,
+      aptPrice,
+      parkingPrice,
+      utility,
+      totalPrice,
+      totalPriceInWord
+    } = data;
 
     const projectInfo = {
       clientId: id,
@@ -604,7 +614,16 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       land,
       foundation,
       address,
-      refference
+      refference,
+      projjectid,
+      floor,
+      unit,
+      rate,
+      aptPrice,
+      parkingPrice,
+      utility,
+      totalPrice,
+      totalPriceInWord
     };
     try {
       await setDoc(docRef, projectInfo);
@@ -618,10 +637,13 @@ export const createDocumentsForClientProjectInfo = async (data) => {
 };
 
 // get all land owner
-export const getAllClientProjects = async () => {
+export const getAllClientProjects = async (id) => {
+  console.log(id);
   let projectData = [];
   const docRef = await getDocs(collection(db, "client_project_info"));
-  docRef.forEach((doc) => {
+  const q = query(docRef, where("clientId", "==", id));
+
+  q.forEach((doc) => {
     projectData.push({ ...doc.data(), id: doc.id });
   });
   return projectData;
@@ -647,6 +669,19 @@ export const getIndividualClientProjectInfo = async (location, slug) => {
   let details = [];
   await querySnapshot.forEach((doc) => {
     details.push({...doc.data(), id:doc.id})
+  });
+  return details;
+};
+
+export const getIndividualProjectInfoForPayment = async (location, id) => {
+  const citiesRef = collection(db, location);
+  // Create a query against the collection.
+  const q = query(citiesRef, where("projjectid", "==", id));
+  console.log(q,"q");
+  const querySnapshot = await getDocs(q);
+  let details = {};
+  await querySnapshot.forEach((doc) => {
+    details = ({...doc.data(), id:doc.id})
   });
   return details;
 };

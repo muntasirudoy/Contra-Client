@@ -75,14 +75,14 @@ const Dashboard_YourClient_Details = () => {
       label: `Personal Information`,
       children: (
         <>
-          <ClientPersonal valueFromDashboardClientProject={clinetPersonalInfo}/>
+          <ClientPersonal valueFromDashboardClientProject={clinetPersonalInfo} params={ param.id}/>
         </>
       ),
     },
     {
       key: "2",
       label: `Project Information`,
-      children: <ClientAllProjects clientProjects={clientProjects}  showForm={true}/>,
+      children: <ClientAllProjects clientProjects={clientProjects}  showForm={true} params={ param.id}/>,
     },
     {
       key: "3",
