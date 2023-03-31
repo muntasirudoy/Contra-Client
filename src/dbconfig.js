@@ -24,11 +24,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useContext } from "react";
-import { Store } from "./Context/context";
-import { getDatabase, ref, onValue } from "firebase/database";
-import { getMessaging, getToken } from "firebase/messaging";
 
+import { getStorage } from "firebase/storage";
 export const firebaseConfig = {
   apiKey: "AIzaSyCfiuOVtjiuKmVyYCHWT80IfsEUJDxceYE",
   authDomain: "mahmudbuilders-a304f.firebaseapp.com",
@@ -50,6 +47,7 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
+export const storage = getStorage(app);
 // google popup login
 export const signinWithGooglePopup = () => {
   return signInWithPopup(auth, provider);
@@ -277,6 +275,7 @@ export const getAllCategory = async () => {
 };
 // // create document for Project Details form
 export const createDocumentsForProjectDetails = async (data) => {
+
   const docRef = await doc(db, "project_details", uuidv4());
   const snapshot = await getDoc(docRef);
   if (!snapshot.exists()) {
@@ -298,8 +297,11 @@ export const createDocumentsForProjectDetails = async (data) => {
       subTitle,
       title,
       slug,
+      imageUrls
     } = data;
 
+
+    console.log(imageUrls);
     const projectInfo = {
       title,
       address,
@@ -318,6 +320,7 @@ export const createDocumentsForProjectDetails = async (data) => {
       status,
       subTitle,
       slug,
+      imageUrls
     };
     try {
       await setDoc(docRef, projectInfo);

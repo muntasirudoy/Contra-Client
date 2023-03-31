@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import Tr from "../Components/Common/Tr";
-import { Modal, Tag } from "antd";
+import { Image, Modal, Tag } from "antd";
 import Layout from "../Layout";
 import { getSingleCategorySingleDetails } from "../dbconfig";
 import img from "/b1.jpg";
@@ -55,6 +55,7 @@ export const FlatsDetails = () => {
     status,
     subTitle,
     slug,
+    imageUrls,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -64,6 +65,7 @@ export const FlatsDetails = () => {
     setIsModalOpen(false);
   };
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [visible, setVisible] = useState(false);
   return (
     <Layout>
       <div className="flatsdetails">
@@ -71,12 +73,42 @@ export const FlatsDetails = () => {
           <div class="grid">
             <div class="col-12 md:col-5 lg:col-5">
               <div className="image">
-                <img src={img} alt="building" />
-                <div className="image-gallary">
-                  <img className="gallaryimg" src={img} alt="building" />
-                  <img className="gallaryimg" src={img} alt="building" />
-                  <img className="gallaryimg" src={img} alt="building" />
-                  <img className="gallaryimg" src={img} alt="building" />
+                <img src={imageUrls?.[0]} alt="building" />
+                
+
+                <Image
+                  preview={{
+                    visible: false,
+                  }}
+                  width={120}
+                  src={imageUrls?.[0]}
+                  onClick={() => setVisible(true)}
+                />
+                {/* <div className="image-gallary">
+                  {imageUrls?.map((e) => (
+                    <>
+                      <img className="gallaryimg" src={e} alt="building" />
+                    </>
+                  ))}
+                </div> */}
+
+                <div
+                  style={{
+                    display: "none",
+                  }}
+                >
+                  <Image.PreviewGroup
+                    preview={{
+                      visible,
+                      onVisibleChange: (vis) => setVisible(vis),
+                    }}
+                  >
+                    {imageUrls?.map((e) => (
+                      <>
+                        <Image src={e} />
+                      </>
+                    ))}
+                  </Image.PreviewGroup>
                 </div>
               </div>
             </div>

@@ -404,7 +404,7 @@ p-dropdown:not(.p-disabled):hover {
 .flatsdetails .image {
   width: 100%;
   padding: 25px;
-  height: 70%;
+  height: 73%;
 }
 
 .flatsdetails img {
@@ -827,4 +827,68 @@ padding: 0;
 }
 :where(.css-dev-only-do-not-override-102n619) a{
   color: #242f3f;
+}
+
+.preview-img{
+  width: 150px;
+  height: 150px;
+  margin: 11px;
+  border: 1px solid rgb(209, 209, 209);
+  padding: 10px;
+  
+}
+
+.preview-images{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-with-overlay{
+  position: relative;
+}
+
+.image-with-overlay:hover .remove-overlay{
+  opacity: 1;
+}
+
+.remove-overlay{
+  position: absolute;
+  width: 87%;
+  height: 83%;
+  top: 0px;
+  margin: 11px;
+  left: 0px;
+  background: #141b2586;
+  transition: 0.4s;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-overlay svg{
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+.preview-img-select{
+  width: 150px;
+  height: 150px;
+  margin: 15px;
+  border: 1px solid rgb(209, 209, 209);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 15px;
+}
+.preview-img-select svg{
+  font-size: 32px;
+
+}
+
+.projects-image-area{
+  border: 1px solid rgb(209, 209, 209);
 }

@@ -193,7 +193,6 @@ const Slide = () => {
       {/* <Arrow arrowType="prev" key="prev" prefixCls="user-arrow" >
              <div className="arrow">Prev</div>
             </Arrow>
-
             <Arrow arrowType="next" key="next" prefixCls="user-arrow"  >
               <div className="arrow">Next</div>
             </Arrow> */}

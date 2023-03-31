@@ -4,8 +4,8 @@ import {
   LoadingOutlined,
   LockOutlined,
   PlusOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
+
 import {
   Button,
   Col,
@@ -15,12 +15,11 @@ import {
   Popconfirm,
   Row,
   Select,
-  Skeleton,
   Space,
   Spin,
-  Table,
   Tag,
 } from "antd";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 const { TextArea } = Input;
 const { Search } = Input;
 import React, { useEffect, useRef, useState } from "react";
@@ -30,12 +29,13 @@ import {
   getAllCategory,
   getAllProjects,
   getIndividualCategoryFlat,
+  storage,
   updateIetIndividualCategoryFlat,
 } from "../dbconfig";
 import Dashboard_Heading from "./Dashboard_Heading";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { defaultForm } from "./utils";
-import { async } from "@firebase/util";
+import { BiUpload } from "react-icons/bi";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
 
@@ -46,12 +46,12 @@ const Dashboard_All_Projects = () => {
   const [skltn, setSkltn] = useState(false);
   const [updateBtn, setUpdateBtn] = useState(false);
   const [updateId, setUpdateId] = useState("");
-  const [projectForm, setProjectForm] = useState(defaultForm);
-  const [categoryForm, setCategoryForm] = useState("");
   const [btnLoader, setBtnLoader] = useState(false);
   const [allCatetgory, setAllCatetgory] = useState([]);
   const [allProjects, setAllProject] = useState([]);
-
+  const [file, setFile] = useState([]); // progress
+  const [percent, setPercent] = useState(0); // Handle file upload event and update state
+  const [preview, setPreview] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,19 +65,24 @@ const Dashboard_All_Projects = () => {
         setAllCatetgory(newArr);
       } catch (error) {}
     };
-    const fetchAllProject = async () => {
-      setSkltn(true);
-      try {
-        const res = await getAllProjects();
-        setSkltn(false);
-        if (res) {
-          setAllProject(res);
-        }
-      } catch (error) {}
-    };
+
     fetchAllProject();
     fetchData();
   }, []);
+
+  const fetchAllProject = async () => {
+    setSkltn(true);
+    try {
+      const res = await getAllProjects();
+      setSkltn(false);
+      if (res) {
+        setAllProject(res);
+        console.log(res);
+      }
+    } catch (error) {}
+  };
+
+
   const showModal = () => {
     setUpdateBtn(false);
     setIsModalOpen(true);
@@ -90,11 +95,26 @@ const Dashboard_All_Projects = () => {
 
   const onFinish = async (values) => {
     setBtnLoader(true);
-    try {
-      await createDocumentsForProjectDetails(values);
-      setBtnLoader(false);
-      setIsModalOpen(false);
-    } catch (error) {}
+    const imgUrls = await Promise.all(
+      file.map((image) => handleUpload(image))
+    ).catch((err) => {
+      console.log(err);
+      return;
+    });
+
+      let obj = {
+        ...values,
+        imageUrls: imgUrls,
+      };
+      try {
+        await createDocumentsForProjectDetails(obj);
+        setBtnLoader(false);
+        setIsModalOpen(false);
+        fetchAllProject();
+      } catch (error) {
+        setBtnLoader(false);
+      }
+
   };
 
   const onSearch = () => {};
@@ -122,6 +142,7 @@ const Dashboard_All_Projects = () => {
         subTitle,
         title,
         slug,
+        imageUrls
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -142,6 +163,8 @@ const Dashboard_All_Projects = () => {
         title,
         slug,
       });
+
+      setPreview(imageUrls ? imageUrls : [])
       setUpdateId(id);
     } catch (error) {}
   };
@@ -149,18 +172,83 @@ const Dashboard_All_Projects = () => {
     setAllProject((data) => {
       return data.filter((e) => e.id != id);
     });
+
   };
 
   const onUpdateData = async (id) => {
     setBtnLoader(true);
     let res = formRef.current?.getFieldsValue();
+    let obj = {
+      ...res,
+      imageUrls: preview,
+    };
+
     try {
-      await updateIetIndividualCategoryFlat({ ...res, id: updateId });
+      await updateIetIndividualCategoryFlat({ ...obj, id: updateId });
       setBtnLoader(false);
       setIsModalOpen(false);
     } catch (error) {
       setBtnLoader(false);
     }
+  }; // State to store uploaded file
+
+  function handleChange(event) {
+    const files = event.target.files;
+    const newImages = [];
+    const newPreviews = [];
+    for (let i = 0; i < files.length; i++) {
+      newImages.push(files[i]);
+      newPreviews.push(URL.createObjectURL(files[i]));
+    }
+    setFile([...file, ...newImages]);
+    setPreview([...preview, ...newPreviews]);
+  }
+
+const handleUpload = async (image) => {
+  return new Promise((resolve, reject) => {
+    const storageRef = ref(storage, "images/" + image.name);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          resolve(downloadURL);
+        });
+      }
+    );
+  });
+};
+
+  const inputRef = useRef(null);
+  const handleButtonClick = () => {
+    inputRef.current.click();
+  };
+  const handleRemoveImage = (index) => {
+    console.log(index);
+    const newImages = [...file];
+    const newPreviews = [...preview];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setFile(newImages);
+    setPreview(newPreviews);
   };
 
   return (
@@ -269,9 +357,37 @@ const Dashboard_All_Projects = () => {
           title="Add a project"
           open={isModalOpen}
           centered
-          width={750}
+          width={950}
           footer={false}
         >
+          <div className="projects-image-area">
+            <div className="preview-images">
+              {preview.map((prev, index) => (
+                <div className="image-with-overlay">
+                  <img
+                    key={index}
+                    src={prev}
+                    alt="Image Preview"
+                    className="preview-img"
+                  />
+                  <div className="remove-overlay">
+                    <RiDeleteBin2Fill onClick={() => handleRemoveImage(index)} />
+                  </div>
+                </div>
+              ))}
+              <div className="preview-img-select" onClick={handleButtonClick}>
+                <BiUpload />
+                <span>Select file</span>
+              </div>
+              <input
+                type="file"
+                multiple
+                ref={inputRef}
+                style={{ display: "none" }}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
           <Form
             layout="vertical"
             form={form}

@@ -13,6 +13,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "../Context/context";
 import { authSignout, getCurrentUser } from "../dbconfig";
 import Loader from "../Components/Common/Loader";
+import Test from "../Components/Test";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -203,6 +204,7 @@ useEffect(()=>{
                 textAlign: "center",
               }}
             >
+              <Test />
               <b>MAHMUD BUILDERS</b> ©2018 Created by Muntasir Udoy
             </Footer>
           </Layout>
