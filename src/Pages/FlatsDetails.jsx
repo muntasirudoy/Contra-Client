@@ -73,7 +73,7 @@ export const FlatsDetails = () => {
           <div class="grid">
             <div class="col-12 md:col-5 lg:col-5">
               <div className="image">
-                <img src={imageUrls?.[0]} alt="building" />
+                <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" />
                 
 
                 <Image

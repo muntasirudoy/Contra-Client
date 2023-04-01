@@ -6,43 +6,7 @@ const CompanyProfile = () => {
     <Layout>
       <div className="companyprofile">
         <div className="container">
-          <CompanyProfileText
-            companydetails="The Structural Engineers Ltd. (SEL)
-
-                           is a private limited company, established in 1983 as a proprietary 
-                           concern with Engr. Md. Abdul Awal, a graduate Civil Engineer of 1977 
-                           from BUET, Dhaka as the proprietor. Subsequently the firm was converted
-                            into a private limited company in February, 1987 and was duly registered
-                             with the Registrar of Joint Stock Companies, Bangladesh. Then the Company
-                              was re-organised by co-opting more graduates of various disciplines in the
-                               field of engineering. After the inception, the company started making 
-                               significant contributions mainly in the field of Civil Engineering and
-                                gathered wide experience by completing diverse structures including b
-                                uildings, bridges, food godowns, hospitals, cyclone shelters, sub-statio
-                                n buildings etc. Banking on its reputation in the construction sector,
-                                 the company stepped into the Real Estate Business in 1995 and the number 
-                                 of project completed till date is approaching 211, establishing itself as 
-                                 an embodiment of quality, competence and efficiency. Currently the company
-                                  has 35 nos. ongoing Apartment/Commercial projects in Dhaka, Savar, Cumilla,
-                                   Chittagong & Khulna. The company believes in the philosophy, ‘‘Quality 
-                                   comes first, Profit is its logical sequence’’ and gives prior importance 
-                                   to the maintenance of time schedule and high quality of works. The Company
-                                    also believes that an organization survives and thrives only by satisfying
-                                     its customers through it’s products and services. At SEL we do so by adopting
-                                      Total Quality Management (TQM) - a systematic approach based on “company-wide”
-                                       activities through which a company is able to devote itself to satisfying it’s
-                                        clients by providing top quality products and services. Apart from business, 
-                                        SEL has outstanding contribution to social responsibilities and serving the 
-                                        cause of humanity. These are catered by “SEL Charitable Foundation.” The activities
-                                         involved under this banner include financial assistance to poor meritorious students 
-                                         at all level, all sorts of medical assistance to poor, feeding destitutes during festivals
-                                         , creating awareness against ‘Interest on micro-loans’ amongst the toiling mass of the rural
-                                          area, infrastructure development for educational institutions, producing volunteers 
-                                          for environmental & social development etc. Currently, four schools for children are being operated
-                                           under the supervision of SEL Charitable Foundation in different parts of the country. SEL stands for
-                                            honesty, trust, faith, quality & commitment. These are the guiding forces behind SEL’s excellence as a
-                                             trusted developer. "
-          />
+          <CompanyProfileText companydetails="Mahmud Land & Builders Limited is a privately owned limited company founded in 2000 by MD Mahmudul Hasan. The company specializes in civil engineering and has extensive experience in completing a variety of building projects. Over the years, it has established itself as a leading developer with a reputation for high-quality work in the construction and real estate sectors. Mahmud Land & Builders Limited is currently engaged in several ongoing apartment and commercial projects in Dhaka and Savar. The company places a strong emphasis on prioritizing quality and adhering to project timelines. Customer satisfaction is paramount to the company's success, and it strives to achieve this by providing top-quality products and services through Total Quality Management (TQM), a systematic approach that involves company-wide activities. The guiding principles behind Mahmud Land & Builders Limited are honesty, trust, faith, quality, and commitment." />
         </div>
       </div>
     </Layout>

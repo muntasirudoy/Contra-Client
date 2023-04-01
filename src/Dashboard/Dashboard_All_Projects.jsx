@@ -182,7 +182,7 @@ const Dashboard_All_Projects = () => {
       ...res,
       imageUrls: preview,
     };
-
+console.log(obj);
     try {
       await updateIetIndividualCategoryFlat({ ...obj, id: updateId });
       setBtnLoader(false);
