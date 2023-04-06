@@ -5,10 +5,10 @@ export const AboutPageText = (props) => {
   return (
     <div className="aboutpagetext">
       <Row className="row">
-        <Col lg={3} md={3} sm={3}>
+        <Col lg={8} md={8} sm={8}>
           <img className="manimage" src={props.img} />
         </Col>
-        <Col className="text" lg={9} md={9} sm={9}>
+        <Col className="text" lg={12} md={12} sm={12}>
           <h1>{props.name}</h1>
           <h6>{props.designation}</h6>
           <p>{props.details}</p>

@@ -55,6 +55,7 @@ export const FlatsDetails = () => {
     status,
     subTitle,
     slug,
+    commonFacilities,
     imageUrls,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -181,6 +182,7 @@ export const FlatsDetails = () => {
                       <Tr left="Launch Date" right={launchDate} />
                       <Tr left="RAJUK Approval Date" right={rajukpprovalDate} />
                       <Tr left="Rajuk Approval No" right={rajukApprovalNo} />
+
                       <Tr
                         left="Status"
                         right={
@@ -200,9 +202,19 @@ export const FlatsDetails = () => {
                             {status}
                           </Tag>
                         }
+                        tr
+                      />
+
+                      <Tr
+                        left="Common Facilities"
+                        right={commonFacilities?.map((e) => (
+                          <Tag color="#014a69">{e}</Tag>
+                        ))}
+                        tr
                       />
                     </tbody>
                   </table>
+
                   <div className="available-info">
                     <h4>Additional Information</h4>
                     <div className="tags">
