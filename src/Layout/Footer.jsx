@@ -62,8 +62,8 @@ export const Footer = () => {
           <div className="col-12 md:col-12 lg:col-12">
             <p>
               Copyrights © 2022. All Rights Reserved by{" "}
-              <b style={{ color: "#eab308" }}>MAHMUD BUILDERS</b> || Developed
-              By: Muntasir Udoy
+              <b style={{ color: "#eab308" }}>MAHMUD LAND & BUILDERS LTD. </b> || Developed
+              By: UDOY IT LTD.
             </p>{" "}
           </div>
         </div>
