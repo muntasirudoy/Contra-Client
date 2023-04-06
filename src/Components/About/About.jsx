@@ -76,7 +76,7 @@ export const About = (props) => {
                   </ul>
                   <div className="list-right">
                     <p className="list-para">
-                      {setisfiedCount} <br /> <span>Satisfied Patients</span>{" "}
+                      {setisfiedCount} <br /> <span>Satisfied Clients</span>{" "}
                     </p>
                     <img
                       style={{

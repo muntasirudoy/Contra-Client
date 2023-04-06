@@ -61,7 +61,7 @@ const Slide = () => {
                   animation={{ y: 0, opacity: 1, type: "from", delay: 200 }}
                 >
                   <p>
-                    <Link to="/"> OUR SERVICE </Link>
+                    <Link to="/projects"> OUR PROJECTS </Link>
                   </p>
                 </TweenOne>
               </div>
@@ -99,7 +99,8 @@ const Slide = () => {
                   animation={{ y: 0, opacity: 1, type: "from", delay: 200 }}
                 >
                   <p>
-                    <Link to="/"> OUR SERVICE </Link>
+
+                     <Link to="/projects"> OUR PROJECTS </Link>
                   </p>
                 </TweenOne>
               </div>
@@ -137,7 +138,7 @@ const Slide = () => {
                   animation={{ y: 0, opacity: 1, type: "from", delay: 200 }}
                 >
                   <p>
-                    <Link to="/"> OUR SERVICE </Link>
+                  <Link to="/projects"> OUR PROJECTS </Link>
                   </p>
                 </TweenOne>
               </div>
@@ -175,7 +176,7 @@ const Slide = () => {
                   animation={{ y: 0, opacity: 1, type: "from", delay: 200 }}
                 >
                   <p>
-                    <Link to="/"> OUR SERVICE </Link>
+                  <Link to="/projects"> OUR PROJECTS </Link>
                   </p>
                 </TweenOne>
               </div>
