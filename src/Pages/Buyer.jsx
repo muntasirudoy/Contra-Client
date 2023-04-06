@@ -73,6 +73,20 @@ export const Buyer = () => {
                   <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                     <Form.Item
                       value="123"
+                      label="Preferred Project"
+                      name="preferredProject"
+                    >
+                      <Input
+                        prefix={
+                          <LockOutlined className="site-form-item-icon" />
+                        }
+                        placeholder="Preferred Project"
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                    <Form.Item
+                      value="123"
                       label="CarParking Requirement"
                       name="carParkingRequirement"
                     >

@@ -2,21 +2,17 @@ import React, { useEffect } from "react";
 import BannerAnim, { Element } from "rc-banner-anim";
 
 // import "slick-carousel/slick/slick.css";
-import Slider from "react-slick";
-import SampleNextArrow from "./SampleNextArrow";
-import SamplePrevArrow from "./SamplePrevArrow";
-import slide1 from "/slide1.jpg";
+import slide1 from "/slide1.webp";
 import slide3 from "/slide2.jpg";
-import slide4 from "/slide3.jpg";
 import slide5 from "/slide1.jpg";
 import slide6 from "/slide2.jpg";
 import "./banner.css";
 import "rc-banner-anim/assets/index.css";
 import { Link } from "react-router-dom";
 import { Parallax } from "react-parallax";
-import TweenOne, { TweenOneGroup } from "rc-tween-one";
+import TweenOne from "rc-tween-one";
 
-const BgElement = Element.BgElement;
+
 
 const Slide = () => {
   return (

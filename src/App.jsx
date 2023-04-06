@@ -1,10 +1,12 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
+// import Home from "./Pages/Home";
+
+const Home = React.lazy(() => import("./Pages/Home"));
+
 import "./Components/Common/common.css";
 import CompanyProfile from "./Pages/CompanyProfile";
 import Team from "./Pages/Team";
-import Csr from "./Pages/Csr";
 import AvialableFlats from "./Pages/AvialableFlats";
 import UpcomingProjects from "./Pages/UpcomingProjects";
 import OngoingProjects from "./Pages/OngoingProjects";
@@ -45,10 +47,9 @@ import ClientsProjects from "./Components/Clients/ClientsProjects";
 import ClientsPayment from "./Components/Clients/ClientsPayment";
 import ClientsNominee from "./Components/Clients/ClientsNominee";
 import ClientPersonal from "./Components/Clients/ClientPersonal";
-import { Store } from "./Context/context";
-import { useContext } from "react";
 import Dashboard_YourClient_Details from "./Dashboard/Dashboard_YourClient_Details";
 import Dashboard_YourClient_Single_Projects from "./Dashboard/Dashboard_YourClient_Single_Projects";
+import OnPageLoader from "./Components/Common/OnPageLoader";
 
 function App() {
   // const routeMap = [
@@ -90,10 +91,25 @@ function App() {
         ))}
       </Routes> */}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="company-profile" element={<CompanyProfile />} />
+        <Route
+          path="/"
+          element={
+            <React.Suspense fallback={<OnPageLoader />}>
+              <Home />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="company-profile"
+          element={
+            <React.Suspense fallback={<OnPageLoader />}>
+              <CompanyProfile />
+            </React.Suspense>
+          }
+        />
         <Route path="company-team" element={<Team />} />
-        <Route path="corporate-social-responsibility" element={<Csr />} />
+        {/* <Route path="corporate-social-responsibility" element={<Csr />} /> */}
+
         <Route path="available-flats" element={<AvialableFlats />} />
         <Route path="available-flats/:slug" element={<FlatsDetails />} />
         <Route path="upcoming-projects" element={<UpcomingProjects />} />
@@ -102,6 +118,7 @@ function App() {
         <Route path="ongoing-projects/:slug" element={<FlatsDetails />} />
         <Route path="ready-projects" element={<ReadyProjects />} />
         <Route path="ready-projects/:slug" element={<FlatsDetails />} />
+
         <Route path="after-sale" element={<AfterSale />} />
         <Route path="career" element={<Apply />} />
         <Route path="land-owner" element={<LandOwner />} />
@@ -145,10 +162,12 @@ function App() {
           ></Route>
           <Route
             path="your-clients/:id"
-            element={<Dashboard_YourClient_Details />}> 
-               
-            </Route>
-            <Route path="your-clients/:id/:id" element={<Dashboard_YourClient_Single_Projects />} />
+            element={<Dashboard_YourClient_Details />}
+          ></Route>
+          <Route
+            path="your-clients/:id/:id"
+            element={<Dashboard_YourClient_Single_Projects />}
+          />
           <Route path="all-users" element={<Dashboard_All_Users />} />
           <Route
             path="dashboard-all-projects"

@@ -1,1 +1,59 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 423.04 70.11"><defs><style>.cls-1{fill:#004563;}.cls-2{fill:#499abb;}.cls-3{font-size:49px;font-family:CopperplateGothic-Bold, Copperplate Gothic Bold;font-weight:700;}.cls-3,.cls-4{fill:#004d6d;}.cls-4{font-size:22px;font-family:Corbel;letter-spacing:0.17em;}</style></defs><polygon class="cls-1" points="0 65.95 28.54 65.95 58.23 15.1 53.28 5.54 35.39 5.54 0 65.95"/><polygon class="cls-1" points="146.9 65.95 118.36 65.95 88.67 15.1 93.62 5.54 111.5 5.54 146.9 65.95"/><polygon class="cls-2" points="63.17 22.75 38.06 65.95 59.75 65.95 73.45 41.1 63.17 22.75"/><polygon class="cls-2" points="84.48 22.75 109.6 65.95 87.91 65.95 74.21 41.1 84.48 22.75"/><path class="cls-1" d="M209.41,342.42a7.23,7.23,0,1,1-7.23-7.26A7.25,7.25,0,0,1,209.41,342.42Z" transform="translate(-128.35 -330.76)"/><text class="cls-3" transform="translate(162.88 40.84)">MAHMUD</text><text class="cls-4" transform="translate(163.48 64.85)">Land &amp; Builders Ltd.</text></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 46.06">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #4999ba;
+      }
+
+      .cls-3 {
+        fill: #004562;
+      }
+
+      .cls-4 {
+        letter-spacing: .15em;
+      }
+
+      .cls-5 {
+        font-family: Arial-BoldMT, Arial;
+        font-size: 35.51px;
+        font-weight: 700;
+      }
+
+      .cls-5, .cls-6 {
+        fill: #004d6d;
+      }
+
+      .cls-6 {
+        font-family: FranklinGothic-Book, 'Franklin Gothic Book';
+        font-size: 12.05px;
+      }
+
+      .cls-7 {
+        letter-spacing: .16em;
+      }
+
+      .cls-8 {
+        letter-spacing: .15em;
+      }
+
+      .cls-9 {
+        fill: #1d1d1b;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" y=".63" width="216" height="43.2"/>
+  <g>
+    <polygon class="cls-3" points="2.03 42.08 15.71 42.08 29.93 10.74 27.56 4.85 18.99 4.85 2.03 42.08"/>
+    <polygon class="cls-3" points="72.42 42.08 58.75 42.08 44.52 10.74 46.89 4.85 55.46 4.85 72.42 42.08"/>
+    <polygon class="cls-2" points="32.3 15.45 20.27 42.08 30.66 42.08 37.23 26.76 32.3 15.45"/>
+    <polygon class="cls-2" points="42.52 15.45 54.55 42.08 44.16 42.08 37.59 26.76 42.52 15.45"/>
+    <path class="cls-9" d="M40.87,8.62c0,2.47-1.55,4.48-3.46,4.48s-3.46-2-3.46-4.48,1.55-4.48,3.46-4.48,3.46,2,3.46,4.48Z"/>
+  </g>
+  <text class="cls-5" transform="translate(74.27 30.46) scale(.87 1)"><tspan x="0" y="0">MAHMUD</tspan></text>
+  <text class="cls-6" transform="translate(75.47 42.08)"><tspan class="cls-4" x="0" y="0">Land &amp; Builde</tspan><tspan class="cls-7" x="95.39" y="0">r</tspan><tspan class="cls-8" x="101.27" y="0">s Ltd.</tspan></text>
+</svg>

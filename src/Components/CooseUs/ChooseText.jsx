@@ -10,7 +10,7 @@ const ChooseText = (props) => {
         <img className='cicon' src={props.img} />
         <h3 >{props.heading}</h3>
         <p>{props.para}</p>
-        <Link to='/ContactUs'> Contact Now </Link> 
+        <Link to='/'> Contact Now </Link> 
     </div>
 </div> 
   )

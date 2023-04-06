@@ -6,7 +6,8 @@ const CompanyProfileText = (props) => {
   return (
     <div className="companyprofiletext">
       <Subheading subheading="WHO WE ARE" />
-      <Heading heading="About Mahmud Builders" />
+      <Heading heading="About MLBL" />
+      <p className="companydetails" style={{textAlign:"center"}}>We are happy to introduce "Mahmud Land & Builders Limited", also known as MLBL, which is highly regarded by its numerous customers and supporters.</p>
 
       <p className="companydetails">{props.companydetails}</p>
       <div class="grid">

@@ -73,17 +73,44 @@ export const FlatsDetails = () => {
           <div class="grid">
             <div class="col-12 md:col-5 lg:col-5">
               <div className="image">
-                <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" />
-                
+                {/* <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" /> */}
+                <Image
+                  preview={{
+                    visible: false,
+                  }}
+                  width={"100%"}
+                  src={imageUrls?.[0] ? imageUrls?.[0] : img}
+                  onClick={() => setVisible(true)}
+                />
 
                 <Image
                   preview={{
                     visible: false,
                   }}
-                  width={120}
-                  src={imageUrls?.[0]}
+                  style={{ marginRight: "10px" }}
+                  width={135}
+                  src={imageUrls?.[1]}
                   onClick={() => setVisible(true)}
                 />
+                <Image
+                  preview={{
+                    visible: false,
+                  }}
+                  style={{ marginRight: "10px" }}
+                  width={135}
+                  src={imageUrls?.[2]}
+                  onClick={() => setVisible(true)}
+                />
+                <Image
+                  preview={{
+                    visible: false,
+                  }}
+                  style={{ marginRight: "10px" }}
+                  width={135}
+                  src={imageUrls?.[3]}
+                  onClick={() => setVisible(true)}
+                />
+
                 {/* <div className="image-gallary">
                   {imageUrls?.map((e) => (
                     <>

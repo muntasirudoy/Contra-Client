@@ -96,7 +96,7 @@ export const About = (props) => {
                   </p>
                   <p className="link-btn">
                     {" "}
-                    <Link to="/contactus"> {buttonText}</Link>
+                    <Link to="/contact-us"> {buttonText}</Link>
                   </p>
                 </div>
               </Col>

@@ -8,11 +8,13 @@ import {
 
 import {
   Button,
+  Checkbox,
   Col,
   Form,
   Input,
   Modal,
   Popconfirm,
+  Radio,
   Row,
   Select,
   Space,
@@ -82,7 +84,6 @@ const Dashboard_All_Projects = () => {
     } catch (error) {}
   };
 
-
   const showModal = () => {
     setUpdateBtn(false);
     setIsModalOpen(true);
@@ -102,19 +103,19 @@ const Dashboard_All_Projects = () => {
       return;
     });
 
-      let obj = {
-        ...values,
-        imageUrls: imgUrls,
-      };
-      try {
-        await createDocumentsForProjectDetails(obj);
-        setBtnLoader(false);
-        setIsModalOpen(false);
-        fetchAllProject();
-      } catch (error) {
-        setBtnLoader(false);
-      }
-
+    let obj = {
+      ...values,
+      imageUrls: imgUrls,
+    };
+    console.log(obj);
+    try {
+      await createDocumentsForProjectDetails(obj);
+      setBtnLoader(false);
+      setIsModalOpen(false);
+      fetchAllProject();
+    } catch (error) {
+      setBtnLoader(false);
+    }
   };
 
   const onSearch = () => {};
@@ -142,7 +143,8 @@ const Dashboard_All_Projects = () => {
         subTitle,
         title,
         slug,
-        imageUrls
+        imageUrls,
+        totalFlat
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -162,9 +164,10 @@ const Dashboard_All_Projects = () => {
         subTitle,
         title,
         slug,
+        totalFlat
       });
 
-      setPreview(imageUrls ? imageUrls : [])
+      setPreview(imageUrls ? imageUrls : []);
       setUpdateId(id);
     } catch (error) {}
   };
@@ -172,7 +175,6 @@ const Dashboard_All_Projects = () => {
     setAllProject((data) => {
       return data.filter((e) => e.id != id);
     });
-
   };
 
   const onUpdateData = async (id) => {
@@ -182,7 +184,7 @@ const Dashboard_All_Projects = () => {
       ...res,
       imageUrls: preview,
     };
-console.log(obj);
+
     try {
       await updateIetIndividualCategoryFlat({ ...obj, id: updateId });
       setBtnLoader(false);
@@ -204,38 +206,38 @@ console.log(obj);
     setPreview([...preview, ...newPreviews]);
   }
 
-const handleUpload = async (image) => {
-  return new Promise((resolve, reject) => {
-    const storageRef = ref(storage, "images/" + image.name);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
+  const handleUpload = async (image) => {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, "images/" + image.name);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
         }
-      },
-      (error) => {
-        reject(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          resolve(downloadURL);
-        });
-      }
-    );
-  });
-};
+      );
+    });
+  };
 
   const inputRef = useRef(null);
   const handleButtonClick = () => {
@@ -371,7 +373,9 @@ const handleUpload = async (image) => {
                     className="preview-img"
                   />
                   <div className="remove-overlay">
-                    <RiDeleteBin2Fill onClick={() => handleRemoveImage(index)} />
+                    <RiDeleteBin2Fill
+                      onClick={() => handleRemoveImage(index)}
+                    />
                   </div>
                 </div>
               ))}
@@ -397,7 +401,12 @@ const handleUpload = async (image) => {
           >
             <Row gutter={[24, 0]}>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item value="123" label="Project Name" name="title">
+                <Form.Item
+                  value="123"
+                  label="Project Name"
+                  name="title"
+                  required
+                >
                   <Input
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     placeholder="Project Name"
@@ -405,12 +414,12 @@ const handleUpload = async (image) => {
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Sub Title" name="subTitle">
+                <Form.Item label="Short Location" name="subTitle" required>
                   <Input placeholder="input placeholder" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Category" name="category">
+                <Form.Item label="Category" name="category" required>
                   <Select
                     style={{ width: "100%" }}
                     defaultValue="Select Category"
@@ -419,33 +428,33 @@ const handleUpload = async (image) => {
                 </Form.Item>
               </Col>
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <Form.Item label="Details" name="details">
+                <Form.Item label="Details" name="details" required>
                   <TextArea
                     rows={12}
-                    placeholder="maxLength is 50"
-                    maxLength={150}
+                    placeholder="maxLength is 150"
+                    maxLength={200}
                     style={{ height: "100px" }}
                   />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Details" name="details">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Total Flat" name="totalFlat" required>
+                  <Input placeholder="Total Flat" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12} md={8} lg={8} xl={8}  >
+                <Form.Item label="Location" name="location" required>
+                  <Input placeholder="Location" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Location" name="location">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Address" name="address" required>
+                  <Input placeholder="Address" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Address" name="address">
-                  <Input placeholder="input placeholder" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Project Type" name="projectType">
+                <Form.Item label="Project Type" name="projectType" required>
                   <Input placeholder="input placeholder" />
                 </Form.Item>
               </Col>
@@ -453,58 +462,162 @@ const handleUpload = async (image) => {
                 <Form.Item
                   label="Number of Building Blocks"
                   name="numberofBuildingBlocks"
+                  required
                 >
-                  <Input placeholder="input placeholder" />
+                  <Input placeholder="Number of Building Blocks" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Land Area (Katha)" name="landArea">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Land Area (Katha)" name="landArea" required>
+                  <Input placeholder="Land Area (Katha)" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Form.Item label="Flat Size" name="flatSize">
-                  <Input placeholder="input placeholder" />
+                  <Input placeholder="Flat Size" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Number of Floor" name="numberofFloor">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Number of Floor" name="numberofFloor" required>
+                  <Input placeholder="Number of Floor" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Launch Date" name="launchDate">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Launch Date" name="launchDate" required>
+                  <Input placeholder="Launch Date" />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Rajuk Aproval Date" name="rajukpprovalDate">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Rajuk Aproval Date" name="rajukpprovalDate" required>
+                  <Input placeholder="Rajuk Aproval Date" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Rajuk Aproval No" name="rajukApprovalNo">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Rajuk Aproval No" name="rajukApprovalNo" required>
+                  <Input placeholder="Rajuk Aproval No" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Status" name="status">
-                  <Input placeholder="input placeholder" />
+                <Form.Item label="Status" name="status" required>
+                  <Input placeholder="Status" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                 <Form.Item
                   label="Estimated Completion Date"
                   name="estimatedCompletionDate"
+                  required
                 >
-                  <Input placeholder="input placeholder" />
+                  <Input placeholder="Estimated Completion Date" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                <Form.Item label="Slug" name="slug">
+                <Form.Item label="Slug" name="slug" required>
                   <Input placeholder="Write product slug" />
                 </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <Form.Item name="commonFacilities" label="Common Facilities" required>
+                    <Checkbox.Group>
+                      <Row >
+                        <Col span={8}>
+                          <Checkbox
+                            value="Car Parking"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                           Car Parking
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Lift"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+             
+                          >
+                            Lift
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Generator"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                            Generator
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Substation"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                            Substation
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Guard Room"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                            Guard Room
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Driver's Waiting Place"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                            Driver's Waiting Place
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Community Space"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                           Community Space
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Fire Extinguisher"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                           Fire Extinguisher
+                          </Checkbox>
+                        </Col>
+                        <Col span={8}>
+                          <Checkbox
+                            value="Prayer Space"
+                            style={{
+                              lineHeight: "32px",
+                            }}
+                          >
+                           Prayer Space
+                          </Checkbox>
+                        </Col>
+                      </Row>
+                    </Checkbox.Group>
+                  </Form.Item>
+
+
               </Col>
             </Row>
 

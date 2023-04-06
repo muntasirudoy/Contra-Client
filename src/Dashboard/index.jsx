@@ -204,7 +204,7 @@ useEffect(()=>{
                 textAlign: "center",
               }}
             >
-              <Test />
+      
               <b>MAHMUD BUILDERS</b> ©2018 Created by Muntasir Udoy
             </Footer>
           </Layout>

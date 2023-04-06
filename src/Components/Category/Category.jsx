@@ -36,9 +36,9 @@ export const Category = (props) => {
               md={8}
               lg={6}
             >
-              <Link to="./available-flats">
+              <Link to="./ongoing-projects">
                 {" "}
-                <Card img={c2} title="Complete Projects" />{" "}
+                <Card img={c4} title="Ongoing Projects" />{" "}
               </Link>
             </Col>
             <Col
@@ -55,6 +55,7 @@ export const Category = (props) => {
                 <Card img={c3} title="Upcoming Projects" />{" "}
               </Link>
             </Col>
+
             <Col
               className="gutter-row"
               data-aos="flip-right"
@@ -64,9 +65,9 @@ export const Category = (props) => {
               md={8}
               lg={6}
             >
-              <Link to="./ongoing-projects">
+              <Link to="./available-flats">
                 {" "}
-                <Card img={c4} title="Ongoing Projects" />{" "}
+                <Card img={c2} title="Complete Projects" />{" "}
               </Link>
             </Col>
           </Row>

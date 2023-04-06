@@ -15,19 +15,18 @@ export const Footer = () => {
           <div className="col-12 md:col-4 lg:col-3  footer-col">
             <h4 className="footer-title"> MAHMUD BUILDERS LTD</h4>
             <ul>
-              <Footertext li="Address: SEL Centre, 29, West Panthapath,Bir Uttam Kazi Nuruzzaman Road, Dhaka 1205" />
-              <Footertext li="Phone: (8802) 58151094, 58155290, (88) 01819558141" />
-              <Footertext li="Fax: (8802) 48113973" />
-              <Footertext li="Email (For Information): info@sel.com.bd" />
+         <li> <b> Address:</b> <br /> Holding-1/9, Block A, Level-02, 9 Masjidul Illah Rd, Radio Colony Rd, Savar Union 1344</li>
+              <li><b>Phone:</b>  <br /> 01782-592825, 01716-685350 <br /> 01795-731830, 01711-174925 <br /> 01775-203354, 01821-262006 </li> 
+             <li> <b>Email:</b>  <br /> mahmudbuilders.mlbl@gmail.com</li>
             </ul>
           </div>
           <div className="col-12 md:col-4 lg:col-3 footer-col">
             <h4 className="footer-title"> USEFUL LINKS</h4>
             <ul>
-              <Footertext li="Webmail login" />
-              <Footertext li="Leave Managemetn System(LMS)" />
-              <Footertext li="Contact Us" />
-              <Footertext li="Our Profile" />
+              <li><Link to="/contact-us">Contact Us</Link></li>  
+              <li><Link to="/company-profile">Our Profile</Link></li>
+              
+
 
               {!currentUser && (
                 <Link style={{ color: "white" }} to="/login">
@@ -46,7 +45,7 @@ export const Footer = () => {
           <div className="col-12 md:col-4 lg:col-3 footer-col">
             <h4 className="footer-title">NEWS LETTER</h4>
             <ul>
-              <Footertext li="Facebook" />
+               <Footertext li="Facebook" link="https://www.facebook.com/Mahmudbuilders.mlbl?mibextid=ZbWKwL" />
               <Footertext li="Gallery" />
             </ul>
           </div>

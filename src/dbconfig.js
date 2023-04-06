@@ -297,7 +297,9 @@ export const createDocumentsForProjectDetails = async (data) => {
       subTitle,
       title,
       slug,
-      imageUrls
+      imageUrls,
+      totalFlat,
+      commonFacilities
     } = data;
 
 
@@ -320,7 +322,9 @@ export const createDocumentsForProjectDetails = async (data) => {
       status,
       subTitle,
       slug,
-      imageUrls
+      imageUrls,
+      totalFlat,
+      commonFacilities
     };
     try {
       await setDoc(docRef, projectInfo);
@@ -495,6 +499,7 @@ export const createDocumentsForBuyer = async (data) => {
     const {
       preferredLocation,
       preferredSize,
+      preferredProject,
       carParkingRequirement,
       expectedHandoverDate: { $d },
       facingOfTheApartment,
@@ -510,6 +515,7 @@ export const createDocumentsForBuyer = async (data) => {
 
     const projectInfo = {
       preferredLocation,
+      preferredProject,
       preferredSize,
       carParkingRequirement,
       expectedHandoverDate: $d,

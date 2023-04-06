@@ -22,4 +22,5 @@
 
 .trusted .cardt img{
   padding: 20px;
+  object-fit: cover;
 }

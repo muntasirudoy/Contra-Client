@@ -1,14 +1,14 @@
 import { Col, Row } from "antd";
 import React from "react";
 import "./trusted.css";
-import imgb1 from "/w1.png";
-import imgb2 from "/w2.png";
-import imgb3 from "/w3.png";
-import imgb4 from "/w4.png";
-import imgb5 from "/w5.png";
-import imgb6 from "/w6.png";
-import imgb7 from "/w7.png";
-import imgb8 from "/w8.png";
+import imgb1 from "/P-01.png";
+import imgb2 from "/P-02.png";
+import imgb3 from "/P-03.png";
+import imgb4 from "/P-04.png";
+import imgb5 from "/P-05.png";
+import imgb6 from "/P-06.png";
+
+
 import Subheading from "../Common/Subheading";
 import Heading from "../Common/Heading";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,8 +21,8 @@ const Trusted = () => {
       <div className="container">
         <Row>
           <Col span={24}>
-            <Subheading subheading="Our Cliets" />
-            <Heading heading="Our Trusted Big Clients!" />
+            <Subheading subheading="Our Partners" />
+            <Heading heading="Our Trusted Partners!" />
           </Col>
         </Row>
 
@@ -91,12 +91,12 @@ const Trusted = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="cardt">
-              <img src={imgb7} />
+              <img src={imgb3} />
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="cardt">
-              <img src={imgb8} />
+              <img src={imgb2} />
             </div>
           </SwiperSlide>
         </Swiper>

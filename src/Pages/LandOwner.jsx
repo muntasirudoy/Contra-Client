@@ -6,11 +6,9 @@ import { LoadingOutlined, LockOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { createDocumentsForLandOwner } from "../dbconfig";
 const Type = [
-  { label: "Civil", value: "NY" },
-  { label: "Electrical", value: "RM" },
+  { label: "Freehold", value: "NY" },
+  { label: "Leasehold", value: "RM" },
   { label: "Others", value: "LDN" },
-  { label: "Istanbul", value: "IST" },
-  { label: "Paris", value: "PRS" },
 ];
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
 export const LandOwner = () => {
