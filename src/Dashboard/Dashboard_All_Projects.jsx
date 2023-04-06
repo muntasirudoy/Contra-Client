@@ -432,7 +432,7 @@ const Dashboard_All_Projects = () => {
                   <TextArea
                     rows={12}
                     placeholder="maxLength is 150"
-                    maxLength={200}
+                    maxLength={1000}
                     style={{ height: "100px" }}
                   />
                 </Form.Item>
