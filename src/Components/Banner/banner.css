@@ -57,6 +57,7 @@
     font-weight: 600;
     color: white;
     text-align: center;
+    z-index: 11111;
 }
 
 .inoverlay p {
@@ -65,6 +66,7 @@
     font-weight: 300;
     color: rgb(223, 223, 223);
     text-align: center;
+    z-index: 11111;
 }
 
 .inoverlay a {
@@ -78,6 +80,9 @@
     margin-top: 20px;
     cursor: pointer;
     display: block;
+    z-index: 11111;
+    width: fit-content;
+    margin: 20px auto;
 }
 
 .inoverlay h1 span {
@@ -152,4 +157,8 @@
 
 .banner-anim {
     min-height: 100% !important;
+}
+.ov-cont{
+    position: absolute;
+    z-index: 9999;
 }

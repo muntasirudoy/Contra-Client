@@ -22,6 +22,7 @@
     "primeflex": "^3.3.0",
     "primereact": "^8.7.3",
     "rc-banner-anim": "^2.4.5",
+    "rc-queue-anim": "^2.0.0",
     "rc-tween-one": "^3.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

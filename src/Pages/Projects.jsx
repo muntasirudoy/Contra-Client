@@ -50,7 +50,6 @@ const Projects = () => {
     },
   ];
 
-  console.log(activeKey);
   const keyChange = (key) => {
     setActiveKey(key);
   };
@@ -60,7 +59,7 @@ const Projects = () => {
         <title>MBL | Projects</title>
         <meta name="description" content={content} />
       </Helmet>
-      <div className="container" style={{ marginTop: "30px" }}>
+      <div className="container" style={{ marginTop: "20px" }}>
         <div className="choose-heading">
           <Heading heading="Our Projects" />
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Heading from "../Common/Heading";
 import { Row, Col } from "antd";
 import { SwapRightOutlined } from "@ant-design/icons";
@@ -14,12 +14,17 @@ export const About = (props) => {
   useEffect(() => {
     const fetch = async () => {
       try {
+        console.log("abouData");
         const res = await getHomeAbout();
         setAboutData(res[0]);
       } catch (error) {}
     };
     fetch();
+    
   }, []);
+
+  const memoizedData = useMemo(() => abouData, [abouData]);
+
 
   const {
     title,
@@ -34,7 +39,7 @@ export const About = (props) => {
     details,
     setisfiedCount,
     buttonText,
-  } = abouData;
+  } = memoizedData;
 
   return (
     <div className="all-about">
