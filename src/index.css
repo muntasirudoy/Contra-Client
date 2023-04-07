@@ -8,6 +8,181 @@
 
 @media (min-width:320px) and (max-width:575.98px) {
 
+    .mid-header .container{
+        width: 100%;
+    }
+    .auth-name{
+        display: none;
+    }
+    .mid-header{
+        padding:0 15px;
+    }
+    .mid-header #header{
+        width: 80%;
+    }
+    .mid-header .user-account{
+        width: 10%;
+        margin-left: 0;
+    }
+    .nav {
+        visibility: hidden;
+        display: block;
+        background: rgb(255, 255, 255);
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        top: 60px;
+        left: 0;
+        padding: 22px!important;
+        box-sizing: border-box;
+        border-top: 1px solid rgb(224, 224, 224);
+    }
+
+    .nav.show{
+        visibility: visible;
+        opacity: 1;
+        transition: 0.4s;
+    }
+    .nav.hide{
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.4s;
+        transform: translatex(-150%);
+    }
+    .mid-header-all{
+        z-index: 111;
+    }
+
+.nav li{
+    padding: 10px 15px;
+}
+    .site-header #navbar>ul>.menu-item-has-children>a {
+        font-size: 18px !important;
+    }
+    .sub-menu{
+        display: none;
+    }
+    .nav li:hover  .sub-menu{
+        display: block;
+    }
+    .sub-menu li {
+        margin-left:15px ;
+
+    }
+    .sub-menu li a {
+        font-size: 15px !important;
+    }
+    .navbar-brand {
+        width: 160px;
+    }
+    .mid-header svg{
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    .mid-header{
+        height: 65px;
+    }
+
+
+
+
+
+    .inoverlay {
+        width: 90%!important;
+        height: 40%;
+        background: #00000069;
+        margin-top: -130px;
+        position: relative;
+        padding: 30px!important;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    
+    }
+    
+    .inoverlay h1 {
+        font-size: 32px!important;
+    }
+    
+    .inoverlay p {
+
+        font-size: 14px;
+    }
+    
+    .inoverlay a {
+
+        font-size: 16px;
+
+    }
+    
+    .inoverlay h1 span {
+        color: rgb(255, 178, 0);
+        font-style: italic;
+        font-family: 'Oleo Script', cursive;
+    }
+    
+    .leftb {
+
+    }
+    
+    .rightb {
+
+    }
+    
+    .rightb::after {
+
+    
+    }
+    
+    .rightb::before {
+
+    }
+    
+    .leftb::after {
+
+    
+    }
+    
+    .leftb::before {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  */
+    
     .heading-h1 h1 {
         font-size: 26px;
     }
@@ -19,29 +194,6 @@
     .top-header {
         display: none;
     }
-
-    .p-menubar-button {
-        margin-right: 10px;
-    }
-
-    .p-menubar {
-        padding: 5px 0;
-    }
-
-    .p-menubar-start {
-        width: 200px;
-        padding: 0 15px;
-        box-sizing: border-box;
-    }
-
-    .p-menubar-start img {
-        width: 100%;
-    }
-
-    .ant-menu-horizontal {
-        line-height: 0px !important;
-    }
-
     .mid-header .logo {
         width: 70%;
         padding: 12px;

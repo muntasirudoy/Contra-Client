@@ -50,6 +50,7 @@ import ClientPersonal from "./Components/Clients/ClientPersonal";
 import Dashboard_YourClient_Details from "./Dashboard/Dashboard_YourClient_Details";
 import Dashboard_YourClient_Single_Projects from "./Dashboard/Dashboard_YourClient_Single_Projects";
 import OnPageLoader from "./Components/Common/OnPageLoader";
+import Projects from "./Pages/Projects";
 
 function App() {
   // const routeMap = [
@@ -111,7 +112,8 @@ function App() {
         {/* <Route path="corporate-social-responsibility" element={<Csr />} /> */}
 
         <Route path="available-flats" element={<AvialableFlats />} />
-        <Route path="available-flats/:slug" element={<FlatsDetails />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="projects/available-flats/:slug" element={<FlatsDetails />} />
         <Route path="upcoming-projects" element={<UpcomingProjects />} />
         <Route path="upcoming-projects/:slug" element={<FlatsDetails />} />
         <Route path="ongoing-projects" element={<OngoingProjects />} />

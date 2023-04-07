@@ -107,7 +107,6 @@ const Dashboard_All_Projects = () => {
       ...values,
       imageUrls: imgUrls,
     };
-    console.log(obj);
     try {
       await createDocumentsForProjectDetails(obj);
       setBtnLoader(false);
@@ -144,7 +143,8 @@ const Dashboard_All_Projects = () => {
         title,
         slug,
         imageUrls,
-        totalFlat
+        totalFlat,
+        commonFacilities
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -164,7 +164,8 @@ const Dashboard_All_Projects = () => {
         subTitle,
         title,
         slug,
-        totalFlat
+        totalFlat,
+        commonFacilities
       });
 
       setPreview(imageUrls ? imageUrls : []);

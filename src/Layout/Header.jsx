@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   PhoneOutlined,
   MailOutlined,
@@ -6,6 +6,7 @@ import {
   YoutubeFilled,
   InstagramFilled,
   MailFilled,
+  MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import logo from "/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -212,13 +213,13 @@ const Header = () => {
   //   // },
   // ];
   const items = [
-    {
+    currentUser?.userStatus &&{
       key: "1",
       label: (
         currentUser?.userStatus == "client" ? <Link to="/client-profile">My Profile</Link> : currentUser?.userStatus == "authority" ? <Link to="/dashboard">Dashboard</Link> : ""
       ),
     },
-    {
+    currentUser && {
       key: "2",
       label: (
         <Link
@@ -229,35 +230,29 @@ const Header = () => {
         </Link>
       ),
     },
+    !currentUser&& {
+      key: "3",
+      label: (
+         <Link to="/client-login">Login</Link>
+      ),
+    },
+    !currentUser&& {
+      key: "4",
+      label: (
+        <Link to="/client-signup">Signup</Link>
+      ),
+    },
   ];
   const content = (
     <>
-      <p style={{ padding: "0 20px 0 15px", fontWeight: "600" }}>
-        {currentUser?.username}
+      <p className="auth-name" style={{ padding: "0 20px 0 15px", fontWeight: "600" }}>
+        {currentUser?.username ? currentUser?.username : "Login/Signup"}
       </p>
-      <img className="mr-0" src="/person3.jpg" alt="" />
-    </>
-  );
-  const content2 = (
-    <>
-      <Link to="/client-login">
-        <Chip
-          label="Login"
-          style={{ fontWeight: "600" }}
-          icon="pi pi-sign-in"
-        />
-      </Link>
-      <Link to="/client-signup">
-        <Chip label="Signup" style={{ fontWeight: "600" }} icon="pi pi-sync" />
-      </Link>
+      <img className="mr-0" src={currentUser?.user?.photoURL ? currentUser.user.photoURL : "/user.png"} alt="" />
     </>
   );
 
-  const start = (
-    <Link id="RouterNavLink" className="nav-link" to="/">
-      <img alt="logo" src={logo} height="50" className="mr-2"></img>
-    </Link>
-  );
+const [show, setShow] = useState("hide")
 
   return (
     <>
@@ -280,8 +275,8 @@ const Header = () => {
       <div className="mid-header-all">
         <div className="container">
           <div className="mid-header">
-            <Navbar />
-            {currentUser ? (
+            <Navbar show={show}/>
+            <MenuUnfoldOutlined onClick={()=> setShow(show=="hide" ? "show" : "hide")}/>
               <div className="user-account">
                 <Dropdown menu={{ items }} placement="bottomLeft">
                   <Chip
@@ -295,21 +290,7 @@ const Header = () => {
                   />
                 </Dropdown>
               </div>
-            ) : (
-              <>
-                <Chip
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "0",
-                    background: "none",
-                    gap: "10px",
-                  }}
-                  template={content2}
-                />
-              </>
-            )}
+            
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import ReadyProjectsText from "../Components/Common/ReadyProjectsText";
 import { getSingleCategory } from "../dbconfig";
 import { Link } from "react-router-dom";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
+import NoFlats from "../Components/Common/NoFlats";
 
 export const ReadyProjects = () => {
   const [pdata, setPdata] = useState([]);
@@ -29,43 +30,30 @@ export const ReadyProjects = () => {
     fetchData();
   }, []);
   return (
-    <Layout>
+    <>
       <div className="avialableflats">
-        <div className="container">
-          <ReadyProjectsText />
-
-          <div class="grid">
-            <div class="col-12 md:col-3 lg:col-3">
-              <Chip
-                label="Filter by location"
-                icon="pi pi-map"
-                width="100%"
-                className="mr-2 mb-2 py-2 px-4"
-              />
-              <PanelMenu model={AvailableData} style={{ width: "300px" }} />
-            </div>
-            <div class="col-12 md:col-9 lg:col-9">
-              <div className="grid">
-                {loader ? (
-                  <OnPageLoaderTwo number={3} />
-                ) : (
-                  pdata &&
-                  pdata.map((data) => (
-                    <div className="col-12 md:col-4 lg:col-4">
-                      <div className="avialablecard">
-                        <Link to={`${data.slug}`}>
-                          <Card img={img} title={data.title} />
-                        </Link>
-                      </div>
+        <div class="grid">
+          <div class="col-12 md:col-12 lg:col-12">
+            <div className="grid">
+              {loader ? (
+                <OnPageLoaderTwo number={4} />
+              ) : (
+                pdata?.length > 0 ?
+                pdata.map((data) => (
+                  <div className="col-12 md:col-3 lg:col-3">
+                    <div className="avialablecard">
+                      <Link to={`/ready-projects/${data.slug}`}>
+                        <Card img={img} title={data.title} />
+                      </Link>
                     </div>
-                  ))
-                )}
-              </div>
+                  </div>
+                )) :<NoFlats />
+              )}
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 export default ReadyProjects;

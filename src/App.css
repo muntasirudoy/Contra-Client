@@ -892,3 +892,14 @@ padding: 0;
 .projects-image-area{
   border: 1px solid rgb(209, 209, 209);
 }
+
+.projects{
+  padding: 50px 0;
+  display: flex;
+
+}
+.ant-tabs-tab-btn a{
+font-size: 18px;
+color: #141b25;
+font-weight: 500;
+}

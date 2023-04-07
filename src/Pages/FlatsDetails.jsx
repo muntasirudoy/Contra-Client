@@ -4,7 +4,7 @@ import Tr from "../Components/Common/Tr";
 import { Image, Modal, Tag } from "antd";
 import Layout from "../Layout";
 import { getSingleCategorySingleDetails } from "../dbconfig";
-import img from "/b1.jpg";
+import img from "/logo.svg";
 import { Viewer } from "@react-pdf-viewer/core";
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
@@ -17,6 +17,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
+import Loader from "../Components/Common/Loader";
 
 export const FlatsDetails = () => {
   const param = useParams();
@@ -73,72 +74,76 @@ export const FlatsDetails = () => {
         <div className="container">
           <div class="grid">
             <div class="col-12 md:col-5 lg:col-5">
-              <div className="image">
-                {/* <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" /> */}
-                <Image
-                  preview={{
-                    visible: false,
-                  }}
-                  width={"100%"}
-                  src={imageUrls?.[0] ? imageUrls?.[0] : img}
-                  onClick={() => setVisible(true)}
-                />
-
-                <Image
-                  preview={{
-                    visible: false,
-                  }}
-                  style={{ marginRight: "10px" }}
-                  width={135}
-                  src={imageUrls?.[1]}
-                  onClick={() => setVisible(true)}
-                />
-                <Image
-                  preview={{
-                    visible: false,
-                  }}
-                  style={{ marginRight: "10px" }}
-                  width={135}
-                  src={imageUrls?.[2]}
-                  onClick={() => setVisible(true)}
-                />
-                <Image
-                  preview={{
-                    visible: false,
-                  }}
-                  style={{ marginRight: "10px" }}
-                  width={135}
-                  src={imageUrls?.[3]}
-                  onClick={() => setVisible(true)}
-                />
-
-                {/* <div className="image-gallary">
-                  {imageUrls?.map((e) => (
-                    <>
-                      <img className="gallaryimg" src={e} alt="building" />
-                    </>
-                  ))}
-                </div> */}
-
-                <div
-                  style={{
-                    display: "none",
-                  }}
-                >
-                  <Image.PreviewGroup
+              {imageUrls?.[0] ? (
+                <div className="image">
+                  {/* <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" /> */}
+                  <Image
                     preview={{
-                      visible,
-                      onVisibleChange: (vis) => setVisible(vis),
+                      visible: false,
+                    }}
+                    width={"100%"}
+                    src={imageUrls?.[0] ? imageUrls?.[0] : img}
+                    onClick={() => setVisible(true)}
+                  />
+
+                  <Image
+                    preview={{
+                      visible: false,
+                    }}
+                    style={{ marginRight: "10px" }}
+                    width={135}
+                    src={imageUrls?.[1]}
+                    onClick={() => setVisible(true)}
+                  />
+                  <Image
+                    preview={{
+                      visible: false,
+                    }}
+                    style={{ marginRight: "10px" }}
+                    width={135}
+                    src={imageUrls?.[2]}
+                    onClick={() => setVisible(true)}
+                  />
+                  <Image
+                    preview={{
+                      visible: false,
+                    }}
+                    style={{ marginRight: "10px" }}
+                    width={135}
+                    src={imageUrls?.[3]}
+                    onClick={() => setVisible(true)}
+                  />
+
+                  {/* <div className="image-gallary">
+                              {imageUrls?.map((e) => (
+                                <>
+                                  <img className="gallaryimg" src={e} alt="building" />
+                                </>
+                              ))}
+                            </div> */}
+
+                  <div
+                    style={{
+                      display: "none",
                     }}
                   >
-                    {imageUrls?.map((e) => (
-                      <>
-                        <Image src={e} />
-                      </>
-                    ))}
-                  </Image.PreviewGroup>
+                    <Image.PreviewGroup
+                      preview={{
+                        visible,
+                        onVisibleChange: (vis) => setVisible(vis),
+                      }}
+                    >
+                      {imageUrls?.map((e) => (
+                        <>
+                          <Image src={e} />
+                        </>
+                      ))}
+                    </Image.PreviewGroup>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <OnPageLoaderTwo />
+              )}
             </div>
 
             {loader ? (
