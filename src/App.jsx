@@ -112,114 +112,114 @@ function App() {
         {/* <Route path="corporate-social-responsibility" element={<Csr />} /> */}
 
         <Route path="available-flats" element={<AvialableFlats />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="projects/available-flats/:slug" element={<FlatsDetails />} />
-        <Route path="upcoming-projects" element={<UpcomingProjects />} />
-        <Route path="upcoming-projects/:slug" element={<FlatsDetails />} />
-        <Route path="ongoing-projects" element={<OngoingProjects />} />
-        <Route path="ongoing-projects/:slug" element={<FlatsDetails />} />
-        <Route path="ready-projects" element={<ReadyProjects />} />
-        <Route path="ready-projects/:slug" element={<FlatsDetails />} />
+        <Route exact path="projects" element={<Projects />} />
+        <Route exact path="projects/available-flats/:slug" element={<FlatsDetails />} />
+        <Route exact path="upcoming-projects" element={<UpcomingProjects />} />
+        <Route exact path="upcoming-projects/:slug" element={<FlatsDetails />} />
+        <Route exact path="ongoing-projects" element={<OngoingProjects />} />
+        <Route exact path="ongoing-projects/:slug" element={<FlatsDetails />} />
+        <Route exact path="ready-projects" element={<ReadyProjects />} />
+        <Route exact path="ready-projects/:slug" element={<FlatsDetails />} />
 
-        <Route path="after-sale" element={<AfterSale />} />
-        <Route path="career" element={<Apply />} />
-        <Route path="land-owner" element={<LandOwner />} />
-        <Route path="buyer" element={<Buyer />} />
-        <Route path="contact-us" element={<ContactUs />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="client-login" element={<ClientLogin />} />
-        <Route path="client-signup" element={<ClientSignup />} />
-        <Route path="client-profile" element={<ClientProfile />}>
+        <Route exact path="after-sale" element={<AfterSale />} />
+        <Route exact path="career" element={<Apply />} />
+        <Route exact path="land-owner" element={<LandOwner />} />
+        <Route exact path="buyer" element={<Buyer />} />
+        <Route exact path="contact-us" element={<ContactUs />} />
+        <Route exact path="login" element={<Login />} />
+        <Route exact path="signup" element={<Signup />} />
+        <Route exact path="client-login" element={<ClientLogin />} />
+        <Route exact path="client-signup" element={<ClientSignup />} />
+        <Route exact path="client-profile" element={<ClientProfile />}>
           <Route index element={<ClientPersonal />} />
           <Route
-            path="/client-profile/client-projects"
+            exact path="/client-profile/client-projects"
             element={<ClientsProjects />}
           />
           <Route
-            path="/client-profile/client-payment"
+            exact path="/client-profile/client-payment"
             element={<ClientsPayment />}
           />
           <Route
-            path="/client-profile/client-nominee"
+            exact path="/client-profile/client-nominee"
             element={<ClientsNominee />}
           />
           <Route
-            path="/client-profile/client-personal-info"
+            exact path="/client-profile/client-personal-info"
             element={<ClientPersonal />}
           />
         </Route>
         {/* dashboard start */}
-        <Route path="dashboard" element={<Dashboard />}>
+        <Route exact path="dashboard" element={<Dashboard />}>
           <Route index element={<Dashboard_Main />} />
-          <Route path="dashboard-about" element={<Dashboard_About />} />
-          <Route path="dashboard-home" element={<Dashboard_Main />} />
+          <Route exact path="dashboard-about" element={<Dashboard_About />} />
+          <Route exact path="dashboard-home" element={<Dashboard_Main />} />
           <Route
-            path="dashboard-why-choose"
+            exact path="dashboard-why-choose"
             element={<Dashboard_Why_Choose />}
           />
           <Route
-            path="your-clients"
+            exact path="your-clients"
             element={<Dashboard_Your_Clients />}
           ></Route>
           <Route
-            path="your-clients/:id"
+            exact path="your-clients/:id"
             element={<Dashboard_YourClient_Details />}
           ></Route>
           <Route
-            path="your-clients/:id/:id"
+            exact path="your-clients/:id/:id"
             element={<Dashboard_YourClient_Single_Projects />}
           />
-          <Route path="all-users" element={<Dashboard_All_Users />} />
+          <Route exact path="all-users" element={<Dashboard_All_Users />} />
           <Route
-            path="dashboard-all-projects"
+            exact path="dashboard-all-projects"
             element={<Dashboard_All_Projects />}
           />
           <Route
-            path="dashboard-projects-category"
+            exact path="dashboard-projects-category"
             element={<Dashboard_Project_Category />}
           />
           <Route
-            path="dashboard-avilable-project"
+            exact path="dashboard-avilable-project"
             element={<Dashboard_Available />}
           />
-          <Route path="dashboard-ready-project" element={<Dashboard_Ready />} />
+          <Route exact path="dashboard-ready-project" element={<Dashboard_Ready />} />
           <Route
-            path="dashboard-ongoing-project"
+            exact path="dashboard-ongoing-project"
             element={<Dashboard_Ongoing />}
           />
           <Route
-            path="dashboard-upcomming-project"
+            exact path="dashboard-upcomming-project"
             element={<Dashboard_Upcomming />}
           />
 
-          <Route path="dashboard-buyer" element={<Dashboard_Buyer />}>
+          <Route exact path="dashboard-buyer" element={<Dashboard_Buyer />}>
             <Route
-              path="dashboard-buyer/:id"
+              exact path="dashboard-buyer/:id"
               element={<Dashboard_Buyer_Message />}
             />
             <Route index element={<Dashboard_Empty />} />
           </Route>
 
-          <Route path="dashboard-land-owner" element={<Dashboard_Land_Owner />}>
+          <Route exact path="dashboard-land-owner" element={<Dashboard_Land_Owner />}>
             <Route
-              path="dashboard-land-owner/:id"
+              exact path="dashboard-land-owner/:id"
               element={<Dashboard_Land_Owner_Message />}
             />
             <Route index element={<Dashboard_Empty />} />
           </Route>
 
-          <Route path="dashboard-contactus" element={<Dashboard_Contactus />}>
+          <Route exact path="dashboard-contactus" element={<Dashboard_Contactus />}>
             <Route
-              path="dashboard-contactus/:id"
+              exact path="dashboard-contactus/:id"
               element={<Dashboard_Contactus_Message />}
             />
             <Route index element={<Dashboard_Empty />} />
           </Route>
 
-          <Route path="dashboard-after-sale" element={<Dashboard_After_Sale />}>
+          <Route exact path="dashboard-after-sale" element={<Dashboard_After_Sale />}>
             <Route
-              path="dashboard-after-sale/:id"
+              exact path="dashboard-after-sale/:id"
               element={<Dashboard_After_Sale_Messages />}
             />
             <Route index element={<Dashboard_Empty />} />

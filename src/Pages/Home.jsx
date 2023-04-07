@@ -18,8 +18,12 @@ const Home = () => {
       </Helmet>
       <Banner />
       <Category />
-      <About />
-      <Chooseus />
+      <React.Suspense fallback={"Loading Data..."}>
+        <About />
+      </React.Suspense>
+      <React.Suspense fallback={"Loading Data..."}>
+        <Chooseus />
+      </React.Suspense>
       <Trusted />
     </Layout>
   );
