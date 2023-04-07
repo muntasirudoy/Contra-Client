@@ -11,9 +11,8 @@ const { Header, Content, Footer, Sider } = Layout;
 import "./dashboard.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "../Context/context";
-import { authSignout, getCurrentUser } from "../dbconfig";
+import { authSignout } from "../dbconfig";
 import Loader from "../Components/Common/Loader";
-import Test from "../Components/Test";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -27,7 +26,6 @@ function getItem(label, key, icon, children, type) {
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { currentUser, setCurrentUser } = useContext(Store);
-  const [userInfo, setUserInfo] = useState("");
 const navigate =     useNavigate() 
   const items = [
     getItem(
