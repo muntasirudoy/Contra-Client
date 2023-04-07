@@ -9,7 +9,9 @@ import OngoingProjects from "./OngoingProjects";
 import UpcomingProjects from "./UpcomingProjects";
 import AllFlats from "./AllFlats";
 import ReadyProjects from "./ReadyProjects";
+import { Helmet } from "react-helmet";
 
+const content = "Discover our impressive portfolio of completed projects at Mahmud Builders. From residential to commercial, our skilled team has successfully delivered exceptional construction projects. Explore our innovative designs, quality craftsmanship, and attention to detail. Trust us to bring your vision to life. Contact us to discuss your next project."
 const Projects = () => {
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
@@ -54,6 +56,10 @@ const Projects = () => {
   };
   return (
     <Layout>
+      <Helmet>
+        <title>MBL | Projects</title>
+        <meta name="description" content={content} />
+      </Helmet>
       <div className="container" style={{ marginTop: "30px" }}>
         <div className="choose-heading">
           <Heading heading="Our Projects" />
