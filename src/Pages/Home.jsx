@@ -7,13 +7,13 @@ import Chooseus from "../Components/CooseUs/Chooseus";
 import Trusted from "../Components/Trusted/Trusted";
 import { Helmet } from "react-helmet";
 const content =
-  "Mahmud Builders is your Trusted Building Construction Partner. We offer top-notch building construction services for commercial and residential projects. Our skilled team of builders and architects delivers exceptional results. Contact us for reliable, innovative, and customized construction solutions. Build your dream project with us!";
+  "Mahmud Builders is your Trusted, Best Real Estate Company & Building Construction Partner. We offer top-notch building construction services for commercial and residential projects. Our skilled team of builders and architects delivers exceptional results. Contact us for reliable, innovative, and customized construction solutions. Build your dream project with us!";
 
 const Home = () => {
   return (
     <Layout>
       <Helmet>
-        <title>MBL | Construction</title>
+        <title>MLBL | Real Estate Company</title>
         <meta name="description" content={content} />
       </Helmet>
       <Banner />
