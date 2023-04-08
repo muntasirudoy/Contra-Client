@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "siteMap": "vite build && node sitemapgenerator.js"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
@@ -34,7 +35,8 @@
     "react-router-dom": "^6.5.0",
     "react-slick": "^0.29.0",
     "swiper": "^8.4.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
