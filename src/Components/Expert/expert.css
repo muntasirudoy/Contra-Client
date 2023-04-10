@@ -3,7 +3,7 @@
 }
 
 .all-carde {
-    margin-top: 50px;
+ padding: 50px;
 }
 .grid-one,
 .grid-two
@@ -12,7 +12,7 @@
 }
 .expert .carde {
     position: relative;
-    width: 95%;
+    width: 100%;
     height: 360px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 15px;
@@ -20,6 +20,7 @@
     transition: 0.5s;
     overflow: hidden;
     box-sizing: border-box;
+    
 }
 
 .expert .carde:hover {

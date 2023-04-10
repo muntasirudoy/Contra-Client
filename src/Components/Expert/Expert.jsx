@@ -42,9 +42,8 @@ const Expert = () => {
   return (
     <>
       <div className="expert">
-        <div className="container">
           <div className=" all-carde">
-            <div className="grid grid-one">
+            <div className="grid">
               <div className="col-12 md:col-6 lg:col-3">
                 <div className="carde">
                   <div className="imagee">
@@ -115,8 +114,6 @@ const Expert = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="grid grid-two">
               <div className="col-12 md:col-6 lg:col-3">
                 <div className="carde">
                   <div className="imagee">
@@ -169,9 +166,9 @@ const Expert = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
-          </div>
+
+
         </div>
       </div>
       <Dialog

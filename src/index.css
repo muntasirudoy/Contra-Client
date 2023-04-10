@@ -320,6 +320,10 @@
         padding: 40px 0 0px;
         box-sizing: border-box;
     }
+    .expert {
+        width: 100%;
+        height: 100%;
+    }
     .expert .all-carde {
         margin-top: 0px;
         padding: 40px;
