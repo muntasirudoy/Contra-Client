@@ -900,6 +900,23 @@ padding: 0;
 }
 .ant-tabs-tab-btn a{
 font-size: 18px;
-color: #141b25;
+color: #251914;
 font-weight: 500;
+}
+
+:where(.css-dev-only-do-not-override-9ntgx0).ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0!important;
+}
+
+:where(.css-dev-only-do-not-override-9ntgx0).ant-tabs >.ant-tabs-nav .ant-tabs-nav-list, :where(.css-dev-only-do-not-override-9ntgx0).ant-tabs >div>.ant-tabs-nav .ant-tabs-nav-list {
+  position: relative;
+  display: flex;
+  transition: opacity 0.3s;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active{
+  background:#2854963a;
+  color: white!important;
 }

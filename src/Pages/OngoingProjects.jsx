@@ -36,11 +36,11 @@ export const OngoingProjects = () => {
           <div class="col-12 md:col-12 lg:col-12">
             <div className="grid">
               {loader ? (
-                <OnPageLoaderTwo number={4} />
+                <OnPageLoaderTwo number={3} />
               ) : (
                 pdata?.length > 0 ?
                 pdata.map((data) => (
-                  <div className="col-12 md:col-3 lg:col-3">
+                  <div className="col-12 md:col-4 lg:col-4">
                     <div className="avialablecard">
                       <Link to={`/ongoing-projects/${data.slug}`}>
                         <Card img={data.imageUrls[0]} title={data.title} />

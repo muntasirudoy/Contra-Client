@@ -15,8 +15,6 @@ const content = "Discover our impressive portfolio of completed projects at Mahm
 const Projects = () => {
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
-  console.log(redirectUrl);
-
   const [activeKey, setActiveKey] = useState("1");
   useEffect(() => {
     setActiveKey(redirectUrl ? redirectUrl : "1");
@@ -25,7 +23,7 @@ const Projects = () => {
   const items = [
     {
       key: "1",
-      label: <Link to="./?redirect=1">All</Link>,
+      label: <Link to="./?redirect=1">All Projects</Link>,
       children: <AllFlats />,
     },
     {
@@ -53,6 +51,27 @@ const Projects = () => {
   const keyChange = (key) => {
     setActiveKey(key);
   };
+
+const [tabPosition, setTabPosition] = useState ("left")
+
+
+
+
+useEffect(() => {
+  const handleResize = () => {
+    let width = window.innerWidth
+    setTabPosition(width <= 576 ? "top" : "left")
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
+
+
   return (
     <Layout>
       <Helmet>
@@ -66,12 +85,13 @@ const Projects = () => {
         <div className="projects grid">
           <div className="col-12 md:col-12 lg:col-12">
             
+            
             <Tabs
               size="large"
               activeKey={activeKey}
               items={items}
               onChange={keyChange}
-              centered
+              tabPosition={tabPosition}
             />
           </div>
         </div>
