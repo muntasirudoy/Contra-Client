@@ -65,6 +65,7 @@ const Projects = () => {
         </div>
         <div className="projects grid">
           <div className="col-12 md:col-12 lg:col-12">
+            
             <Tabs
               size="large"
               activeKey={activeKey}

@@ -11,19 +11,28 @@ import { getHomeAbout } from "../../dbconfig";
 
 export const About = (props) => {
   const [abouData, setAboutData] = useState("");
+  
+  const memoizedData = useMemo(() => abouData, [abouData]);
   useEffect(() => {
-    const fetch = async () => {
+    const fetchData = async () => {
       try {
-        console.log("abouData");
-        const res = await getHomeAbout();
-        setAboutData(res[0]);
-      } catch (error) {}
+        if (memoizedData) {
+           return
+        }else{
+          console.log('Fetching about data...');
+          const res = await getHomeAbout();
+          setAboutData(res[0]);
+        }
+
+      } catch (error) {
+        console.error('Failed to fetch about data:', error);
+      }
     };
-    fetch();
+
+    fetchData();
     
   }, []);
 
-  const memoizedData = useMemo(() => abouData, [abouData]);
 
 
   const {
