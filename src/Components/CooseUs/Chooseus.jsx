@@ -33,7 +33,8 @@ const Chooseus = () => {
               img={i1}
               heading="BEST SERVICE"
               para="lorem Ipsum available, but the majority have suffered alterati on in some form, by ious by accident."
-            />{" "}
+            />
+              
           </Col>
           <Col xs={24} sm={12} md={8} lg={8}>
             {" "}
