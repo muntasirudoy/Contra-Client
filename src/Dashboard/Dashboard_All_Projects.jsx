@@ -513,24 +513,24 @@ const Dashboard_All_Projects = () => {
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Land Area (Katha)" name="landArea" required>
-                  <Input placeholder="Land Area (Katha)" type="number"/>
+                  <Input placeholder="Land Area (Decimal)" type="number"/>
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Flat Size" name="flatSize">
-                  <Input placeholder="Flat Size" type="number"/>
+                  <Input placeholder="Flat Size"/>
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Number of Floor" name="numberofFloor" required>
-                  <Input placeholder="Number of Floor" type="number"/>
+                  <Input placeholder="Number of Floor"/>
                 </Form.Item>
               </Col>
               
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Launch Date" name="launchDate" required>
-                  <Input placeholder="Launch Date" />
+                  <Input placeholder="Launch Date"/>
                 </Form.Item>
               </Col>
 
@@ -601,12 +601,12 @@ const Dashboard_All_Projects = () => {
                         </Col>
                         <Col span={8}>
                           <Checkbox
-                            value="Substation"
+                            value="Sub-station"
                             style={{
                               lineHeight: "32px",
                             }}
                           >
-                            Substation
+                            Sub-station
                           </Checkbox>
                         </Col>
                         <Col span={8}>
@@ -621,12 +621,12 @@ const Dashboard_All_Projects = () => {
                         </Col>
                         <Col span={8}>
                           <Checkbox
-                            value="Driver's Waiting Place"
+                            value="Driver's Waiting Room"
                             style={{
                               lineHeight: "32px",
                             }}
                           >
-                            Driver's Waiting Place
+                            Driver's Waiting Room
                           </Checkbox>
                         </Col>
                         <Col span={8}>
@@ -651,12 +651,12 @@ const Dashboard_All_Projects = () => {
                         </Col>
                         <Col span={8}>
                           <Checkbox
-                            value="Prayer Space"
+                            value="Prayer Room"
                             style={{
                               lineHeight: "32px",
                             }}
                           >
-                           Prayer Space
+                           Prayer Room
                           </Checkbox>
                         </Col>
                       </Row>

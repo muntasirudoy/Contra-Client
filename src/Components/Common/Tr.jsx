@@ -6,7 +6,7 @@ const Tr = (props) => {
       <td>
         <strong>{props.left}</strong>
       </td>
-      <td>{props.right}</td>
+      <td><b>{props.right}</b></td>
     </tr>
   );
 };

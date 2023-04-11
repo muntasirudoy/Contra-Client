@@ -183,7 +183,7 @@ export const FlatsDetails = () => {
                     <tbody>
                       <Tr left="Location" right={location} />
                       <Tr left="Address" right={address} />
-                      <Tr left="Land Area" right={landArea} />
+                      <Tr left="Land Area" right={landArea + " "+"(Decimal)"} />
                       <Tr left="Project Type" right={projectType} />
                       <Tr
                         left="Number of Building Blocks"
@@ -231,24 +231,24 @@ export const FlatsDetails = () => {
 
                     <div className="unit-table">
                       <div className="unit-table-head">
-                        <span> Name</span>
+                        <span> Type</span>
                         <span> Available Flat</span>
                         <span> Total</span>
                       </div>
                       <div className="unit-table-body">
                         <span> Flat</span>
-                        <span> {totalFlat}</span>
                         <span> {flatAvailable}</span>
+                        <span> {totalFlat}</span>
                       </div>
                       <div className="unit-table-body">
                         <span> Office</span>
-                        <span> {totalOffice}</span>
                         <span> {officeAvailable}</span>
+                        <span> { totalOffice}</span>
                       </div>
                       <div className="unit-table-body">
                         <span> Shop</span>
-                        <span> {totalShop}</span>
                         <span> {shopAvailable}</span>
+                        <span> {totalShop}</span>
                       </div>
                     </div>
                   </div>
