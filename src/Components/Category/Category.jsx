@@ -12,7 +12,7 @@ export const Category = (props) => {
     <div className="category">
       <div className="container">
         <div className="category-plate">
-          <Row gutter={[16, 24]}>
+          <Row gutter={[16, 24]} style={{width:"100%"}}>
             <Col
               className="gutter-row"
               data-aos="flip-left"

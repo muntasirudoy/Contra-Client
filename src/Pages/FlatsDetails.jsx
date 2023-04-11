@@ -58,6 +58,12 @@ export const FlatsDetails = () => {
     slug,
     commonFacilities,
     imageUrls,
+    totalFlat,
+    flatAvailable,
+    totalOffice,
+    officeAvailable,
+    totalShop,
+    shopAvailable,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -142,7 +148,7 @@ export const FlatsDetails = () => {
                   </div>
                 </div>
               ) : (
-                <OnPageLoaderTwo />
+                <OnPageLoaderTwo number={1} />
               )}
             </div>
 
@@ -159,11 +165,12 @@ export const FlatsDetails = () => {
                   style={{
                     marginTop: "20px",
                     color: "#353535",
-                    fontSize: "14px",
+                    fontSize: "15px",
                   }}
                 >
                   {details}
                 </p>
+                <div className="tags"></div>
                 <div className="table">
                   <table>
                     <thead>
@@ -219,9 +226,35 @@ export const FlatsDetails = () => {
                       />
                     </tbody>
                   </table>
+                  <div className="available-info">
+                    <h3>Unit Information</h3>
+
+                    <div className="unit-table">
+                      <div className="unit-table-head">
+                        <span> Name</span>
+                        <span> Available Flat</span>
+                        <span> Total</span>
+                      </div>
+                      <div className="unit-table-body">
+                        <span> Flat</span>
+                        <span> {totalFlat}</span>
+                        <span> {flatAvailable}</span>
+                      </div>
+                      <div className="unit-table-body">
+                        <span> Office</span>
+                        <span> {totalOffice}</span>
+                        <span> {officeAvailable}</span>
+                      </div>
+                      <div className="unit-table-body">
+                        <span> Shop</span>
+                        <span> {totalShop}</span>
+                        <span> {shopAvailable}</span>
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="available-info">
-                    <h4>Additional Information</h4>
+                    <h3>Additional Information</h3>
                     <div className="tags">
                       <Tag
                         onClick={showModal}
@@ -246,6 +279,7 @@ export const FlatsDetails = () => {
                       </Tag>
                     </div>
                   </div>
+
                   <Modal
                     onCancel={handleCancel}
                     title="Add a project"

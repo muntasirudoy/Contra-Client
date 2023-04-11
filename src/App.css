@@ -920,3 +920,32 @@ font-weight: 500;
   background:#2854963a;
   color: white!important;
 }
+
+.unit-table{
+  border: 1px solid gray;
+  margin: 20px 0;
+  
+}
+.unit-table-body,
+.unit-table-head
+{
+  padding:5px 20px;
+  display: flex;
+}
+.unit-table-body{
+  border-top: 1px solid gray!important;
+}
+.unit-table-body span,
+.unit-table-head span
+{
+  width: 50%;
+}
+
+.unit-table-head span
+{
+  font-weight: 600;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  color: #242f3f;
+}
+

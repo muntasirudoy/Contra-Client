@@ -144,7 +144,12 @@ const Dashboard_All_Projects = () => {
         slug,
         imageUrls,
         totalFlat,
-        commonFacilities
+        commonFacilities,
+        flatAvailable,
+        totalOffice,
+        officeAvailable,
+        totalShop,
+        shopAvailable
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -165,7 +170,12 @@ const Dashboard_All_Projects = () => {
         title,
         slug,
         totalFlat,
-        commonFacilities
+        commonFacilities,
+        flatAvailable,
+        totalOffice,
+        officeAvailable,
+        totalShop,
+        shopAvailable
       });
 
       setPreview(imageUrls ? imageUrls : []);
@@ -360,7 +370,7 @@ const Dashboard_All_Projects = () => {
           title="Add a project"
           open={isModalOpen}
           centered
-          width={950}
+          width={"80%"}
           footer={false}
         >
           <div className="projects-image-area">
@@ -434,77 +444,112 @@ const Dashboard_All_Projects = () => {
                     rows={12}
                     placeholder="maxLength is 150"
                     maxLength={1000}
-                    style={{ height: "100px" }}
+                    style={{ height: "150px" }}
                   />
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Total Flat" name="totalFlat" required>
-                  <Input placeholder="Total Flat" />
+                  <Input placeholder="Total Flat" type="number"/>
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}  >
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+                <Form.Item label="Flat Available" name="flatAvailable" required>
+                  <Input placeholder="Number of Flat Available" type="number"/>
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+                <Form.Item label="Total Office" name="totalOffice" required>
+                  <Input placeholder="Number of Total Office" type="number"/>
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+                <Form.Item label="Office Available" name="officeAvailable" required>
+                  <Input placeholder="Number of Office Available" type="number"/>
+                </Form.Item>
+              </Col>
+
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+                <Form.Item label="Total Shop" name="totalShop" required>
+                  <Input placeholder="Number of Total Shop" type="number"/>
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
+                <Form.Item label="Office Available" name="shopAvailable" required>
+                  <Input placeholder="Number of Shop Available" type="number"/>
+                </Form.Item>
+              </Col>
+
+
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}  >
                 <Form.Item label="Location" name="location" required>
                   <Input placeholder="Location" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Address" name="address" required>
                   <Input placeholder="Address" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Project Type" name="projectType" required>
                   <Input placeholder="input placeholder" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item
                   label="Number of Building Blocks"
                   name="numberofBuildingBlocks"
                   required
                 >
-                  <Input placeholder="Number of Building Blocks" />
+                  <Input placeholder="Number of Building Blocks" type="number"/>
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Land Area (Katha)" name="landArea" required>
-                  <Input placeholder="Land Area (Katha)" />
+                  <Input placeholder="Land Area (Katha)" type="number"/>
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Flat Size" name="flatSize">
-                  <Input placeholder="Flat Size" />
+                  <Input placeholder="Flat Size" type="number"/>
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Number of Floor" name="numberofFloor" required>
-                  <Input placeholder="Number of Floor" />
+                  <Input placeholder="Number of Floor" type="number"/>
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              
+
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Launch Date" name="launchDate" required>
                   <Input placeholder="Launch Date" />
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Rajuk Aproval Date" name="rajukpprovalDate" required>
                   <Input placeholder="Rajuk Aproval Date" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Rajuk Aproval No" name="rajukApprovalNo" required>
                   <Input placeholder="Rajuk Aproval No" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Status" name="status" required>
                   <Input placeholder="Status" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item
                   label="Estimated Completion Date"
                   name="estimatedCompletionDate"
@@ -513,7 +558,7 @@ const Dashboard_All_Projects = () => {
                   <Input placeholder="Estimated Completion Date" />
                 </Form.Item>
               </Col>
-              <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Slug" name="slug" required>
                   <Input placeholder="Write product slug" />
                 </Form.Item>

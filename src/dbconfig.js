@@ -299,7 +299,12 @@ export const createDocumentsForProjectDetails = async (data) => {
       slug,
       imageUrls,
       totalFlat,
-      commonFacilities
+      commonFacilities,
+      flatAvailable,
+      totalOffice,
+      officeAvailable,
+      totalShop,
+      shopAvailable
     } = data;
 
 
@@ -324,7 +329,12 @@ export const createDocumentsForProjectDetails = async (data) => {
       slug,
       imageUrls,
       totalFlat,
-      commonFacilities
+      commonFacilities,
+      flatAvailable,
+      totalOffice,
+      officeAvailable,
+      totalShop,
+      shopAvailable
     };
     try {
       await setDoc(docRef, projectInfo);
