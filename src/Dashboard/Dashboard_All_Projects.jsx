@@ -54,6 +54,8 @@ const Dashboard_All_Projects = () => {
   const [file, setFile] = useState([]); // progress
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [preview, setPreview] = useState([]);
+  const [pdf, setPdf] = useState('');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -97,15 +99,24 @@ const Dashboard_All_Projects = () => {
   const onFinish = async (values) => {
     setBtnLoader(true);
     const imgUrls = await Promise.all(
-      file.map((image) => handleUpload(image))
+      file.map((image) => handleUploadImage(image))
     ).catch((err) => {
       console.log(err);
       return;
     });
 
+    const pdfUrl = await handleUploadPdf(pdf)
+    .catch((err) => {
+      console.log(err);
+      return;
+    });
+
+
+
     let obj = {
       ...values,
       imageUrls: imgUrls,
+      pdfUrl: pdfUrl
     };
     try {
       await createDocumentsForProjectDetails(obj);
@@ -217,7 +228,7 @@ const Dashboard_All_Projects = () => {
     setPreview([...preview, ...newPreviews]);
   }
 
-  const handleUpload = async (image) => {
+  const handleUploadImage = async (image) => {
     return new Promise((resolve, reject) => {
       const storageRef = ref(storage, "images/" + image.name);
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -255,7 +266,6 @@ const Dashboard_All_Projects = () => {
     inputRef.current.click();
   };
   const handleRemoveImage = (index) => {
-    console.log(index);
     const newImages = [...file];
     const newPreviews = [...preview];
     newImages.splice(index, 1);
@@ -263,6 +273,45 @@ const Dashboard_All_Projects = () => {
     setFile(newImages);
     setPreview(newPreviews);
   };
+  const handleChangePdf =(event)=>{
+    setPdf(event.target.files[0])
+  }
+  const handleUploadPdf =(pdf)=>{
+
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, "pdf/" + pdf.name);
+      const uploadTask = uploadBytesResumable(storageRef, pdf);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Pdf Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Pdf Upload is paused");
+              break;
+            case "running":
+              console.log("Pdf Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  }
+
+
+
 
   return (
     <div>
@@ -402,6 +451,16 @@ const Dashboard_All_Projects = () => {
                 onChange={handleChange}
               />
             </div>
+
+
+            <div className="preview-images">
+              <input
+                type="file"
+                onChange={handleChangePdf}
+              />
+            </div>
+
+
           </div>
           <Form
             layout="vertical"

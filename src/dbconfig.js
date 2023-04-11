@@ -304,7 +304,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       totalOffice,
       officeAvailable,
       totalShop,
-      shopAvailable
+      shopAvailable,
+      pdfUrl
     } = data;
 
 
@@ -334,7 +335,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       totalOffice,
       officeAvailable,
       totalShop,
-      shopAvailable
+      shopAvailable,
+      pdfUrl
     };
     try {
       await setDoc(docRef, projectInfo);

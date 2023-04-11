@@ -5,7 +5,7 @@ import { Image, Modal, Tag } from "antd";
 import Layout from "../Layout";
 import { getSingleCategorySingleDetails } from "../dbconfig";
 import img from "/logo.svg";
-import { Viewer } from "@react-pdf-viewer/core";
+import { Viewer, Document } from "@react-pdf-viewer/core";
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 // Import styles
@@ -64,6 +64,7 @@ export const FlatsDetails = () => {
     officeAvailable,
     totalShop,
     shopAvailable,
+    pdfUrl,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -183,7 +184,10 @@ export const FlatsDetails = () => {
                     <tbody>
                       <Tr left="Location" right={location} />
                       <Tr left="Address" right={address} />
-                      <Tr left="Land Area" right={landArea + " "+"(Decimal)"} />
+                      <Tr
+                        left="Land Area"
+                        right={landArea + " " + "(Decimal)"}
+                      />
                       <Tr left="Project Type" right={projectType} />
                       <Tr
                         left="Number of Building Blocks"
@@ -243,7 +247,7 @@ export const FlatsDetails = () => {
                       <div className="unit-table-body">
                         <span> Office</span>
                         <span> {officeAvailable}</span>
-                        <span> { totalOffice}</span>
+                        <span> {totalOffice}</span>
                       </div>
                       <div className="unit-table-body">
                         <span> Shop</span>
@@ -288,10 +292,12 @@ export const FlatsDetails = () => {
                     width={800}
                     footer={false}
                   >
-                    <Viewer
-                      fileUrl="/test.pdf"
-                      plugins={[defaultLayoutPluginInstance]}
-                    />
+                    {pdfUrl && (
+                      <Viewer
+                        fileUrl={pdfUrl}
+                        plugins={[defaultLayoutPluginInstance]}
+                      />
+                    )}
                   </Modal>
                 </div>
               </div>

@@ -14,31 +14,10 @@ import {
   WechatFilled,
   GooglePlusSquareFilled,
 } from "@ant-design/icons";
-import { Dialog } from "primereact/dialog";
-import { useState } from "react";
-import { Fieldset } from "primereact/fieldset";
 
-import man from "/man.jpg";
-import AboutPageText from "../Common/AboutPageText";
 
 const Expert = () => {
-  const [displayBasic, setDisplayBasic] = useState(false);
-  const [position, setPosition] = useState("center");
-  const dialogFuncMap = {
-    displayBasic: setDisplayBasic,
-  };
 
-  const onClick = (name, position) => {
-    dialogFuncMap[`${name}`](true);
-
-    if (position) {
-      setPosition(position);
-    }
-  };
-
-  const onHide = (name) => {
-    dialogFuncMap[`${name}`](false);
-  };
   return (
     <>
       <div className="expert">
@@ -50,7 +29,7 @@ const Expert = () => {
                     {" "}
                     <img src={person1} />
                   </div>
-                  <h3 onClick={() => onClick("displayBasic")}>MD. ZAINUL ABEDIN</h3>
+                  <h3>MD. ZAINUL ABEDIN</h3>
                   <p>Chairman</p>
                   <div className="iconse">
                     {" "}
