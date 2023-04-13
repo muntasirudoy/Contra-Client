@@ -5,7 +5,7 @@ import { Image, Modal, Tag } from "antd";
 import Layout from "../Layout";
 import { getSingleCategorySingleDetails } from "../dbconfig";
 import img from "/logo.svg";
-import { Viewer, Document } from "@react-pdf-viewer/core";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 // Import styles
@@ -18,7 +18,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
 import Loader from "../Components/Common/Loader";
-
+import { Document, PDFViewer, Page } from "@react-pdf/renderer";
 export const FlatsDetails = () => {
   const param = useParams();
   const [flatDetails, setFlatDetails] = useState("");
@@ -75,6 +75,10 @@ export const FlatsDetails = () => {
   };
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [visible, setVisible] = useState(false);
+  const [numPages, setNumPages] = useState(null);
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
   return (
     <Layout>
       <div className="flatsdetails">
@@ -293,10 +297,12 @@ export const FlatsDetails = () => {
                     footer={false}
                   >
                     {pdfUrl && (
-                      <Viewer
-                        fileUrl={pdfUrl}
-                        plugins={[defaultLayoutPluginInstance]}
-                      />
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={pdfUrl}
+                          plugins={[defaultLayoutPluginInstance]}
+                        />
+                      </Worker>
                     )}
                   </Modal>
                 </div>

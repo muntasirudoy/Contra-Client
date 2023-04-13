@@ -28,6 +28,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Skelton from "../Components/Common/Skelton";
 import {
   createDocumentsForProjectDetails,
+  deleteProject,
   getAllCategory,
   getAllProjects,
   getIndividualCategoryFlat,
@@ -54,7 +55,7 @@ const Dashboard_All_Projects = () => {
   const [file, setFile] = useState([]); // progress
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [preview, setPreview] = useState([]);
-  const [pdf, setPdf] = useState('');
+  const [pdf, setPdf] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,18 +106,15 @@ const Dashboard_All_Projects = () => {
       return;
     });
 
-    const pdfUrl = await handleUploadPdf(pdf)
-    .catch((err) => {
+    const pdfUrl = await handleUploadPdf(pdf).catch((err) => {
       console.log(err);
       return;
     });
 
-
-
     let obj = {
       ...values,
       imageUrls: imgUrls,
-      pdfUrl: pdfUrl
+      pdfUrl: pdfUrl,
     };
     try {
       await createDocumentsForProjectDetails(obj);
@@ -160,7 +158,7 @@ const Dashboard_All_Projects = () => {
         totalOffice,
         officeAvailable,
         totalShop,
-        shopAvailable
+        shopAvailable,
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -186,17 +184,22 @@ const Dashboard_All_Projects = () => {
         totalOffice,
         officeAvailable,
         totalShop,
-        shopAvailable
+        shopAvailable,
       });
 
       setPreview(imageUrls ? imageUrls : []);
       setUpdateId(id);
     } catch (error) {}
   };
-  const confirm = (id) => {
+  const confirm = async (id) => {
     setAllProject((data) => {
       return data.filter((e) => e.id != id);
     });
+    try {
+      await deleteProject(id);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const onUpdateData = async (id) => {
@@ -273,11 +276,10 @@ const Dashboard_All_Projects = () => {
     setFile(newImages);
     setPreview(newPreviews);
   };
-  const handleChangePdf =(event)=>{
-    setPdf(event.target.files[0])
-  }
-  const handleUploadPdf =(pdf)=>{
-
+  const handleChangePdf = (event) => {
+    setPdf(event.target.files[0]);
+  };
+  const handleUploadPdf = (pdf) => {
     return new Promise((resolve, reject) => {
       const storageRef = ref(storage, "pdf/" + pdf.name);
       const uploadTask = uploadBytesResumable(storageRef, pdf);
@@ -308,10 +310,7 @@ const Dashboard_All_Projects = () => {
         }
       );
     });
-  }
-
-
-
+  };
 
   return (
     <div>
@@ -452,15 +451,9 @@ const Dashboard_All_Projects = () => {
               />
             </div>
 
-
             <div className="preview-images">
-              <input
-                type="file"
-                onChange={handleChangePdf}
-              />
+              <input type="file" onChange={handleChangePdf} />
             </div>
-
-
           </div>
           <Form
             layout="vertical"
@@ -510,43 +503,51 @@ const Dashboard_All_Projects = () => {
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Total Flat" name="totalFlat" required>
-                  <Input placeholder="Total Flat" type="number"/>
+                  <Input placeholder="Total Flat" type="number" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Flat Available" name="flatAvailable" required>
-                  <Input placeholder="Number of Flat Available" type="number"/>
+                  <Input placeholder="Number of Flat Available" type="number" />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Total Office" name="totalOffice" required>
-                  <Input placeholder="Number of Total Office" type="number"/>
+                  <Input placeholder="Number of Total Office" type="number" />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Office Available" name="officeAvailable" required>
-                  <Input placeholder="Number of Office Available" type="number"/>
+                <Form.Item
+                  label="Office Available"
+                  name="officeAvailable"
+                  required
+                >
+                  <Input
+                    placeholder="Number of Office Available"
+                    type="number"
+                  />
                 </Form.Item>
               </Col>
-
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Total Shop" name="totalShop" required>
-                  <Input placeholder="Number of Total Shop" type="number"/>
+                  <Input placeholder="Number of Total Shop" type="number" />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Office Available" name="shopAvailable" required>
-                  <Input placeholder="Number of Shop Available" type="number"/>
+                <Form.Item
+                  label="Office Available"
+                  name="shopAvailable"
+                  required
+                >
+                  <Input placeholder="Number of Shop Available" type="number" />
                 </Form.Item>
               </Col>
 
-
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}  >
+              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Location" name="location" required>
                   <Input placeholder="Location" />
                 </Form.Item>
@@ -567,39 +568,53 @@ const Dashboard_All_Projects = () => {
                   name="numberofBuildingBlocks"
                   required
                 >
-                  <Input placeholder="Number of Building Blocks" type="number"/>
+                  <Input
+                    placeholder="Number of Building Blocks"
+                    type="number"
+                  />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Land Area (Katha)" name="landArea" required>
-                  <Input placeholder="Land Area (Decimal)" type="number"/>
+                  <Input placeholder="Land Area (Decimal)" type="number" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Flat Size" name="flatSize">
-                  <Input placeholder="Flat Size"/>
+                  <Input placeholder="Flat Size" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Number of Floor" name="numberofFloor" required>
-                  <Input placeholder="Number of Floor"/>
+                <Form.Item
+                  label="Number of Floor"
+                  name="numberofFloor"
+                  required
+                >
+                  <Input placeholder="Number of Floor" />
                 </Form.Item>
               </Col>
-              
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
                 <Form.Item label="Launch Date" name="launchDate" required>
-                  <Input placeholder="Launch Date"/>
+                  <Input placeholder="Launch Date" />
                 </Form.Item>
               </Col>
 
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Rajuk Aproval Date" name="rajukpprovalDate" required>
+                <Form.Item
+                  label="Rajuk Aproval Date"
+                  name="rajukpprovalDate"
+                  required
+                >
                   <Input placeholder="Rajuk Aproval Date" />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Rajuk Aproval No" name="rajukApprovalNo" required>
+                <Form.Item
+                  label="Rajuk Aproval No"
+                  name="rajukApprovalNo"
+                  required
+                >
                   <Input placeholder="Rajuk Aproval No" />
                 </Form.Item>
               </Col>
@@ -624,105 +639,106 @@ const Dashboard_All_Projects = () => {
               </Col>
 
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                  <Form.Item name="commonFacilities" label="Common Facilities" required>
-                    <Checkbox.Group>
-                      <Row >
-                        <Col span={8}>
-                          <Checkbox
-                            value="Car Parking"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                           Car Parking
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Lift"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-             
-                          >
-                            Lift
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Generator"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            Generator
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Sub-station"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            Sub-station
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Guard Room"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            Guard Room
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Driver's Waiting Room"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            Driver's Waiting Room
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Community Space"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                           Community Space
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Fire Extinguisher"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                           Fire Extinguisher
-                          </Checkbox>
-                        </Col>
-                        <Col span={8}>
-                          <Checkbox
-                            value="Prayer Room"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                           Prayer Room
-                          </Checkbox>
-                        </Col>
-                      </Row>
-                    </Checkbox.Group>
-                  </Form.Item>
-
-
+                <Form.Item
+                  name="commonFacilities"
+                  label="Common Facilities"
+                  required
+                >
+                  <Checkbox.Group>
+                    <Row>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Car Parking"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Car Parking
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Lift"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Lift
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Generator"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Generator
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Sub-station"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Sub-station
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Guard Room"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Guard Room
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Driver's Waiting Room"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Driver's Waiting Room
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Community Space"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Community Space
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Fire Extinguisher"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Fire Extinguisher
+                        </Checkbox>
+                      </Col>
+                      <Col span={8}>
+                        <Checkbox
+                          value="Prayer Room"
+                          style={{
+                            lineHeight: "32px",
+                          }}
+                        >
+                          Prayer Room
+                        </Checkbox>
+                      </Col>
+                    </Row>
+                  </Checkbox.Group>
+                </Form.Item>
               </Col>
             </Row>
 

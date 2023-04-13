@@ -23,6 +23,7 @@ import {
   updateDoc,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
@@ -62,12 +63,12 @@ export const createDocuments = async (userData, additionalInfo) => {
     const userInfo = {
       username: additionalInfo.username,
       email: userData.email,
-      userStatus:additionalInfo.userStatus
+      userStatus: additionalInfo.userStatus,
     };
-    
+
     try {
       await setDoc(docRef, userInfo);
-      return docRef
+      return docRef;
     } catch (error) {
       console.log(error.message);
     }
@@ -90,7 +91,6 @@ export const authListener = async (callback) => {
 };
 // auth signout
 export const authSignout = async () => {
-
   return await signOut(auth);
 };
 // get individual user
@@ -124,14 +124,14 @@ export const updateIndividualUser = async (data) => {
 
   await updateDoc(docRef, data)
     .then((docRef) => {
-       console.log(
+      console.log(
         "A New Document Field has been added to an existing document"
       );
     })
     .catch((error) => {
       console.log(error);
     });
-return docRef
+  return docRef;
 };
 
 // get Home about
@@ -275,7 +275,6 @@ export const getAllCategory = async () => {
 };
 // // create document for Project Details form
 export const createDocumentsForProjectDetails = async (data) => {
-
   const docRef = await doc(db, "project_details", uuidv4());
   const snapshot = await getDoc(docRef);
   if (!snapshot.exists()) {
@@ -305,9 +304,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       officeAvailable,
       totalShop,
       shopAvailable,
-      pdfUrl
+      pdfUrl,
     } = data;
-
 
     console.log(imageUrls);
     const projectInfo = {
@@ -336,7 +334,7 @@ export const createDocumentsForProjectDetails = async (data) => {
       officeAvailable,
       totalShop,
       shopAvailable,
-      pdfUrl
+      pdfUrl,
     };
     try {
       await setDoc(docRef, projectInfo);
@@ -346,6 +344,12 @@ export const createDocumentsForProjectDetails = async (data) => {
   }
   return docRef;
 };
+
+export const deleteProject = async (id) => {
+  const docRef = await doc(db, "project_details", id);
+  await deleteDoc(docRef);
+};
+
 // get all category
 export const getAllProjects = async () => {
   let projectData = [];
@@ -608,7 +612,7 @@ export const getIndividualContactus = async (id) => {
 export const createDocumentsForClientProjectInfo = async (data) => {
   console.log(data);
 
-  const docRef = await doc(db, "client_project_info",uuidv4() );
+  const docRef = await doc(db, "client_project_info", uuidv4());
   const snapshot = await getDoc(docRef);
   if (!snapshot.exists()) {
     const {
@@ -626,7 +630,7 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       parkingPrice,
       utility,
       totalPrice,
-      totalPriceInWord
+      totalPriceInWord,
     } = data;
 
     const projectInfo = {
@@ -644,14 +648,14 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       parkingPrice,
       utility,
       totalPrice,
-      totalPriceInWord
+      totalPriceInWord,
     };
     try {
       await setDoc(docRef, projectInfo);
     } catch (error) {
       console.log(error.message);
     }
-  }else{
+  } else {
     console.log("The product is exist");
   }
   return docRef;
@@ -677,7 +681,7 @@ export const getSingleUserInfoBySlug = async (location, slug) => {
   const querySnapshot = await getDocs(q);
   let details = [];
   await querySnapshot.forEach((doc) => {
-    details.push(doc.data())
+    details.push(doc.data());
   });
   return details;
 };
@@ -689,7 +693,7 @@ export const getIndividualClientProjectInfo = async (location, slug) => {
   const querySnapshot = await getDocs(q);
   let details = [];
   await querySnapshot.forEach((doc) => {
-    details.push({...doc.data(), id:doc.id})
+    details.push({ ...doc.data(), id: doc.id });
   });
   return details;
 };
@@ -698,11 +702,11 @@ export const getIndividualProjectInfoForPayment = async (location, id) => {
   const citiesRef = collection(db, location);
   // Create a query against the collection.
   const q = query(citiesRef, where("projjectid", "==", id));
-  console.log(q,"q");
+  console.log(q, "q");
   const querySnapshot = await getDocs(q);
   let details = {};
   await querySnapshot.forEach((doc) => {
-    details = ({...doc.data(), id:doc.id})
+    details = { ...doc.data(), id: doc.id };
   });
   return details;
 };
