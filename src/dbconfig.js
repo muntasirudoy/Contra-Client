@@ -305,6 +305,7 @@ export const createDocumentsForProjectDetails = async (data) => {
       totalShop,
       shopAvailable,
       pdfUrl,
+      statusUrl,
     } = data;
 
     console.log(imageUrls);
@@ -335,6 +336,7 @@ export const createDocumentsForProjectDetails = async (data) => {
       totalShop,
       shopAvailable,
       pdfUrl,
+      statusUrl,
     };
     try {
       await setDoc(docRef, projectInfo);

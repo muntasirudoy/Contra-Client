@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Tr from "../Components/Common/Tr";
 import { Image, Modal, Tag } from "antd";
@@ -11,14 +11,10 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 // Import styles
 const pdfjs = await import("pdfjs-dist/build/pdf");
 const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.entry");
-
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
-import Loader from "../Components/Common/Loader";
-import { Document, PDFViewer, Page } from "@react-pdf/renderer";
 export const FlatsDetails = () => {
   const param = useParams();
   const [flatDetails, setFlatDetails] = useState("");
@@ -41,7 +37,6 @@ export const FlatsDetails = () => {
   const {
     title,
     address,
-    category,
     details,
     estimatedCompletionDate,
     flatSize,
@@ -65,20 +60,25 @@ export const FlatsDetails = () => {
     totalShop,
     shopAvailable,
     pdfUrl,
+    statusUrl,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [presentModal, setPresentModal] = useState(false);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setPresentModal(false);
   };
+
+  const showPresentModal = () => {
+    setPresentModal(true);
+  };
+
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [visible, setVisible] = useState(false);
-  const [numPages, setNumPages] = useState(null);
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
   return (
     <Layout>
       <div className="flatsdetails">
@@ -281,6 +281,7 @@ export const FlatsDetails = () => {
                           padding: "5px 15px",
                           cursor: "pointer",
                         }}
+                        onClick={showPresentModal}
                         color="#014a69"
                       >
                         Present Status
@@ -300,6 +301,23 @@ export const FlatsDetails = () => {
                       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                         <Viewer
                           fileUrl={pdfUrl}
+                          plugins={[defaultLayoutPluginInstance]}
+                        />
+                      </Worker>
+                    )}
+                  </Modal>
+                  <Modal
+                    onCancel={handleCancel}
+                    title="Add a project"
+                    open={presentModal}
+                    centered
+                    width={800}
+                    footer={false}
+                  >
+                    {statusUrl && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                        <Viewer
+                          fileUrl={statusUrl}
                           plugins={[defaultLayoutPluginInstance]}
                         />
                       </Worker>

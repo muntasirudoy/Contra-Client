@@ -14,7 +14,6 @@ import {
   Input,
   Modal,
   Popconfirm,
-  Radio,
   Row,
   Select,
   Space,
@@ -38,6 +37,7 @@ import {
 import Dashboard_Heading from "./Dashboard_Heading";
 import { BiUpload } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { FaFilePdf } from "react-icons/fa";
 
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
@@ -56,6 +56,7 @@ const Dashboard_All_Projects = () => {
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [preview, setPreview] = useState([]);
   const [pdf, setPdf] = useState("");
+  const [presentPdf, setPresentPdf] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,10 +112,18 @@ const Dashboard_All_Projects = () => {
       return;
     });
 
+    const statusUrl = await handleUploadPresentStatusPdf(presentPdf).catch(
+      (err) => {
+        console.log(err);
+        return;
+      }
+    );
+
     let obj = {
       ...values,
       imageUrls: imgUrls,
       pdfUrl: pdfUrl,
+      statusUrl: statusUrl,
     };
     try {
       await createDocumentsForProjectDetails(obj);
@@ -265,9 +274,12 @@ const Dashboard_All_Projects = () => {
   };
 
   const inputRef = useRef(null);
+  const floorRef = useRef(null);
+  const statusRef = useRef(null);
   const handleButtonClick = () => {
     inputRef.current.click();
   };
+
   const handleRemoveImage = (index) => {
     const newImages = [...file];
     const newPreviews = [...preview];
@@ -276,6 +288,9 @@ const Dashboard_All_Projects = () => {
     setFile(newImages);
     setPreview(newPreviews);
   };
+
+  const [pdfFileName, setPdfFileName] = useState("");
+  const [presentFileName, setPresentFileName] = useState("");
   const handleChangePdf = (event) => {
     setPdf(event.target.files[0]);
   };
@@ -312,6 +327,42 @@ const Dashboard_All_Projects = () => {
     });
   };
 
+  const handleChangePresentStatusPdf = (event) => {
+    setPresentPdf(event.target.files[0]);
+    setPresentFileName(event.target.files[0].fileName);
+  };
+  const handleUploadPresentStatusPdf = (presentPdf) => {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, "statusPdf/" + presentPdf.name);
+      const uploadTask = uploadBytesResumable(storageRef, presentPdf);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Pdf Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("statusPdf Upload is paused");
+              break;
+            case "running":
+              console.log("statusPdf Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
   return (
     <div>
       {" "}
@@ -451,8 +502,18 @@ const Dashboard_All_Projects = () => {
               />
             </div>
 
-            <div className="preview-images">
-              <input type="file" onChange={handleChangePdf} />
+            <div className="pdf-section">
+              <span>Select Floor Plan (PDF) file</span>
+              <input type="file" onChange={handleChangePdf} ref={floorRef} />
+            </div>
+
+            <div className="pdf-section">
+              <span>Select Present Status (PDF) file</span>
+              <input
+                type="file"
+                ref={statusRef}
+                onChange={handleChangePresentStatusPdf}
+              />
             </div>
           </div>
           <Form
