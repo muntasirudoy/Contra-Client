@@ -4,6 +4,7 @@ import {
   LoadingOutlined,
   LockOutlined,
   PlusOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -19,6 +20,7 @@ import {
   Space,
   Spin,
   Tag,
+  Upload,
 } from "antd";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 const { TextArea } = Input;
@@ -37,11 +39,8 @@ import {
 import Dashboard_Heading from "./Dashboard_Heading";
 import { BiUpload } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { FaFilePdf } from "react-icons/fa";
-
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
-
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
 const Dashboard_All_Projects = () => {
   const [form] = Form.useForm();
@@ -118,12 +117,18 @@ const Dashboard_All_Projects = () => {
         return;
       }
     );
-
     let obj = {
       ...values,
       imageUrls: imgUrls,
-      pdfUrl: pdfUrl,
-      statusUrl: statusUrl,
+
+      floorFile: {
+        floorFileUrl: pdfUrl,
+        floorFileName: pdf.name,
+      },
+      statusFile: {
+        statusFileUrl: statusUrl,
+        statusFileName: presentPdf.name,
+      },
     };
     try {
       await createDocumentsForProjectDetails(obj);
@@ -168,6 +173,8 @@ const Dashboard_All_Projects = () => {
         officeAvailable,
         totalShop,
         shopAvailable,
+        floorFile,
+        statusFile,
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -289,8 +296,6 @@ const Dashboard_All_Projects = () => {
     setPreview(newPreviews);
   };
 
-  const [pdfFileName, setPdfFileName] = useState("");
-  const [presentFileName, setPresentFileName] = useState("");
   const handleChangePdf = (event) => {
     setPdf(event.target.files[0]);
   };
@@ -329,7 +334,6 @@ const Dashboard_All_Projects = () => {
 
   const handleChangePresentStatusPdf = (event) => {
     setPresentPdf(event.target.files[0]);
-    setPresentFileName(event.target.files[0].fileName);
   };
   const handleUploadPresentStatusPdf = (presentPdf) => {
     return new Promise((resolve, reject) => {
@@ -363,6 +367,7 @@ const Dashboard_All_Projects = () => {
       );
     });
   };
+
   return (
     <div>
       {" "}
@@ -516,6 +521,7 @@ const Dashboard_All_Projects = () => {
               />
             </div>
           </div>
+
           <Form
             layout="vertical"
             form={form}

@@ -59,8 +59,8 @@ export const FlatsDetails = () => {
     officeAvailable,
     totalShop,
     shopAvailable,
-    pdfUrl,
-    statusUrl,
+    floorFile,
+    statusFile,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [presentModal, setPresentModal] = useState(false);
@@ -79,6 +79,7 @@ export const FlatsDetails = () => {
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [visible, setVisible] = useState(false);
+
   return (
     <Layout>
       <div className="flatsdetails">
@@ -297,10 +298,10 @@ export const FlatsDetails = () => {
                     width={800}
                     footer={false}
                   >
-                    {pdfUrl && (
+                    {floorFile && (
                       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                         <Viewer
-                          fileUrl={pdfUrl}
+                          fileUrl={floorFile.floorFileUrl}
                           plugins={[defaultLayoutPluginInstance]}
                         />
                       </Worker>
@@ -314,10 +315,10 @@ export const FlatsDetails = () => {
                     width={800}
                     footer={false}
                   >
-                    {statusUrl && (
+                    {statusFile && (
                       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                         <Viewer
-                          fileUrl={statusUrl}
+                          fileUrl={statusFile.statusFileUrl}
                           plugins={[defaultLayoutPluginInstance]}
                         />
                       </Worker>
