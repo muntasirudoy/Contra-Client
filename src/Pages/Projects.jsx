@@ -52,23 +52,7 @@ const Projects = () => {
     setActiveKey(key);
   };
 
-const [tabPosition, setTabPosition] = useState ("left")
-
-
-
-
-useEffect(() => {
-  const handleResize = () => {
-    let width = window.innerWidth
-    setTabPosition(width <= 576 ? "top" : "left")
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
-}, []);
+  const [tabPosition] = useState(window.innerWidth < 576 ? "top" : "left")
 
 
 
@@ -84,14 +68,14 @@ useEffect(() => {
         </div>
         <div className="projects grid">
           <div className="col-12 md:col-12 lg:col-12">
-            
-            
             <Tabs
+              centered
               size="large"
               activeKey={activeKey}
               items={items}
               onChange={keyChange}
               tabPosition={tabPosition}
+
             />
           </div>
         </div>
