@@ -25,7 +25,7 @@ export const ReadyProjects = () => {
         let res = await getSingleCategory("project_details", "Ready Project");
         setPdata(res);
         setLoader(false);
-      } catch (error) {}
+      } catch (error) { }
     }
     fetchData();
   }, []);
@@ -36,18 +36,18 @@ export const ReadyProjects = () => {
           <div class="col-12 md:col-12 lg:col-12">
             <div className="grid">
               {loader ? (
-                <OnPageLoaderTwo number={3} />
+                <OnPageLoaderTwo number={window.innerWidth < 576 ? 1 : 3} />
               ) : (
                 pdata?.length > 0 ?
-                pdata.map((data) => (
-                  <div className="col-12 md:col-4 lg:col-4">
-                    <div className="avialablecard">
-                      <Link to={`/ready-projects/${data.slug}`}>
-                        <Card img={img} title={data.title} />
-                      </Link>
+                  pdata.map((data) => (
+                    <div className="col-12 md:col-4 lg:col-4">
+                      <div className="avialablecard">
+                        <Link to={`/ready-projects/${data.slug}`}>
+                          <Card img={img} title={data.title} />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                )) :<NoFlats />
+                  )) : <NoFlats />
               )}
             </div>
           </div>

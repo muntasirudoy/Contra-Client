@@ -24,7 +24,7 @@ export const OngoingProjects = () => {
         let res = await getSingleCategory("project_details", "Ongoing");
         setPdata(res);
         setLoader(false);
-      } catch (error) {}
+      } catch (error) { }
     }
     fetchData();
   }, []);
@@ -36,18 +36,18 @@ export const OngoingProjects = () => {
           <div class="col-12 md:col-12 lg:col-12">
             <div className="grid">
               {loader ? (
-                <OnPageLoaderTwo number={3} />
+                <OnPageLoaderTwo number={window.innerWidth < 576 ? 1 : 3} />
               ) : (
                 pdata?.length > 0 ?
-                pdata.map((data) => (
-                  <div className="col-12 md:col-4 lg:col-4">
-                    <div className="avialablecard">
-                      <Link to={`/ongoing-projects/${data.slug}`}>
-                        <Card img={data.imageUrls[0]} title={data.title} />
-                      </Link>
+                  pdata.map((data) => (
+                    <div className="col-12 md:col-4 lg:col-4">
+                      <div className="avialablecard">
+                        <Link to={`/ongoing-projects/${data.slug}`}>
+                          <Card img={data.imageUrls[0]} title={data.title} />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                )): <NoFlats/>
+                  )) : <NoFlats />
               )}
             </div>
           </div>

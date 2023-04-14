@@ -1,18 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
-
-import { PanelMenu } from "primereact/panelmenu";
-
-import { Chip } from "primereact/chip";
+import React, { useEffect, useState } from "react";
 import Card from "../Components/Category/card";
-import AvailableData from "../Components/Common/AvailableData";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import AvialableFlatsText from "../Components/Common/AvialableFlatsText";
-import Layout from "../Layout";
-import { getAllProjects, getSingleCategory } from "../dbconfig";
-import img from "/b1.jpg";
-import Skelton from "../Components/Common/Skelton";
-import OnPageLoader from "../Components/Common/OnPageLoader";
+import { getAllProjects } from "../dbconfig";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
 export const AllFlats = () => {
   const [pdata, setPdata] = useState([]);
@@ -32,7 +21,7 @@ export const AllFlats = () => {
         setPdata(res);
         console.log(res);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   return (
     <>
@@ -40,7 +29,7 @@ export const AllFlats = () => {
         <div class="col-12 md:col-12 lg:col-12">
           <div className="grid">
             {loader ? (
-              <OnPageLoaderTwo number={3} />
+              <OnPageLoaderTwo number={window.innerWidth < 576 ? 1 : 3} />
             ) : (
               pdata &&
               pdata.map((data) => (
