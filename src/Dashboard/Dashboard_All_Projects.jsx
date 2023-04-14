@@ -56,7 +56,14 @@ const Dashboard_All_Projects = () => {
   const [preview, setPreview] = useState([]);
   const [pdf, setPdf] = useState("");
   const [presentPdf, setPresentPdf] = useState("");
-
+  const [floorFile, setFloorFile] = useState({
+    floorFileName: "Select Floor Plan (PDF)",
+    floorFileUrl: "",
+  })
+  const [statusFile, setStatusFile] = useState({
+    statusFileName: "Select Present Status (PDF)",
+    statusFileUrl: ""
+  })
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,7 +75,7 @@ const Dashboard_All_Projects = () => {
           };
         });
         setAllCatetgory(newArr);
-      } catch (error) {}
+      } catch (error) { }
     };
 
     fetchAllProject();
@@ -84,7 +91,7 @@ const Dashboard_All_Projects = () => {
         setAllProject(res);
         console.log(res);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const showModal = () => {
@@ -140,7 +147,7 @@ const Dashboard_All_Projects = () => {
     }
   };
 
-  const onSearch = () => {};
+  const onSearch = () => { };
   const formRef = useRef(null);
   const projectOnView = async ({ id }) => {
     setUpdateBtn(true);
@@ -205,14 +212,17 @@ const Dashboard_All_Projects = () => {
 
       setPreview(imageUrls ? imageUrls : []);
       setUpdateId(id);
-    } catch (error) {}
+      setStatusFile(statusFile)
+      setFloorFile(floorFile)
+    } catch (error) { }
   };
   const confirm = async (id) => {
-    setAllProject((data) => {
-      return data.filter((e) => e.id != id);
-    });
+
     try {
       await deleteProject(id);
+      setAllProject((data) => {
+        return data.filter((e) => e.id != id);
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -221,9 +231,38 @@ const Dashboard_All_Projects = () => {
   const onUpdateData = async (id) => {
     setBtnLoader(true);
     let res = formRef.current?.getFieldsValue();
+
+    const imgUrls = await Promise.all(
+      file.map((image) => handleUploadImage(image))
+    ).catch((err) => {
+      console.log(err);
+      return;
+    });
+
+    const pdfUrl = await handleUploadPdf(pdf).catch((err) => {
+      console.log(err);
+      return;
+    });
+
+    const statusUrl = await handleUploadPresentStatusPdf(presentPdf).catch(
+      (err) => {
+        console.log(err);
+        return;
+      }
+    );
+
     let obj = {
       ...res,
-      imageUrls: preview,
+      imageUrls: imgUrls,
+
+      floorFile: {
+        floorFileUrl: pdfUrl,
+        floorFileName: pdf.name,
+      },
+      statusFile: {
+        statusFileUrl: statusUrl,
+        statusFileName: presentPdf.name,
+      },
     };
 
     try {
@@ -298,6 +337,7 @@ const Dashboard_All_Projects = () => {
 
   const handleChangePdf = (event) => {
     setPdf(event.target.files[0]);
+    setFloorFile({ ...floorFile, floorFileName: "" })
   };
   const handleUploadPdf = (pdf) => {
     return new Promise((resolve, reject) => {
@@ -334,6 +374,7 @@ const Dashboard_All_Projects = () => {
 
   const handleChangePresentStatusPdf = (event) => {
     setPresentPdf(event.target.files[0]);
+    setStatusFile({ ...statusFile, statusFileName: "" })
   };
   const handleUploadPresentStatusPdf = (presentPdf) => {
     return new Promise((resolve, reject) => {
@@ -423,12 +464,12 @@ const Dashboard_All_Projects = () => {
                         e.status == "READY"
                           ? "green"
                           : e.status == "Upcomming"
-                          ? "yellow"
-                          : e.status == "Ongoing"
-                          ? "blue"
-                          : e.status == "Available"
-                          ? "red"
-                          : "red"
+                            ? "yellow"
+                            : e.status == "Ongoing"
+                              ? "blue"
+                              : e.status == "Available"
+                                ? "red"
+                                : "red"
                       }
                     >
                       {" "}
@@ -508,12 +549,12 @@ const Dashboard_All_Projects = () => {
             </div>
 
             <div className="pdf-section">
-              <span>Select Floor Plan (PDF) file</span>
+              <span>{floorFile.floorFileName}</span>
               <input type="file" onChange={handleChangePdf} ref={floorRef} />
             </div>
 
             <div className="pdf-section">
-              <span>Select Present Status (PDF) file</span>
+              <span>{statusFile.statusFileName}</span>
               <input
                 type="file"
                 ref={statusRef}
