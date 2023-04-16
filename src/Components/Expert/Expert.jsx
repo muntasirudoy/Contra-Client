@@ -14,6 +14,7 @@ import {
   WechatFilled,
   GooglePlusSquareFilled,
 } from "@ant-design/icons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 
 const Expert = () => {
@@ -21,131 +22,188 @@ const Expert = () => {
   return (
     <>
       <div className="expert">
-          <div className=" all-carde">
-            <div className="grid">
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="imagee">
-                    {" "}
-                    <img src={person1} />
-                  </div>
-                  <h3>MD. ZAINUL ABEDIN</h3>
-                  <p>Chairman</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
+        <div className=" all-carde">
+          <div className="grid">
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person1}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
                 </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="imagee">
-                    {" "}
-                    <img src={person2} />
-                  </div>
-                  <h3>MD. Mahmudul Hasan</h3>
-                  <p>Managing Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="shape"></div>
-                  <div className="imagee">
-                    {" "}
-                    <img src={person3} />
-                  </div>
-                  <h3>Mr. K. Alam Patwary</h3>
-                  <p>Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="shape"></div>
-                  <div className="imagee">
-                    {" "}
-                    <img src={person4} />
-                  </div>
-                  <h3>Engr. Ashaduzzaman </h3>
-                  <p>Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="imagee">
-                    {" "}
-                    <img src={person5} />
-                  </div>
-                  <h3 onClick={() => onClick("displayBasic")}>MD. Ibrahim Shikder</h3>
-                  <p>Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="imagee">
-                    {" "}
-                    <img src={person6} />
-                  </div>
-                  <h3> Engr. Mostaque Ahmed</h3>
-                  <p>Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 md:col-6 lg:col-3">
-                <div className="carde">
-                  <div className="shape"></div>
-                  <div className="imagee">
-                    {" "}
-                    <img src={person7} />
-                  </div>
-                  <h3>MD. Radwanul Islam</h3>
-                  <p>Director</p>
-                  <div className="iconse">
-                    {" "}
-                    <FacebookFilled />
-                    <TwitterSquareFilled />
-                    <WechatFilled />
-                    <GooglePlusSquareFilled />
-                  </div>
+                <h3>MD. ZAINUL ABEDIN</h3>
+                <p>Chairman</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
                 </div>
               </div>
             </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person2}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3>MD. Mahmudul Hasan</h3>
+                <p>Managing Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="shape"></div>
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person3}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3>Mr. K. Alam Patwary</h3>
+                <p>Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="shape"></div>
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person4}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3>Engr. Ashaduzzaman </h3>
+                <p>Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person5}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3 onClick={() => onClick("displayBasic")}>MD. Ibrahim Shikder</h3>
+                <p>Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person6}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3> Engr. Mostaque Ahmed</h3>
+                <p>Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+            <div className="col-12 md:col-6 lg:col-3">
+              <div className="carde">
+                <div className="shape"></div>
+                <div className="imagee">
+                  {" "}
+
+                  <LazyLoadImage
+                    alt={"person"}
+                    src={person7}
+                    effect="blur"
+                    height="250px"
+                    width="100%"
+
+                  // use normal <img> attributes as props
+                  />
+                </div>
+                <h3>MD. Radwanul Islam</h3>
+                <p>Director</p>
+                <div className="iconse">
+                  {" "}
+                  <FacebookFilled />
+                  <TwitterSquareFilled />
+                  <WechatFilled />
+                  <GooglePlusSquareFilled />
+                </div>
+              </div>
+            </div>
+          </div>
 
 
         </div>

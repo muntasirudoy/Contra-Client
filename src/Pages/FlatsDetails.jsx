@@ -29,11 +29,11 @@ export const FlatsDetails = () => {
         );
         setFlatDetails(res);
         setLoader(false);
-      } catch (error) {}
+      } catch (error) { }
     }
     fetchData();
   }, []);
-  console.log(flatDetails);
+
   const {
     title,
     address,
@@ -60,7 +60,7 @@ export const FlatsDetails = () => {
     totalShop,
     shopAvailable,
     floorFile,
-    statusFile,
+    statusImgUrls,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [presentModal, setPresentModal] = useState(false);
@@ -212,12 +212,12 @@ export const FlatsDetails = () => {
                               status == "READY"
                                 ? "green"
                                 : status == "Upcomming"
-                                ? "yellow"
-                                : status == "Ongoing"
-                                ? "blue"
-                                : status == "Available"
-                                ? "red"
-                                : "red"
+                                  ? "yellow"
+                                  : status == "Ongoing"
+                                    ? "blue"
+                                    : status == "Available"
+                                      ? "red"
+                                      : "red"
                             }
                           >
                             {status}
@@ -292,7 +292,7 @@ export const FlatsDetails = () => {
 
                   <Modal
                     onCancel={handleCancel}
-                    title="Add a project"
+                    title="Floor Plan"
                     open={isModalOpen}
                     centered
                     width={800}
@@ -309,20 +309,17 @@ export const FlatsDetails = () => {
                   </Modal>
                   <Modal
                     onCancel={handleCancel}
-                    title="Add a project"
+                    title="Present Status"
                     open={presentModal}
                     centered
                     width={800}
                     footer={false}
                   >
-                    {statusFile && (
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        <Viewer
-                          fileUrl={statusFile.statusFileUrl}
-                          plugins={[defaultLayoutPluginInstance]}
-                        />
-                      </Worker>
-                    )}
+                    {statusImgUrls?.map((e) => (
+                      <>
+                        <img style={{ width: "100%" }} src={e} alt="" />
+                      </>
+                    ))}
                   </Modal>
                 </div>
               </div>
@@ -334,3 +331,4 @@ export const FlatsDetails = () => {
   );
 };
 export default FlatsDetails;
+

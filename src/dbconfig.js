@@ -305,10 +305,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       totalShop,
       shopAvailable,
       floorFile,
-      statusFile,
+      statusImgUrls,
     } = data;
-
-    console.log(imageUrls);
     const projectInfo = {
       title,
       address,
@@ -339,10 +337,7 @@ export const createDocumentsForProjectDetails = async (data) => {
         floorFileUrl: floorFile.floorFileUrl,
         floorFileName: floorFile.floorFileName,
       },
-      statusFile: {
-        statusFileUrl: statusFile.statusFileUrl,
-        statusFileName: statusFile.statusFileName,
-      },
+      statusImgUrls
     };
     try {
       await setDoc(docRef, projectInfo);

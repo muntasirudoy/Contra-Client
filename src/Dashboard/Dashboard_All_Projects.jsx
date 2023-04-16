@@ -52,17 +52,14 @@ const Dashboard_All_Projects = () => {
   const [allCatetgory, setAllCatetgory] = useState([]);
   const [allProjects, setAllProject] = useState([]);
   const [file, setFile] = useState([]); // progress
+  const [statusFile, setStatusFile] = useState([]); // progress
+  const [previewStatus, setPreviewStatus] = useState([]);
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [preview, setPreview] = useState([]);
   const [pdf, setPdf] = useState("");
-  const [presentPdf, setPresentPdf] = useState("");
   const [floorFile, setFloorFile] = useState({
     floorFileName: "Select Floor Plan (PDF)",
     floorFileUrl: "",
-  })
-  const [statusFile, setStatusFile] = useState({
-    statusFileName: "Select Present Status (PDF)",
-    statusFileUrl: ""
   })
   useEffect(() => {
     const fetchData = async () => {
@@ -118,24 +115,21 @@ const Dashboard_All_Projects = () => {
       return;
     });
 
-    const statusUrl = await handleUploadPresentStatusPdf(presentPdf).catch(
-      (err) => {
-        console.log(err);
-        return;
-      }
-    );
+    const statusImgUrls = await Promise.all(
+      statusFile.map((image) => handleUploadStatusImg(image))
+    ).catch((err) => {
+      console.log(err);
+      return;
+    });
+
     let obj = {
       ...values,
       imageUrls: imgUrls,
-
+      statusImgUrls: statusImgUrls,
       floorFile: {
         floorFileUrl: pdfUrl,
         floorFileName: pdf.name,
-      },
-      statusFile: {
-        statusFileUrl: statusUrl,
-        statusFileName: presentPdf.name,
-      },
+      }
     };
     try {
       await createDocumentsForProjectDetails(obj);
@@ -181,7 +175,7 @@ const Dashboard_All_Projects = () => {
         totalShop,
         shopAvailable,
         floorFile,
-        statusFile,
+        statusImgUrls,
       } = res;
       formRef.current?.setFieldsValue({
         address,
@@ -211,8 +205,8 @@ const Dashboard_All_Projects = () => {
       });
 
       setPreview(imageUrls ? imageUrls : []);
+      setPreviewStatus(statusImgUrls ? statusImgUrls : []);
       setUpdateId(id);
-      setStatusFile(statusFile)
       setFloorFile(floorFile)
     } catch (error) { }
   };
@@ -244,25 +238,21 @@ const Dashboard_All_Projects = () => {
       return;
     });
 
-    const statusUrl = await handleUploadPresentStatusPdf(presentPdf).catch(
-      (err) => {
-        console.log(err);
-        return;
-      }
-    );
+    const statusImgUrls = await Promise.all(
+      statusFile.map((image) => handleUploadStatusImg(image))
+    ).catch((err) => {
+      console.log(err);
+      return;
+    });
 
     let obj = {
       ...res,
       imageUrls: imgUrls,
-
+      statusImgUrls: statusImgUrls,
       floorFile: {
         floorFileUrl: pdfUrl,
         floorFileName: pdf.name,
-      },
-      statusFile: {
-        statusFileUrl: statusUrl,
-        statusFileName: presentPdf.name,
-      },
+      }
     };
 
     try {
@@ -318,7 +308,6 @@ const Dashboard_All_Projects = () => {
       );
     });
   };
-
   const inputRef = useRef(null);
   const floorRef = useRef(null);
   const statusRef = useRef(null);
@@ -372,14 +361,12 @@ const Dashboard_All_Projects = () => {
     });
   };
 
-  const handleChangePresentStatusPdf = (event) => {
-    setPresentPdf(event.target.files[0]);
-    setStatusFile({ ...statusFile, statusFileName: "" })
-  };
-  const handleUploadPresentStatusPdf = (presentPdf) => {
+  const handleUploadStatusImg = (statusfile) => {
+    console.log(statusfile);
+
     return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, "statusPdf/" + presentPdf.name);
-      const uploadTask = uploadBytesResumable(storageRef, presentPdf);
+      const storageRef = ref(storage, "statusImage/" + statusfile.name);
+      const uploadTask = uploadBytesResumable(storageRef, statusfile);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -407,6 +394,32 @@ const Dashboard_All_Projects = () => {
         }
       );
     });
+  };
+
+  const handleStatusButtonClick = () => {
+    statusRef.current.click();
+  };
+
+
+  function handleChangeStatus(event) {
+    const files = event.target.files;
+    const newImages = [];
+    const newPreviews = [];
+    for (let i = 0; i < files.length; i++) {
+      newImages.push(files[i]);
+      newPreviews.push(URL.createObjectURL(files[i]));
+    }
+    setStatusFile([...statusFile, ...newImages]);
+    setPreviewStatus([...previewStatus, ...newPreviews]);
+  }
+
+  const handleRemoveStatusImage = (index) => {
+    const newImages = [...statusFile];
+    const newPreviews = [...previewStatus];
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+    setStatusFile(newImages);
+    setPreviewStatus(newPreviews);
   };
 
   return (
@@ -519,6 +532,7 @@ const Dashboard_All_Projects = () => {
           footer={false}
         >
           <div className="projects-image-area">
+            <h3 style={{ padding: "10px 15px", marginTop: "10px" }}>Project Image</h3>
             <div className="preview-images">
               {preview.map((prev, index) => (
                 <div className="image-with-overlay">
@@ -536,6 +550,7 @@ const Dashboard_All_Projects = () => {
                 </div>
               ))}
               <div className="preview-img-select" onClick={handleButtonClick}>
+
                 <BiUpload />
                 <span>Select file</span>
               </div>
@@ -548,19 +563,51 @@ const Dashboard_All_Projects = () => {
               />
             </div>
 
+            <h3 style={{ padding: "10px 15px", marginTop: "10px" }}>Present Status ( jpg/png )</h3>
+            <div className="preview-images">
+              {previewStatus.map((prev, index) => (
+                <div className="image-with-overlay">
+                  <img
+                    key={index}
+                    src={prev}
+                    alt="Image Preview"
+                    className="preview-img"
+                  />
+                  <div className="remove-overlay">
+                    <RiDeleteBin2Fill
+                      onClick={() => handleRemoveStatusImage(index)}
+                    />
+                  </div>
+                </div>
+              ))}
+              <div className="preview-img-select" onClick={handleStatusButtonClick}>
+
+                <BiUpload />
+                <span>Select file</span>
+              </div>
+              <input
+                type="file"
+                multiple
+                ref={statusRef}
+                style={{ display: "none" }}
+                onChange={handleChangeStatus}
+              />
+            </div>
+
+
             <div className="pdf-section">
               <span>{floorFile.floorFileName}</span>
               <input type="file" onChange={handleChangePdf} ref={floorRef} />
             </div>
 
-            <div className="pdf-section">
+            {/* <div className="pdf-section">
               <span>{statusFile.statusFileName}</span>
               <input
                 type="file"
                 ref={statusRef}
                 onChange={handleChangePresentStatusPdf}
               />
-            </div>
+            </div> */}
           </div>
 
           <Form
