@@ -215,10 +215,9 @@ const Dashboard_All_Projects = () => {
       setFloorFile(floorFile)
     } catch (error) { }
   };
-  const confirm = async (id) => {
-
+  const confirm = async ({ id }) => {
     try {
-      await deleteProject(id);
+      await deleteProject(id.id);
       setAllProject((data) => {
         return data.filter((e) => e.id != id);
       });
