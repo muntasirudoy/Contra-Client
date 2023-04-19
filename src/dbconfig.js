@@ -304,8 +304,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       officeAvailable,
       totalShop,
       shopAvailable,
-      floorFile,
-      statusImgUrls,
+      pdfUrls,
+      statusUrls,
     } = data;
     const projectInfo = {
       title,
@@ -333,11 +333,8 @@ export const createDocumentsForProjectDetails = async (data) => {
       officeAvailable,
       totalShop,
       shopAvailable,
-      floorFile: {
-        floorFileUrl: floorFile.floorFileUrl,
-        floorFileName: floorFile.floorFileName,
-      },
-      statusImgUrls
+      statusUrls,
+      pdfUrls
     };
     try {
       await setDoc(docRef, projectInfo);
@@ -388,6 +385,7 @@ export const getSingleCategorySingleDetails = async (location, slug) => {
 };
 // get individual user
 export const getIndividualCategoryFlat = async (id) => {
+  console.log(id);
   const docRef = await doc(db, "project_details", id);
   const docSnap = await getDoc(docRef);
   return docSnap.data();

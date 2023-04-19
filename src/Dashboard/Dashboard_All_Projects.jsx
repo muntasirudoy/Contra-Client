@@ -39,6 +39,9 @@ import {
 import Dashboard_Heading from "./Dashboard_Heading";
 import { BiUpload } from "react-icons/bi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import UploadImage from "../Components/Common/UploadImage";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
@@ -57,6 +60,7 @@ const Dashboard_All_Projects = () => {
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [preview, setPreview] = useState([]);
   const [pdf, setPdf] = useState("");
+  const navigate = useNavigate()
   const [floorFile, setFloorFile] = useState({
     floorFileName: "Select Floor Plan (PDF)",
     floorFileUrl: "",
@@ -78,6 +82,7 @@ const Dashboard_All_Projects = () => {
     fetchAllProject();
     fetchData();
   }, []);
+
 
   const fetchAllProject = async () => {
     setSkltn(true);
@@ -225,25 +230,33 @@ const Dashboard_All_Projects = () => {
   const onUpdateData = async (id) => {
     setBtnLoader(true);
     let res = formRef.current?.getFieldsValue();
+    let imgUrls;
+    pdfUrl;
+    statusImgUrls
 
-    const imgUrls = await Promise.all(
-      file.map((image) => handleUploadImage(image))
-    ).catch((err) => {
-      console.log(err);
-      return;
-    });
+    if (file.length > 0) {
+      imgUrls = await Promise.all(
+        file.map((image) => handleUploadImage(image))
+      ).catch((err) => {
+        console.log(err);
+        return;
+      });
+    }
+    if (pdfUrl.length > 0) {
+      pdfUrl = await handleUploadPdf(pdf).catch((err) => {
+        console.log(err);
+        return;
+      });
+    }
 
-    const pdfUrl = await handleUploadPdf(pdf).catch((err) => {
-      console.log(err);
-      return;
-    });
-
-    const statusImgUrls = await Promise.all(
-      statusFile.map((image) => handleUploadStatusImg(image))
-    ).catch((err) => {
-      console.log(err);
-      return;
-    });
+    if (statusFile.length > 0) {
+      statusImgUrls = await Promise.all(
+        statusFile.map((image) => handleUploadStatusImg(image))
+      ).catch((err) => {
+        console.log(err);
+        return;
+      });
+    }
 
     let obj = {
       ...res,
@@ -262,165 +275,14 @@ const Dashboard_All_Projects = () => {
     } catch (error) {
       setBtnLoader(false);
     }
-  }; // State to store uploaded file
-
-  function handleChange(event) {
-    const files = event.target.files;
-    const newImages = [];
-    const newPreviews = [];
-    for (let i = 0; i < files.length; i++) {
-      newImages.push(files[i]);
-      newPreviews.push(URL.createObjectURL(files[i]));
-    }
-    setFile([...file, ...newImages]);
-    setPreview([...preview, ...newPreviews]);
-  }
-
-  const handleUploadImage = async (image) => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, "images/" + image.name);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
-  };
-  const inputRef = useRef(null);
-  const floorRef = useRef(null);
-  const statusRef = useRef(null);
-  const handleButtonClick = () => {
-    inputRef.current.click();
-  };
-
-  const handleRemoveImage = (index) => {
-    const newImages = [...file];
-    const newPreviews = [...preview];
-    newImages.splice(index, 1);
-    newPreviews.splice(index, 1);
-    setFile(newImages);
-    setPreview(newPreviews);
-  };
-
-  const handleChangePdf = (event) => {
-    setPdf(event.target.files[0]);
-    setFloorFile({ ...floorFile, floorFileName: "" })
-  };
-  const handleUploadPdf = (pdf) => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, "pdf/" + pdf.name);
-      const uploadTask = uploadBytesResumable(storageRef, pdf);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Pdf Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Pdf Upload is paused");
-              break;
-            case "running":
-              console.log("Pdf Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
-  };
-
-  const handleUploadStatusImg = (statusfile) => {
-    console.log(statusfile);
-
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, "statusImage/" + statusfile.name);
-      const uploadTask = uploadBytesResumable(storageRef, statusfile);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Pdf Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("statusPdf Upload is paused");
-              break;
-            case "running":
-              console.log("statusPdf Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
-  };
-
-  const handleStatusButtonClick = () => {
-    statusRef.current.click();
   };
 
 
-  function handleChangeStatus(event) {
-    const files = event.target.files;
-    const newImages = [];
-    const newPreviews = [];
-    for (let i = 0; i < files.length; i++) {
-      newImages.push(files[i]);
-      newPreviews.push(URL.createObjectURL(files[i]));
-    }
-    setStatusFile([...statusFile, ...newImages]);
-    setPreviewStatus([...previewStatus, ...newPreviews]);
-  }
 
-  const handleRemoveStatusImage = (index) => {
-    const newImages = [...statusFile];
-    const newPreviews = [...previewStatus];
-    newImages.splice(index, 1);
-    newPreviews.splice(index, 1);
-    setStatusFile(newImages);
-    setPreviewStatus(newPreviews);
-  };
+
+
+
+
 
   return (
     <div>
@@ -431,10 +293,11 @@ const Dashboard_All_Projects = () => {
           subheading="Add or update your projects"
         />
         <div className="dashboard-projects ready">
-          <button className="projectBtn" onClick={showModal}>
-            {" "}
-            <PlusOutlined /> Add Project
-          </button>
+          <Link to="/dashboard/dashboard-projects/add-project">
+            <button className="projectBtn">
+              <PlusOutlined /> Add Project
+            </button>
+          </Link>
           <Space direction="vertical" style={{ float: "right" }}>
             <Search
               placeholder="input search text"
@@ -490,31 +353,18 @@ const Dashboard_All_Projects = () => {
                     </Tag>
                   </span>
                   <span>
-                    <EyeOutlined
-                      style={{
-                        border: "none",
-                        marginRight: "5px",
-                        cursor: "pointer",
-                        fontSize: "20px",
-                        color: "#ffa554",
-                      }}
-                      onClick={() => projectOnView(e)}
-                    />
+                    <Link style={{ fontSize: "16px" }} to={`/dashboard/dashboard-projects/edit/${e.id}`}>
+                      View
+                    </Link>
                     <Popconfirm
                       placement="topLeft"
                       title={text}
                       description={description}
-                      onConfirm={() => confirm(e.id)}
+                      onConfirm={() => confirm(e)}
                       okText="Yes"
                       cancelText="No"
                     >
-                      <DeleteFilled
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "20px",
-                          color: "#cf1444",
-                        }}
-                      />
+                      Delete
                     </Popconfirm>
                   </span>
                 </div>
@@ -522,422 +372,6 @@ const Dashboard_All_Projects = () => {
             )}
           </div>
         </div>
-
-        <Modal
-          onCancel={handleCancel}
-          title="Add a project"
-          open={isModalOpen}
-          centered
-          width={"80%"}
-          footer={false}
-        >
-          <div className="projects-image-area">
-            <h3 style={{ padding: "10px 15px", marginTop: "10px" }}>Project Image</h3>
-            <div className="preview-images">
-              {preview.map((prev, index) => (
-                <div className="image-with-overlay">
-                  <img
-                    key={index}
-                    src={prev}
-                    alt="Image Preview"
-                    className="preview-img"
-                  />
-                  <div className="remove-overlay">
-                    <RiDeleteBin2Fill
-                      onClick={() => handleRemoveImage(index)}
-                    />
-                  </div>
-                </div>
-              ))}
-              <div className="preview-img-select" onClick={handleButtonClick}>
-
-                <BiUpload />
-                <span>Select file</span>
-              </div>
-              <input
-                type="file"
-                multiple
-                ref={inputRef}
-                style={{ display: "none" }}
-                onChange={handleChange}
-              />
-            </div>
-
-            <h3 style={{ padding: "10px 15px", marginTop: "10px" }}>Present Status ( jpg/png )</h3>
-            <div className="preview-images">
-              {previewStatus.map((prev, index) => (
-                <div className="image-with-overlay">
-                  <img
-                    key={index}
-                    src={prev}
-                    alt="Image Preview"
-                    className="preview-img"
-                  />
-                  <div className="remove-overlay">
-                    <RiDeleteBin2Fill
-                      onClick={() => handleRemoveStatusImage(index)}
-                    />
-                  </div>
-                </div>
-              ))}
-              <div className="preview-img-select" onClick={handleStatusButtonClick}>
-
-                <BiUpload />
-                <span>Select file</span>
-              </div>
-              <input
-                type="file"
-                multiple
-                ref={statusRef}
-                style={{ display: "none" }}
-                onChange={handleChangeStatus}
-              />
-            </div>
-
-
-            <div className="pdf-section">
-              <span>{floorFile.floorFileName}</span>
-              <input type="file" onChange={handleChangePdf} ref={floorRef} />
-            </div>
-
-            {/* <div className="pdf-section">
-              <span>{statusFile.statusFileName}</span>
-              <input
-                type="file"
-                ref={statusRef}
-                onChange={handleChangePresentStatusPdf}
-              />
-            </div> */}
-          </div>
-
-          <Form
-            layout="vertical"
-            form={form}
-            ref={formRef}
-            style={{ marginTop: "20px" }}
-            onFinish={onFinish}
-          >
-            <Row gutter={[24, 0]}>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item
-                  value="123"
-                  label="Project Name"
-                  name="title"
-                  required
-                >
-                  <Input
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="Project Name"
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Short Location" name="subTitle" required>
-                  <Input placeholder="input placeholder" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                <Form.Item label="Category" name="category" required>
-                  <Select
-                    style={{ width: "100%" }}
-                    defaultValue="Select Category"
-                    options={allCatetgory}
-                  ></Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <Form.Item label="Details" name="details" required>
-                  <TextArea
-                    rows={12}
-                    placeholder="maxLength is 150"
-                    maxLength={1000}
-                    style={{ height: "150px" }}
-                  />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Total Flat" name="totalFlat" required>
-                  <Input placeholder="Total Flat" type="number" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Flat Available" name="flatAvailable" required>
-                  <Input placeholder="Number of Flat Available" type="number" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Total Office" name="totalOffice" required>
-                  <Input placeholder="Number of Total Office" type="number" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Office Available"
-                  name="officeAvailable"
-                  required
-                >
-                  <Input
-                    placeholder="Number of Office Available"
-                    type="number"
-                  />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Total Shop" name="totalShop" required>
-                  <Input placeholder="Number of Total Shop" type="number" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Office Available"
-                  name="shopAvailable"
-                  required
-                >
-                  <Input placeholder="Number of Shop Available" type="number" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Location" name="location" required>
-                  <Input placeholder="Location" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Address" name="address" required>
-                  <Input placeholder="Address" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Project Type" name="projectType" required>
-                  <Input placeholder="input placeholder" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Number of Building Blocks"
-                  name="numberofBuildingBlocks"
-                  required
-                >
-                  <Input
-                    placeholder="Number of Building Blocks"
-                    type="number"
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Land Area (Katha)" name="landArea" required>
-                  <Input placeholder="Land Area (Decimal)" type="number" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Flat Size" name="flatSize">
-                  <Input placeholder="Flat Size" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Number of Floor"
-                  name="numberofFloor"
-                  required
-                >
-                  <Input placeholder="Number of Floor" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Launch Date" name="launchDate" required>
-                  <Input placeholder="Launch Date" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Rajuk Aproval Date"
-                  name="rajukpprovalDate"
-                  required
-                >
-                  <Input placeholder="Rajuk Aproval Date" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Rajuk Aproval No"
-                  name="rajukApprovalNo"
-                  required
-                >
-                  <Input placeholder="Rajuk Aproval No" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Status" name="status" required>
-                  <Input placeholder="Status" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item
-                  label="Estimated Completion Date"
-                  name="estimatedCompletionDate"
-                  required
-                >
-                  <Input placeholder="Estimated Completion Date" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                <Form.Item label="Slug" name="slug" required>
-                  <Input placeholder="Write product slug" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <Form.Item
-                  name="commonFacilities"
-                  label="Common Facilities"
-                  required
-                >
-                  <Checkbox.Group>
-                    <Row>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Car Parking"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Car Parking
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Lift"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Lift
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Generator"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Generator
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Sub-station"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Sub-station
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Guard Room"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Guard Room
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Driver's Waiting Room"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Driver's Waiting Room
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Community Space"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Community Space
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Fire Extinguisher"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Fire Extinguisher
-                        </Checkbox>
-                      </Col>
-                      <Col span={8}>
-                        <Checkbox
-                          value="Prayer Room"
-                          style={{
-                            lineHeight: "32px",
-                          }}
-                        >
-                          Prayer Room
-                        </Checkbox>
-                      </Col>
-                    </Row>
-                  </Checkbox.Group>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Form.Item>
-              {updateBtn ? (
-                <Button
-                  type="primary"
-                  className="login-form-button"
-                  onClick={onUpdateData}
-                >
-                  {btnLoader ? (
-                    <>
-                      <Spin
-                        indicator={antIcon}
-                        style={{ color: "white", marginRight: "5px" }}
-                      />
-                      loading
-                    </>
-                  ) : (
-                    "Update"
-                  )}
-                </Button>
-              ) : (
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                >
-                  {btnLoader ? (
-                    <>
-                      <Spin
-                        indicator={antIcon}
-                        style={{ color: "white", marginRight: "5px" }}
-                      />
-                      loading
-                    </>
-                  ) : (
-                    "Save"
-                  )}
-                </Button>
-              )}
-            </Form.Item>
-          </Form>
-        </Modal>
       </div>
     </div>
   );

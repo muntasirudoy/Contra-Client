@@ -7,6 +7,26 @@
     box-sizing: border-box;
 }
 
+.dashboard-project-container {
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+
+.dashboard-project-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+
 .dashboard-cards {
     display: flex;
     justify-content: space-between;
@@ -465,6 +485,8 @@
     box-shadow: none !important;
 }
 
+
+
 .dashboard-project-container .p-dropdown {
     width: 100% !important;
 }
@@ -488,7 +510,6 @@
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
-
 
 .ant-image {
     margin-top: 15px !important;

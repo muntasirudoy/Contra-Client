@@ -26,7 +26,7 @@ function getItem(label, key, icon, children, type) {
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { currentUser, setCurrentUser } = useContext(Store);
-const navigate =     useNavigate() 
+  const navigate = useNavigate()
   const items = [
     getItem(
       <Link to="dashboard-home"> DASHBOARD</Link>,
@@ -47,16 +47,16 @@ const navigate =     useNavigate()
         getItem("Corporate social", "14"),
       ]),
       currentUser?.role == "Admin" &&
-        getItem("Projects", "sub5", null, [
-          getItem(<Link to="dashboard-all-projects">All Projects </Link>, "23"),
-          getItem(<Link to="dashboard-avilable-project">Avilable </Link>, "15"),
-          getItem(
-            <Link to="dashboard-upcomming-project">Upcomming </Link>,
-            "16"
-          ),
-          getItem(<Link to="dashboard-ongoing-project">Ongoing </Link>, "17"),
-          getItem(<Link to="dashboard-ready-project">Ready </Link>, "18"),
-        ]),
+      getItem("Projects", "sub5", null, [
+        getItem(<Link to="dashboard-projects">All Projects </Link>, "23"),
+        getItem(<Link to="dashboard-avilable-project">Avilable </Link>, "15"),
+        getItem(
+          <Link to="dashboard-upcomming-project">Upcomming </Link>,
+          "16"
+        ),
+        getItem(<Link to="dashboard-ongoing-project">Ongoing </Link>, "17"),
+        getItem(<Link to="dashboard-ready-project">Ready </Link>, "18"),
+      ]),
 
       getItem("Service", "sub6", null, [
         getItem(<Link to="dashboard-after-sale">After Sale </Link>, "19"),
@@ -68,11 +68,11 @@ const navigate =     useNavigate()
       <SettingOutlined />
     ),
     currentUser?.role == "Admin" &&
-      getItem(
-        <Link to="all-users">All Users</Link>,
-        "sub10",
-        <SettingOutlined />
-      ),
+    getItem(
+      <Link to="all-users">All Users</Link>,
+      "sub10",
+      <SettingOutlined />
+    ),
     getItem(
       <Link to="dashboard-projects-category">Category </Link>,
       "sub9",
@@ -95,12 +95,12 @@ const navigate =     useNavigate()
     authSignout();
   };
 
-useEffect(()=>{
-  if(currentUser?.userStatus == "client"){
-    authSignout();
-    navigate("/")
-  }
-},[currentUser])
+  useEffect(() => {
+    if (currentUser?.userStatus == "client") {
+      authSignout();
+      navigate("/")
+    }
+  }, [currentUser])
 
 
   if (!currentUser) {
@@ -122,7 +122,7 @@ useEffect(()=>{
               colorTextBase: "gray",
               colorBgTextActive: "white",
               fontFamily: "Arial, Helvetica, sans-serif",
-              boxShadow:"none"
+              boxShadow: "none"
             },
           }}
         >
@@ -180,7 +180,7 @@ useEffect(()=>{
                   {currentUser?.username}
                 </p>
                 <div className="profile-image">
-                 <img src={currentUser.user.photoURL} alt="Photo" />
+                  <img src={currentUser.user.photoURL} alt="Photo" />
                 </div>
                 <span onClick={signout}>
                   <GrLogout fontSize={24} />
@@ -191,7 +191,7 @@ useEffect(()=>{
               style={{
                 margin: "15px",
                 padding: "30px",
-                background:"white",
+                background: "white",
                 boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
               }}
             >
@@ -202,7 +202,7 @@ useEffect(()=>{
                 textAlign: "center",
               }}
             >
-      
+
               <b>MAHMUD BUILDERS</b> ©2018 Created by Muntasir Udoy
             </Footer>
           </Layout>

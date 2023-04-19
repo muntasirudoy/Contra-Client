@@ -52,6 +52,9 @@ import ClientPersonal from "./Components/Clients/ClientPersonal";
 import Dashboard_YourClient_Details from "./Dashboard/Dashboard_YourClient_Details";
 import Dashboard_YourClient_Single_Projects from "./Dashboard/Dashboard_YourClient_Single_Projects";
 import OnPageLoader from "./Components/Common/OnPageLoader";
+import Dashboard_Add_Project from "./Dashboard/Dashboard_Add_Project";
+import Dashboard_Projects from "./Dashboard/Dashboard_Projects";
+import Dashboard_Edit_Project from "./Dashboard/Dashboard_Edit_Project";
 
 
 function App() {
@@ -215,9 +218,28 @@ function App() {
           />
           <Route exact path="all-users" element={<Dashboard_All_Users />} />
           <Route
-            exact path="dashboard-all-projects"
-            element={<Dashboard_All_Projects />}
-          />
+            exact path="dashboard-projects"
+            element={<Dashboard_Projects />}
+          >
+            <Route
+              exact index
+              element={<Dashboard_All_Projects />}
+            />
+
+            <Route
+              exact path="all-projects"
+              element={<Dashboard_All_Projects />}
+            />
+
+            <Route
+              exact path="add-project"
+              element={<Dashboard_Add_Project />}
+            />
+            <Route
+              exact path="edit/:id"
+              element={<Dashboard_Edit_Project />}
+            />
+          </Route>
           <Route
             exact path="dashboard-projects-category"
             element={<Dashboard_Project_Category />}

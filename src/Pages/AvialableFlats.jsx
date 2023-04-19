@@ -48,7 +48,7 @@ export const AvialableFlats = () => {
                   <div className="col-12 md:col-4 lg:col-4">
                     <div className="avialablecard">
                       <Link to={`/projects/available-flats/${data.slug}`}>
-                        <Card img={data.imageUrls?.[0]} title={data.title} />
+                        <Card img={data.imageUrls?.[0].url} title={data.title} />
                       </Link>
                     </div>
                   </div>

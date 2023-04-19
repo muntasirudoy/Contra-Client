@@ -683,7 +683,8 @@ tr:last-of-type td:last-child {
 .preview-img,
 .preview-img-select,
 .projects-image-area {
-  border: 1px solid #d1d1d1
+  border: 1px solid #d1d1d1;
+  text-align: center;
 }
 
 :where(.css-dev-only-do-not-override-x4aeqy).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -728,7 +729,7 @@ tr:last-of-type td:last-child {
 
 .preview-images {
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .image-with-overlay:hover .remove-overlay {

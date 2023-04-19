@@ -42,8 +42,8 @@ export const OngoingProjects = () => {
                   pdata.map((data) => (
                     <div className="col-12 md:col-4 lg:col-4">
                       <div className="avialablecard">
-                        <Link to={`/ongoing-projects/${data.slug}`}>
-                          <Card img={data.imageUrls[0]} title={data.title} />
+                        <Link to={`/projects/ongoing-projects/${data.slug}`}>
+                          <Card img={data.imageUrls?.[0].url} title={data.title} />
                         </Link>
                       </div>
                     </div>

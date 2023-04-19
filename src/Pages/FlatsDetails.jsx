@@ -15,6 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
+import { useRef } from "react";
 export const FlatsDetails = () => {
   const param = useParams();
   const [flatDetails, setFlatDetails] = useState("");
@@ -59,8 +60,8 @@ export const FlatsDetails = () => {
     officeAvailable,
     totalShop,
     shopAvailable,
-    floorFile,
-    statusImgUrls,
+    pdfUrls,
+    statusUrls,
   } = flatDetails;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [presentModal, setPresentModal] = useState(false);
@@ -79,16 +80,42 @@ export const FlatsDetails = () => {
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [visible, setVisible] = useState(false);
+  const myGallery = cloudinary.galleryWidget({
+    container: "#gallery",
+    cloudName: "dxf9h9jqf",
+    mediaAssets: imageUrls?.map((img) => {
+      return {
+        publicId: img.id,
+        mediaType: "image"
+      }
+    }),
+    displayProps: {
+      mode: "classic"
+    },
+    transition: "slide",
+    themeProps: {
+      active: "#49c58f"
+    },
+    aspectRatio: "square",
+    zoomProps: {
+      trigger: "click"
+    },
+    carouselLocation: "bottom",
 
+
+  });
+
+  useEffect(() => {
+    myGallery.render()
+  }, [imageUrls?.length])
   return (
     <Layout>
       <div className="flatsdetails">
         <div className="container">
           <div class="grid">
-            <div class="col-12 md:col-5 lg:col-5">
+            {/* <div class="col-12 md:col-5 lg:col-5">
               {imageUrls?.[0] ? (
                 <div className="image">
-                  {/* <img src={imageUrls?.[0] ? imageUrls?.[0] : img} alt="building" /> */}
                   <Image
                     preview={{
                       visible: false,
@@ -126,13 +153,7 @@ export const FlatsDetails = () => {
                     onClick={() => setVisible(true)}
                   />
 
-                  {/* <div className="image-gallary">
-                              {imageUrls?.map((e) => (
-                                <>
-                                  <img className="gallaryimg" src={e} alt="building" />
-                                </>
-                              ))}
-                            </div> */}
+
 
                   <div
                     style={{
@@ -156,6 +177,10 @@ export const FlatsDetails = () => {
               ) : (
                 <OnPageLoaderTwo number={1} />
               )}
+            </div> */}
+
+            <div class="col-12 md:col-5 lg:col-5">
+              <div id="gallery"></div>
             </div>
 
             {loader ? (
@@ -203,6 +228,8 @@ export const FlatsDetails = () => {
                       <Tr left="Launch Date" right={launchDate} />
                       <Tr left="RAJUK Approval Date" right={rajukpprovalDate} />
                       <Tr left="Rajuk Approval No" right={rajukApprovalNo} />
+                      <Tr left="Estimated Completion Date" right={estimatedCompletionDate} />
+                      {/* <Tr left="Handover Date" right={handover} /> */}
 
                       <Tr
                         left="Status"
@@ -298,13 +325,8 @@ export const FlatsDetails = () => {
                     width={800}
                     footer={false}
                   >
-                    {floorFile && (
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        <Viewer
-                          fileUrl={floorFile.floorFileUrl}
-                          plugins={[defaultLayoutPluginInstance]}
-                        />
-                      </Worker>
+                    {pdfUrls && pdfUrls.map((e) =>
+                      <a href={e.url}> see pdf</a>
                     )}
                   </Modal>
                   <Modal
@@ -315,9 +337,9 @@ export const FlatsDetails = () => {
                     width={800}
                     footer={false}
                   >
-                    {statusImgUrls?.map((e) => (
+                    {statusUrls?.map((e) => (
                       <>
-                        <img style={{ width: "100%" }} src={e} alt="" />
+                        <img style={{ width: "100%" }} src={e.url} alt="" />
                       </>
                     ))}
                   </Modal>
