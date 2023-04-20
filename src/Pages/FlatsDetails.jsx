@@ -89,6 +89,7 @@ export const FlatsDetails = () => {
         mediaType: "image"
       }
     }),
+
     displayProps: {
       mode: "classic"
     },
@@ -101,9 +102,9 @@ export const FlatsDetails = () => {
       trigger: "click"
     },
     carouselLocation: "bottom",
+    hideScrollbar: false,
 
-
-  });
+  })
 
   useEffect(() => {
     myGallery.render()

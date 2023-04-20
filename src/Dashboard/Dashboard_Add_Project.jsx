@@ -10,7 +10,10 @@ import UploadImage from '../Components/Common/UploadImage'
 import TextArea from 'antd/es/input/TextArea'
 import { RiDeleteBin2Fill } from 'react-icons/ri'
 import { useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
+const emptyPdfImg = "http://res.cloudinary.com/dxf9h9jqf/image/upload/v1681975165/jyzgns9zcbss98lqw3q9.png"
+const emptyImg = "http://res.cloudinary.com/dxf9h9jqf/image/upload/v1681975526/rkedpb5wrs1zflalawus.webp"
 const Dashboard_Add_Project = () => {
     const formRef = useRef(null);
     const [form] = Form.useForm();
@@ -26,6 +29,26 @@ const Dashboard_Add_Project = () => {
 
     const onFinish = async (values) => {
         setBtnLoader(true);
+        toast('🦄 Wow so easy!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        if (!projectImages.length > 0) {
+            console.log("upload project img");
+            setBtnLoader(false);
+            return
+        }
+        if (!statusImages.length > 0) {
+            console.log("upload status img");
+            setBtnLoader(false);
+            return
+        }
         let obj = {
             ...values,
             imageUrls: projectImages?.map((img) => {
@@ -48,6 +71,8 @@ const Dashboard_Add_Project = () => {
             })
         };
 
+
+        return
         try {
             await createDocumentsForProjectDetails(obj);
             setBtnLoader(false);
@@ -88,6 +113,8 @@ const Dashboard_Add_Project = () => {
         } catch (error) { }
     };
 
+
+
     return (
         <div>
             <div className="dashboard-project-container">
@@ -112,9 +139,11 @@ const Dashboard_Add_Project = () => {
                             </div>
                         ))}
 
-                        <div className="preview-img-select">
-                            <UploadImage active="projectImg" setImages={setProjectImages} />
-                            Upload Project image
+                        <div className="preview-img-select" style={{ background: "rgba(233, 234, 255, 0.716)" }}>
+                            <UploadImage setImages={setProjectImages} />
+
+                            <span style={{ fontWeight: "600", color: "darkblue" }}> Upload Project image</span>
+
                         </div>
                     </div>
 
@@ -133,15 +162,16 @@ const Dashboard_Add_Project = () => {
                             </div>
                         ))}
 
-                        <div className="preview-img-select" >
+                        <div className="preview-img-select" style={{ background: "rgba(241, 255, 233, 0.716)" }}>
                             <UploadImage active="statusImg" setImages={setStatusImages} />
-                            Upload Status image
+
+                            <span style={{ fontWeight: "600", color: "green" }}>   Upload Status image</span>
                         </div>
                     </div>
 
                     <div className="preview-images">
                         {pdf?.map((prev, index) => (
-                            <div className="image-with-overlay">
+                            <div className="image-with-overlay" >
                                 <img
                                     key={index}
                                     src={"https://res.cloudinary.com/dxf9h9jqf/image/upload/c_limit,h_120,w_120/v1681921749/sxemlx36odwqs3gqqo8r.jpg"
@@ -156,9 +186,9 @@ const Dashboard_Add_Project = () => {
                             </div>
                         ))}
 
-                        <div className="preview-img-select" >
-                            <UploadImage active="statusImg" setImages={setPdf} />
-                            Upload Floor Plan (pdf)
+                        <div className="preview-img-select" style={{ background: "rgba(255, 233, 233, 0.716)" }}>
+                            <UploadImage option="pdf" setImages={setPdf} />
+                            <span style={{ fontWeight: "600", color: "darkred" }}> Upload Floor Plan (pdf)</span>
                         </div>
                     </div>
                 </div>
@@ -493,6 +523,20 @@ const Dashboard_Add_Project = () => {
                     </Form.Item>
                 </Form>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
         </div>
     )
 }

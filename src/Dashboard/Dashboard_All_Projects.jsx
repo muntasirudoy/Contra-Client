@@ -44,43 +44,17 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
-const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
+
 const Dashboard_All_Projects = () => {
-  const [form] = Form.useForm();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [skltn, setSkltn] = useState(false);
-  const [updateBtn, setUpdateBtn] = useState(false);
   const [updateId, setUpdateId] = useState("");
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [allCatetgory, setAllCatetgory] = useState([]);
   const [allProjects, setAllProject] = useState([]);
   const [file, setFile] = useState([]); // progress
   const [statusFile, setStatusFile] = useState([]); // progress
-  const [previewStatus, setPreviewStatus] = useState([]);
-  const [percent, setPercent] = useState(0); // Handle file upload event and update state
-  const [preview, setPreview] = useState([]);
   const [pdf, setPdf] = useState("");
-  const navigate = useNavigate()
-  const [floorFile, setFloorFile] = useState({
-    floorFileName: "Select Floor Plan (PDF)",
-    floorFileUrl: "",
-  })
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAllCategory();
-        const newArr = res.map((e) => {
-          return {
-            value: e.categoryName,
-            label: e.categoryName,
-          };
-        });
-        setAllCatetgory(newArr);
-      } catch (error) { }
-    };
 
+  useEffect(() => {
     fetchAllProject();
-    fetchData();
   }, []);
 
 
@@ -96,130 +70,22 @@ const Dashboard_All_Projects = () => {
     } catch (error) { }
   };
 
-  const showModal = () => {
-    setUpdateBtn(false);
-    setIsModalOpen(true);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     formRef.current?.resetFields();
   };
 
-  const onFinish = async (values) => {
-    setBtnLoader(true);
-    const imgUrls = await Promise.all(
-      file.map((image) => handleUploadImage(image))
-    ).catch((err) => {
-      console.log(err);
-      return;
-    });
 
-    const pdfUrl = await handleUploadPdf(pdf).catch((err) => {
-      console.log(err);
-      return;
-    });
-
-    const statusImgUrls = await Promise.all(
-      statusFile.map((image) => handleUploadStatusImg(image))
-    ).catch((err) => {
-      console.log(err);
-      return;
-    });
-
-    let obj = {
-      ...values,
-      imageUrls: imgUrls,
-      statusImgUrls: statusImgUrls,
-      floorFile: {
-        floorFileUrl: pdfUrl,
-        floorFileName: pdf.name,
-      }
-    };
-    try {
-      await createDocumentsForProjectDetails(obj);
-      setBtnLoader(false);
-      setIsModalOpen(false);
-      fetchAllProject();
-    } catch (error) {
-      setBtnLoader(false);
-    }
-  };
 
   const onSearch = () => { };
-  const formRef = useRef(null);
-  const projectOnView = async ({ id }) => {
-    setUpdateBtn(true);
-    setIsModalOpen(true);
-    try {
-      let res = await getIndividualCategoryFlat(id);
-      const {
-        address,
-        category,
-        details,
-        estimatedCompletionDate,
-        flatSize,
-        landArea,
-        launchDate,
-        location,
-        numberofBuildingBlocks,
-        numberofFloor,
-        projectType,
-        rajukApprovalNo,
-        rajukpprovalDate,
-        status,
-        subTitle,
-        title,
-        slug,
-        imageUrls,
-        totalFlat,
-        commonFacilities,
-        flatAvailable,
-        totalOffice,
-        officeAvailable,
-        totalShop,
-        shopAvailable,
-        floorFile,
-        statusImgUrls,
-      } = res;
-      formRef.current?.setFieldsValue({
-        address,
-        category,
-        details,
-        estimatedCompletionDate,
-        flatSize,
-        landArea,
-        launchDate,
-        location,
-        numberofBuildingBlocks,
-        numberofFloor,
-        projectType,
-        rajukApprovalNo,
-        rajukpprovalDate,
-        status,
-        subTitle,
-        title,
-        slug,
-        totalFlat,
-        commonFacilities,
-        flatAvailable,
-        totalOffice,
-        officeAvailable,
-        totalShop,
-        shopAvailable,
-      });
 
-      setPreview(imageUrls ? imageUrls : []);
-      setPreviewStatus(statusImgUrls ? statusImgUrls : []);
-      setUpdateId(id);
-      setFloorFile(floorFile)
-    } catch (error) { }
-  };
-  const confirm = async ({ id }) => {
+
+  const confirm = async (value) => {
     try {
-      await deleteProject(id.id);
+      await deleteProject(value.id);
       setAllProject((data) => {
-        return data.filter((e) => e.id != id);
+        return data.filter((e) => e.id != value.id);
       });
     } catch (error) {
       console.log(error.message);
