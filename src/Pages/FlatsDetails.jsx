@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Tr from "../Components/Common/Tr";
-import { Image, Modal, Tag } from "antd";
+import { Modal, Tag } from "antd";
 import Layout from "../Layout";
 import { getSingleCategorySingleDetails } from "../dbconfig";
-import img from "/logo.svg";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 // Plugins
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
@@ -15,7 +14,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import OnPageLoaderTwo from "../Components/Common/OnPageLoaderTwo";
-import { useRef } from "react";
 export const FlatsDetails = () => {
   const param = useParams();
   const [flatDetails, setFlatDetails] = useState("");
@@ -51,7 +49,6 @@ export const FlatsDetails = () => {
     rajukpprovalDate,
     status,
     subTitle,
-    slug,
     commonFacilities,
     imageUrls,
     totalFlat,
@@ -78,13 +75,13 @@ export const FlatsDetails = () => {
     setPresentModal(true);
   };
 
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  const [visible, setVisible] = useState(false);
+
   const myGallery = cloudinary.galleryWidget({
     container: "#gallery",
     cloudName: "dxf9h9jqf",
     mediaAssets: imageUrls?.map((img) => {
       return {
+
         publicId: img.id,
         mediaType: "image"
       }

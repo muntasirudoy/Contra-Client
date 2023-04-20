@@ -1,7 +1,7 @@
 import React from 'react'
 import Dashboard_Heading from './Dashboard_Heading'
 import { LoadingOutlined, LockOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Col, Form, Input, Row, Select, Spin } from 'antd'
+import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Select, Spin } from 'antd'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,21 +11,19 @@ import TextArea from 'antd/es/input/TextArea'
 import { RiDeleteBin2Fill } from 'react-icons/ri'
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
+import { fetchCategories, formItems } from './utils'
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
-const emptyPdfImg = "http://res.cloudinary.com/dxf9h9jqf/image/upload/v1681975165/jyzgns9zcbss98lqw3q9.png"
-const emptyImg = "http://res.cloudinary.com/dxf9h9jqf/image/upload/v1681975526/rkedpb5wrs1zflalawus.webp"
+
 const Dashboard_Add_Project = () => {
     const formRef = useRef(null);
     const [form] = Form.useForm();
     const [btnLoader, setBtnLoader] = useState(false);
-    const [skltn, setSkltn] = useState(false);
-    const [updateBtn, setUpdateBtn] = useState(false);
-    const [updateId, setUpdateId] = useState("");
     const [allCatetgory, setAllCatetgory] = useState([]);
     const [projectImages, setProjectImages] = useState([])
     const [statusImages, setStatusImages] = useState([])
     const [pdf, setPdf] = useState([])
     const navigate = useNavigate()
+
 
     const onFinish = async (values) => {
         setBtnLoader(true);
@@ -72,7 +70,7 @@ const Dashboard_Add_Project = () => {
         };
 
 
-        return
+
         try {
             await createDocumentsForProjectDetails(obj);
             setBtnLoader(false);
@@ -96,20 +94,14 @@ const Dashboard_Add_Project = () => {
 
 
     useEffect(() => {
-        fetchCategoryList();
+        fetchCategoryList()
     }, [])
 
     // fetch Category
     const fetchCategoryList = async () => {
         try {
-            const res = await getAllCategory();
-            const newArr = res.map((e) => {
-                return {
-                    value: e.categoryName,
-                    label: e.categoryName,
-                };
-            });
-            setAllCatetgory(newArr);
+            const res = await fetchCategories()
+            setAllCatetgory(res);
         } catch (error) { }
     };
 
@@ -201,188 +193,22 @@ const Dashboard_Add_Project = () => {
                     onFinish={onFinish}
                 >
                     <Row gutter={[24, 0]}>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                            <Form.Item
-                                label="Project Name"
-                                name="title"
-                                required
-                            >
-                                <Input
-                                    prefix={<LockOutlined className="site-form-item-icon" />}
-                                    placeholder="Project Name"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                            <Form.Item label="Short Location" name="subTitle" required>
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={8} xl={8}>
-                            <Form.Item label="Category" name="category" required>
-                                <Select
-                                    style={{ width: "100%" }}
-                                    defaultValue="Select Category"
-                                    options={allCatetgory}
-                                ></Select>
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                            <Form.Item label="Details" name="details" required>
-                                <TextArea
-                                    rows={12}
-                                    placeholder="maxLength is 150"
-                                    maxLength={1000}
-                                    style={{ height: "150px" }}
-                                />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Total Flat" name="totalFlat" required>
-                                <Input placeholder="Total Flat" type="number" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Flat Available" name="flatAvailable" required>
-                                <Input placeholder="Number of Flat Available" type="number" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Total Office" name="totalOffice" required>
-                                <Input placeholder="Number of Total Office" type="number" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Office Available"
-                                name="officeAvailable"
-                                required
-                            >
-                                <Input
-                                    placeholder="Number of Office Available"
-                                    type="number"
-                                />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Total Shop" name="totalShop" required>
-                                <Input placeholder="Number of Total Shop" type="number" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Office Available"
-                                name="shopAvailable"
-                                required
-                            >
-                                <Input placeholder="Number of Shop Available" type="number" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Location" name="location" required>
-                                <Input placeholder="Location" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Address" name="address" required>
-                                <Input placeholder="Address" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Project Type" name="projectType" required>
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Number of Building Blocks"
-                                name="numberofBuildingBlocks"
-                                required
-                            >
-                                <Input
-                                    placeholder="Number of Building Blocks"
-                                    type="number"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Land Area (Katha)" name="landArea" required>
-                                <Input placeholder="Land Area (Decimal)" type="number" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Flat Size" name="flatSize">
-                                <Input placeholder="Flat Size" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Number of Floor"
-                                name="numberofFloor"
-                                required
-                            >
-                                <Input placeholder="Number of Floor" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Launch Date" name="launchDate" required>
-                                <Input placeholder="Launch Date" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Rajuk Aproval Date"
-                                name="rajukpprovalDate"
-                                required
-                            >
-                                <Input placeholder="Rajuk Aproval Date" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Rajuk Aproval No"
-                                name="rajukApprovalNo"
-                                required
-                            >
-                                <Input placeholder="Rajuk Aproval No" />
-                            </Form.Item>
-                        </Col>
-
-
-
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Status" name="status" required>
-                                <Input placeholder="Status" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item
-                                label="Estimated Completion Date"
-                                name="estimatedCompletionDate"
-                                required
-                            >
-                                <Input placeholder="Estimated Completion Date" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={8} lg={6} xl={6}>
-                            <Form.Item label="Slug" name="slug" required>
-                                <Input placeholder="Write product slug" />
-                            </Form.Item>
-                        </Col>
-
+                        {formItems.map((item) => (
+                            <Col {...item.colProps} key={item.name}>
+                                <Form.Item
+                                    label={item.label}
+                                    name={item.name}
+                                    rules={item.rules}
+                                    hasFeedback={item.hasFeedback}
+                                >
+                                    {item.component}
+                                </Form.Item>
+                            </Col>
+                        ))}
                         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                             <Form.Item
-                                name="commonFacilities"
                                 label="Common Facilities"
-                                required
+                                name="commonFacilities"
                             >
                                 <Checkbox.Group>
                                     <Row>
@@ -392,6 +218,7 @@ const Dashboard_Add_Project = () => {
                                                 style={{
                                                     lineHeight: "32px",
                                                 }}
+
                                             >
                                                 Car Parking
                                             </Checkbox>
@@ -480,61 +307,34 @@ const Dashboard_Add_Project = () => {
                                 </Checkbox.Group>
                             </Form.Item>
                         </Col>
-                    </Row>
 
-                    <Form.Item>
-                        {updateBtn ? (
-                            <Button
-                                type="primary"
-                                className="login-form-button"
-                                onClick={onUpdateData}
-                            >
-                                {btnLoader ? (
-                                    <>
-                                        <Spin
-                                            indicator={antIcon}
-                                            style={{ color: "white", marginRight: "5px" }}
-                                        />
-                                        loading
-                                    </>
-                                ) : (
-                                    "Update"
-                                )}
-                            </Button>
-                        ) : (
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                className="login-form-button"
-                            >
-                                {btnLoader ? (
-                                    <>
-                                        <Spin
-                                            indicator={antIcon}
-                                            style={{ color: "white", marginRight: "5px" }}
-                                        />
-                                        loading
-                                    </>
-                                ) : (
-                                    "Save"
-                                )}
-                            </Button>
-                        )}
-                    </Form.Item>
+                        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    className="login-form-button"
+                                >
+                                    {btnLoader ? (
+                                        <>
+                                            <Spin
+                                                indicator={antIcon}
+                                                style={{ color: "white", marginRight: "5px" }}
+                                            />
+                                            loading
+                                        </>
+                                    ) : (
+                                        "Save"
+                                    )}
+                                </Button>
+                            </Form.Item>
+                        </Col>
+                    </Row>
                 </Form>
+
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+            <ToastContainer />
             {/* Same as */}
             <ToastContainer />
         </div>
