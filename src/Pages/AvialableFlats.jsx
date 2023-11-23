@@ -47,7 +47,7 @@ export const AvialableFlats = () => {
                 pdata.map((data) => (
                   <div className="col-12 md:col-4 lg:col-4">
                     <div className="avialablecard">
-                      <Link to={`/projects/available-flats/${data.slug}`}>
+                      <Link to={`/projects/available-flats/${data.slug}`} style={{width:"100%"}}>
                         <Card img={data.imageUrls?.[0].url} title={data.title} />
                       </Link>
                     </div>
