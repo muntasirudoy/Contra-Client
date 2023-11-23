@@ -1,47 +1,23 @@
 import {
-  DeleteFilled,
-  EyeOutlined,
-  LoadingOutlined,
-  LockOutlined,
   PlusOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 
 import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
   Input,
-  Modal,
   Popconfirm,
-  Row,
-  Select,
   Space,
-  Spin,
   Tag,
-  Upload,
 } from "antd";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-const { TextArea } = Input;
 const { Search } = Input;
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Skelton from "../Components/Common/Skelton";
 import {
-  createDocumentsForProjectDetails,
   deleteProject,
-  getAllCategory,
   getAllProjects,
-  getIndividualCategoryFlat,
-  storage,
   updateIetIndividualCategoryFlat,
 } from "../dbconfig";
 import Dashboard_Heading from "./Dashboard_Heading";
-import { BiUpload } from "react-icons/bi";
-import { RiDeleteBin2Fill } from "react-icons/ri";
-import UploadImage from "../Components/Common/UploadImage";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const text = "Are you sure to delete this task?";
 const description = "Delete the task";
 
@@ -145,10 +121,6 @@ const Dashboard_All_Projects = () => {
 
 
 
-
-
-
-
   return (
     <div>
       {" "}
@@ -158,9 +130,15 @@ const Dashboard_All_Projects = () => {
           subheading="Add or update your projects"
         />
         <div className="dashboard-projects ready">
-          <Link to="/dashboard/dashboard-projects/add-project">
+          <Link to="/dashboard/dashboard-projects/add-project" style={{ marginRight: "15px" }}>
             <button className="projectBtn">
               <PlusOutlined /> Add Project
+            </button>
+          </Link>
+
+          <Link to="/dashboard/dashboard-projects/make-payment">
+            <button className="projectBtn">
+              <PlusOutlined /> Make Payment
             </button>
           </Link>
           <Space direction="vertical" style={{ float: "right" }}>
@@ -219,7 +197,7 @@ const Dashboard_All_Projects = () => {
                   </span>
                   <span>
                     <Link style={{ fontSize: "16px" }} to={`/dashboard/dashboard-projects/edit/${e.id}`}>
-                      View
+                      Edit
                     </Link>
                     <Popconfirm
                       placement="topLeft"

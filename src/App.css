@@ -328,6 +328,7 @@ p-dropdown:not(.p-disabled):hover {
   height: 73%
 }
 
+/* 
 table {
   background: #f5f5f5;
   border-collapse: separate;
@@ -401,7 +402,7 @@ tr:last-of-type td:first-child {
 
 tr:last-of-type td:last-child {
   box-shadow: inset -1px -1px 0 #fff
-}
+} */
 
 .table>:not(caption)>*>* {
   border-bottom-width: 4px !important
@@ -712,7 +713,7 @@ tr:last-of-type td:last-child {
 }
 
 .show-form {
-  height: 800px;
+
   transition: .3s;
   opacity: 1;
   overflow: hidden
@@ -801,8 +802,9 @@ tr:last-of-type td:last-child {
 }
 
 .ant-tabs-tab.ant-tabs-tab-active {
-  background: #2854963a;
-  color: #fff !important
+  background: #a5b8ff3a;
+  color: #fff !important;
+  font-weight: 500;
 }
 
 .unit-table {

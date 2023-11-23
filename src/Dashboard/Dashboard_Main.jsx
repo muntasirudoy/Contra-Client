@@ -46,7 +46,7 @@ const Dashboard_Main = () => {
       let res = await updateIndividualUser(data);
       if (res) {
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const onSearchProjectByProjectId = async () => {

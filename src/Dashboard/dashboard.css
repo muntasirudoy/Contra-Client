@@ -491,6 +491,8 @@
     width: 100% !important;
 }
 
+
+
 .clientsProjectDetails .allItems {
     width: 100%;
     display: flex;
@@ -524,4 +526,141 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.dashboard-client-profile-left {
+    width: 100%;
+}
+
+
+
+.dashboard-client-profile-left-card {
+    width: 100%;
+    border-radius: 15px;
+    height: 100%;
+}
+
+.dashboard-client-profile-left-card-image {
+    height: 150px;
+    background: #014a69;
+    position: relative;
+}
+
+.dashboard-client-profile-left-card-image img {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    margin-top: 50px;
+    border-radius: 100%;
+    left: 10%;
+    top: 20%;
+    transform: translateX(-50%);
+    z-index: 999;
+    border: 5px solid white;
+
+}
+
+.dashboard-client-profile-right .ant-tabs-content-holder {
+    padding: 40px;
+}
+
+.dashboard-clients-tab .dashboard-client-profile-right .ant-tabs-nav-list {
+    flex-direction: column;
+    margin: 80px 0 !important;
+    width: 300px;
+    padding: 20px;
+}
+
+.dashboard-clients-tab .dashboard-client-profile-right .ant-tabs-nav-wrap {
+    border: 1px solid rgb(230, 230, 230);
+}
+
+
+.dashboard-clients-tab .dashboard-client-profile-right .ant-tabs-nav-list .ant-tabs-tab {
+    margin: 0;
+}
+
+.client-name {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.client-name span {
+    color: white;
+}
+
+.client-name h2 {
+    color: white;
+}
+
+.clients-profile-dashboard-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clients-profile-dashboard-card {
+    background: rgb(249, 248, 255);
+    height: 100px;
+    width: 22%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.clients-profile-dashboard-card h1 {
+    font-size: 28px;
+}
+
+.clients-profile-dashboard-card span {
+    font-size: 18px;
+}
+
+.client-recent-payment {
+    margin-top: 30px;
+}
+
+.client-recent-payment h2 {
+    padding: 20px 0;
+}
+
+.client-recent-payment .ant-table-wrapper .ant-table,
+.clientAllProjectTransactions .ant-table-wrapper .ant-table {
+    background: none;
+}
+
+.dashboardClientSingleProject .ant-descriptions-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #205b75;
+}
+
+.dashboardClientSingleProject th.ant-descriptions-item-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3a9fca;
+}
+
+.dashboardClientSingleProject td.ant-descriptions-item-content {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboardClientSingleProject .ant-descriptions-item-container .ant-descriptions-item-label,
+.dashboardClientSingleProject .ant-descriptions-item-container .ant-descriptions-item-content {
+    font-size: 18px;
+    font-weight: 600;
+    color: #014a69;
+}
+
+.dashboardClientSingleProject .ant-descriptions-item-container .ant-descriptions-item-content {
+    font-weight: 500;
 }

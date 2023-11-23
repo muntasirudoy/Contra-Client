@@ -632,6 +632,16 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       utility,
       totalPrice,
       totalPriceInWord,
+      monthlyInstallment,
+      noInstallment,
+      paymentMethod,
+      paymentMode,
+      bookingMoney,
+      downPayment,
+      bankName,
+      bookingDate,
+      downPaymentDate,
+      dueAmount
     } = data;
 
     const projectInfo = {
@@ -650,6 +660,16 @@ export const createDocumentsForClientProjectInfo = async (data) => {
       utility,
       totalPrice,
       totalPriceInWord,
+      monthlyInstallment,
+      noInstallment,
+      paymentMethod,
+      paymentMode,
+      bookingMoney,
+      downPayment,
+      bankName,
+      bookingDate,
+      downPaymentDate,
+      dueAmount
     };
     try {
       await setDoc(docRef, projectInfo);
@@ -703,11 +723,73 @@ export const getIndividualProjectInfoForPayment = async (location, id) => {
   const citiesRef = collection(db, location);
   // Create a query against the collection.
   const q = query(citiesRef, where("projjectid", "==", id));
-  console.log(q, "q");
+
   const querySnapshot = await getDocs(q);
   let details = {};
   await querySnapshot.forEach((doc) => {
     details = { ...doc.data(), id: doc.id };
+  });
+  return details;
+};
+
+export const getIndividualProjectInfoForClient = async (location, id) => {
+  const docRef = await doc(db, location, id);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+};
+
+export const updateIndividualProjectInfoForClient = async (data) => {
+  
+  const docRef = doc(db, "client_project_info", data.id);
+  
+  const obj = {
+    dueAmount : data.dueAmount
+  }
+  updateDoc(docRef, obj)
+    .then((docRef) => {
+      console.log(
+        "A New Document Field has been added to an existing document"
+      );
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// create document for Project Details form
+export const createDocumentsForClientPaymentTransaction = async (data) => {
+  const docRef = await doc(db, "client_transaction", uuidv4());
+  const snapshot = await getDoc(docRef);
+  if (!snapshot.exists()) {
+    try {
+      await setDoc(docRef, data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  } else {
+    console.log("The product is exist");
+  }
+  return docRef;
+};
+
+// get all land owner
+export const getClientAllTransactions = async (id) => {
+  let transactions = [];
+  const docRef = await getDocs(collection(db, "client_transaction"));
+  docRef.forEach((doc) => {
+    transactions.push({ ...doc.data(), id: doc.id });
+  });
+  return transactions;
+};
+
+export const getIndividualProjectTransactions = async (id) => {
+  const citiesRef = collection(db, "client_transaction");
+  // Create a query against the collection.
+  const q = query(citiesRef, where("projectId", "==", id));
+  const querySnapshot = await getDocs(q);
+  let details = [];
+  await querySnapshot.forEach((doc) => {
+    details.push({ ...doc.data(), id: doc.id });
   });
   return details;
 };

@@ -17,6 +17,8 @@
     "antd-img-crop": "^4.12.2",
     "axios": "^1.2.1",
     "boxicons": "^2.1.4",
+    "crypto-hash": "^2.0.1",
+    "dotenv": "^16.0.3",
     "firebase": "^9.15.0",
     "formik": "^2.2.9",
     "jquery": "^3.6.3",

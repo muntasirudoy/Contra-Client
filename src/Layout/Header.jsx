@@ -276,8 +276,8 @@ const [show, setShow] = useState("hide")
         <div className="container">
           <div className="mid-header">
             <Navbar show={show}/>
-            <MenuUnfoldOutlined onClick={()=> setShow(show=="hide" ? "show" : "hide")}/>
-              <div className="user-account">
+            {/* <MenuUnfoldOutlined onClick={()=> setShow(show=="hide" ? "show" : "hide")}/> */}
+              {/* <div className="user-account">
                 <Dropdown menu={{ items }} placement="bottomLeft">
                   <Chip
                     style={{
@@ -289,7 +289,7 @@ const [show, setShow] = useState("hide")
                     template={content}
                   />
                 </Dropdown>
-              </div>
+              </div> */}
             
           </div>
         </div>

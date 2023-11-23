@@ -4,12 +4,15 @@ import { LoadingOutlined, LockOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Col, Form, Input, Row, Select, Spin } from 'antd'
 import { useRef } from 'react'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { createDocumentsForProjectDetails, getAllCategory, getIndividualCategoryFlat, updateIetIndividualCategoryFlat } from '../dbconfig'
+import { useParams } from 'react-router-dom'
+import { getAllCategory, getIndividualCategoryFlat, updateIetIndividualCategoryFlat } from '../dbconfig'
 import UploadImage from '../Components/Common/UploadImage'
 import TextArea from 'antd/es/input/TextArea'
 import { RiDeleteBin2Fill } from 'react-icons/ri'
 import { useEffect } from 'react'
+
+import { sha1 } from 'crypto-hash'
+import axios from 'axios'
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
 const Dashboard_Edit_Project = () => {
     const formRef = useRef(null);
@@ -20,6 +23,9 @@ const Dashboard_Edit_Project = () => {
     const [updateId, setUpdateId] = useState("");
     const [allCatetgory, setAllCatetgory] = useState([]);
     const [images, setImages] = useState([])
+    const [projectImages, setProjectImages] = useState([])
+    const [statusImages, setStatusImages] = useState([])
+    const [pdf, setPdf] = useState([])
     const param = useParams()
 
 
@@ -29,6 +35,12 @@ const Dashboard_Edit_Project = () => {
 
         let obj = {
             ...value,
+            imageUrls: projectImages?.map((img) => {
+                return {
+                    url: img.url,
+                    id: img.public_id
+                }
+            }),
         };
         try {
             await updateIetIndividualCategoryFlat({ ...obj, id: updateId });
@@ -39,19 +51,9 @@ const Dashboard_Edit_Project = () => {
     };
 
 
-    const handleRemoveImage = () => {
-
-    }
-
-    const handleButtonClick = () => {
-
-
-    }
-
 
     useEffect(() => {
         projectOnView(param.id)
-
         fetchCategoryList();
     }, [images])
 
@@ -101,6 +103,7 @@ const Dashboard_Edit_Project = () => {
                 officeAvailable,
                 totalShop,
                 shopAvailable,
+
             } = res;
             formRef.current?.setFieldsValue({
                 address,
@@ -128,10 +131,47 @@ const Dashboard_Edit_Project = () => {
                 totalShop,
                 shopAvailable,
             });
-
+            setProjectImages(imageUrls)
             setPreview(imageUrls ? imageUrls : []);
         } catch (error) { }
     };
+
+
+
+
+
+    const handleRemoveImage = async (val) => {
+        let newArr = projectImages.filter((e) => e.id !== val.id);
+        const generateSHA1 = async (data) => {
+            return await sha1(data)
+        }
+        const generateSignature = (publicId, apiSecret) => {
+            const timestamp = new Date().getTime();
+            return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+        };
+
+        const cloudName = "dxf9h9jqf";
+        const timestamp = new Date().getTime();
+        const apiKey = '137384169193345';
+        const apiSecret = 'NSgwzaWoBFa0t1B-1cp-GXfWn1A'
+        const signature = await generateSHA1(generateSignature(val.public_id, apiSecret));
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
+        try {
+            console.log(val, signature, apiKey, timestamp);
+            const response = await axios.post(url, {
+                public_id: val.public_id,
+                signature: signature,
+                api_key: apiKey,
+                timestamp: timestamp,
+            });
+            console.log("hello 21");
+            setProjectImages(newArr)
+            console.error(response);
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div>
@@ -140,26 +180,77 @@ const Dashboard_Edit_Project = () => {
                     heading="Add New Project"
                     subheading="Add or update your projects"
                 />
-                <div className="preview-images">
-                    {images?.map((prev, index) => (
-                        <div className="image-with-overlay">
-                            <img
-                                key={index}
-                                src={prev.url}
-                                alt="Image Preview"
-                                className="preview-img"
-                            />
-                            <div className="remove-overlay">
-                                <RiDeleteBin2Fill />
-                            </div>
-                        </div>
-                    ))}
+                <div style={{ display: "flex" }}>
+                    <div className="preview-images">
 
-                    <div className="preview-img-select">
-                        <UploadImage images={images} setImages={setImages} />
-                        Upload image
+                        {projectImages?.map((prev, index) => (
+                            <div className="image-with-overlay">
+                                <img
+                                    key={index}
+                                    src={prev.url}
+                                    alt="Image Preview"
+                                    className="preview-img"
+                                />
+                                <div className="remove-overlay">
+                                    <RiDeleteBin2Fill onClick={() => handleRemoveImage(prev)} />
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className="preview-img-select" style={{ background: "rgba(233, 234, 255, 0.716)" }}>
+                            <UploadImage setImages={setProjectImages} />
+
+                            <span style={{ fontWeight: "600", color: "darkblue" }}> Upload Project image</span>
+
+                        </div>
+                    </div>
+
+                    <div className="preview-images">
+                        {statusImages?.map((prev, index) => (
+                            <div className="image-with-overlay">
+                                <img
+                                    key={index}
+                                    src={prev.url}
+                                    alt="Image Preview"
+                                    className="preview-img"
+                                />
+                                <div className="remove-overlay">
+                                    <RiDeleteBin2Fill />
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className="preview-img-select" style={{ background: "rgba(241, 255, 233, 0.716)" }}>
+                            <UploadImage active="statusImg" setImages={setStatusImages} />
+
+                            <span style={{ fontWeight: "600", color: "green" }}>   Upload Status image</span>
+                        </div>
+                    </div>
+
+                    <div className="preview-images">
+                        {pdf?.map((prev, index) => (
+                            <div className="image-with-overlay" >
+                                <img
+                                    key={index}
+                                    src={"https://res.cloudinary.com/dxf9h9jqf/image/upload/c_limit,h_120,w_120/v1681921749/sxemlx36odwqs3gqqo8r.jpg"
+                                    }
+                                    alt="Image Preview"
+                                    className="preview-img"
+                                />
+                                <p>{prev.name}</p>
+                                <div className="remove-overlay">
+                                    <RiDeleteBin2Fill />
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className="preview-img-select" style={{ background: "rgba(255, 233, 233, 0.716)" }}>
+                            <UploadImage option="pdf" setImages={setPdf} />
+                            <span style={{ fontWeight: "600", color: "darkred" }}> Upload Floor Plan (pdf)</span>
+                        </div>
                     </div>
                 </div>
+
 
                 <Form
                     layout="vertical"

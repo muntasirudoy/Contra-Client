@@ -1,187 +1,157 @@
-import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { Rating } from "primereact/rating";
-import { Toast } from "primereact/toast";
-import React, { useEffect, useRef, useState } from "react";
-import { ProductService } from "./service";
 
-const ClientsAllPayments = () => {
-  const [products, setProducts] = useState([]);
-  const [expandedRows, setExpandedRows] = useState(null);
-  const toast = useRef(null);
-  const isMounted = useRef(false);
+import React, { useEffect } from "react";
+
+import { DownOutlined } from '@ant-design/icons';
+import { Badge, Dropdown, Space, Table } from 'antd';
+import { useState } from "react";
+import { getClientAllTransactions, getIndividualProjectTransactions } from "../dbconfig";
+const items = [
+  {
+    key: '1',
+    label: 'Action 1',
+  },
+  {
+    key: '2',
+    label: 'Action 2',
+  },
+];
+const ClientsAllPayments = ({ clientProjects }) => {
+
+  const [transaction, setTransactions] = useState([])
+
+
+  const fetchData = async () => {
+    try {
+      let res = await getClientAllTransactions()
+      setTransactions(res)
+    } catch (error) {
+
+    }
+  }
 
   useEffect(() => {
-    isMounted.current = true;
-    ProductService.getProductsWithOrdersSmall().then(data => setProducts(data));
-}, []);  // eslint-disable-line react-hooks/exhaustive-deps
+    fetchData()
+  }, [])
 
-  const onRowExpand = (event) => {
-    toast.current.show({
-      severity: "info",
-      summary: "Product Expanded",
-      detail: event.data.name,
-      life: 3000,
-    });
-  };
+  const expandedRowRender = (value) => {
+    const data = transaction?.filter((e) => e.projectId == value.id)
 
-  const onRowCollapse = (event) => {
-    toast.current.show({
-      severity: "success",
-      summary: "Product Collapsed",
-      detail: event.data.name,
-      life: 3000,
-    });
-  };
+    const columns = [
+      {
+        title: 'Date',
+        dataIndex: 'paymentDate',
+        key: 'paymentDate',
+      },
+      {
+        title: 'Amount',
+        dataIndex: 'payAmount',
+        key: 'payAmount',
+      },
+      {
+        title: 'Status',
+        key: 'state',
+        render: () => <Badge status="success" text="Finished" />,
+      },
+      {
+        title: 'Upgrade Status',
+        dataIndex: 'upgradeNum',
+        key: 'upgradeNum',
+      },
+      {
+        title: 'Action',
+        dataIndex: 'operation',
+        key: 'operation',
+        render: () => (
+          <Space size="middle">
+            <a>Pause</a>
+            <a>Stop</a>
+            <Dropdown
+              menu={{
+                items,
+              }}
+            >
+              <a>
+                More <DownOutlined />
+              </a>
+            </Dropdown>
+          </Space>
+        ),
+      },
+    ];
 
-  const expandAll = () => {
-    let _expandedRows = {};
-    products.forEach((p) => (_expandedRows[`${p.id}`] = true));
 
-    setExpandedRows(_expandedRows);
-  };
 
-  const collapseAll = () => {
-    setExpandedRows(null);
-  };
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
-  };
-
-  const amountBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.amount);
-  };
-
-  const statusOrderBodyTemplate = (rowData) => {
     return (
-      <span className={`order-badge order-${rowData.status.toLowerCase()}`}>
-        {rowData.status}
-      </span>
+      <>
+        {
+          transaction && <Table columns={columns} dataSource={data} pagination={false} />
+        }
+      </>
     );
   };
 
-  const searchBodyTemplate = () => {
-    return <Button icon="pi pi-search" />;
-  };
+  const columns = [
+    {
+      title: 'Project Name',
+      dataIndex: 'projectName',
+      key: 'id',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'totalPrice',
+      key: 'id',
+    },
+    {
+      title: 'Payable',
+      dataIndex: 'dueAmount',
+      key: 'id',
+    },
+    {
+      title: 'Paid',
+      dataIndex: 'payAmount',
+      key: 'id',
+    },
+    {
+      title: 'Creator',
+      dataIndex: 'creator',
+      key: 'id',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'createdAt',
+      key: 'id',
+    },
+    {
+      title: 'Action',
+      key: 'id',
+      render: () => <a>Publish</a>,
+    },
+  ];
 
-  const imageBodyTemplate = (rowData) => {
-    return (
-      <img
-        src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`}
-        alt={rowData.image}
-        width="100px"
-        className="shadow-4"
-      />
-    );
-  };
 
-  const priceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.price);
-  };
-
-  const ratingBodyTemplate = (rowData) => {
-    return <Rating value={rowData.rating} readOnly cancel={false} />;
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <span
-        className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}
-      >
-        {rowData.inventoryStatus}
-      </span>
-    );
-  };
-
-  const allowExpansion = (rowData) => {
-return rowData ? true : false
-
-
-  };
-
-  const rowExpansionTemplate = (data) => {
-    return (
-      <div className="p-3">
-        <Toast ref={toast} />
-        <DataTable
-          value={products}
-          expandedRows={expandedRows}
-          onRowToggle={(e) => setExpandedRows(e.data)}
-          onRowExpand={onRowExpand}
-          onRowCollapse={onRowCollapse}
-          responsiveLayout="scroll"
-          rowExpansionTemplate={rowExpansionTemplate}
-          dataKey="id"
-
-        >
-          <Column expander={allowExpansion} style={{ width: "3em" }} />
-          <Column field="name" header="Name" sortable />
-          <Column header="Image" body={imageBodyTemplate} />
-          <Column
-            field="price"
-            header="Price"
-            sortable
-            body={priceBodyTemplate}
-          />
-          <Column field="category" header="Category" sortable />
-          <Column
-            field="rating"
-            header="Reviews"
-            sortable
-            body={ratingBodyTemplate}
-          />
-          <Column
-            field="inventoryStatus"
-            header="Status"
-            sortable
-            body={statusBodyTemplate}
-          />
-        </DataTable>
-      </div>
-    );
-  };
-
+  const data = []
+  clientProjects?.map((e) => {
+    const obj = {
+      ...e,
+      key: e.id,
+    }
+    return data.push(obj)
+  })
 
   return (
-    <div >
-      <DataTable
-        value={products}
-        expandedRows={expandedRows}
-        onRowToggle={(e) => setExpandedRows(e.data)}
-        onRowExpand={onRowExpand}
-        onRowCollapse={onRowCollapse}
-        responsiveLayout="scroll"
-        rowExpansionTemplate={rowExpansionTemplate}
-        dataKey="id"
-      >
-        <Column expander={allowExpansion} style={{ width: "3em" }} />
-        <Column field="name" header="Name" sortable />
-        <Column header="Image" body={imageBodyTemplate} />
-        <Column
-          field="price"
-          header="Price"
-          sortable
-          body={priceBodyTemplate}
-        />
-        <Column field="category" header="Category" sortable />
-        <Column
-          field="rating"
-          header="Reviews"
-          sortable
-          body={ratingBodyTemplate}
-        />
-        <Column
-          field="inventoryStatus"
-          header="Status"
-          sortable
-          body={statusBodyTemplate}
-        />
-      </DataTable>
+    <div className="clientAllProjectTransactions">
+      <h2>Projects with Transactions:</h2>
+      <br />
+      {clientProjects && <Table
+        bordered
+        columns={columns}
+        expandable={{
+          expandedRowRender,
+          defaultExpandedRowKeys: ['0'],
+        }}
+        dataSource={data}
+      />}
     </div>
   );
 };

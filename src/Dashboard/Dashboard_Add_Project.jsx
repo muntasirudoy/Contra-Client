@@ -1,19 +1,20 @@
 import React from 'react'
 import Dashboard_Heading from './Dashboard_Heading'
-import { LoadingOutlined, LockOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Col, DatePicker, Form, Input, Row, Select, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Col, Form, Row, Spin } from 'antd'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createDocumentsForProjectDetails, getAllCategory } from '../dbconfig'
 import UploadImage from '../Components/Common/UploadImage'
-import TextArea from 'antd/es/input/TextArea'
 import { RiDeleteBin2Fill } from 'react-icons/ri'
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import { fetchCategories, formItems } from './utils'
+import axios from 'axios'
 const antIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />;
 
+import { sha1 } from 'crypto-hash'
 const Dashboard_Add_Project = () => {
     const formRef = useRef(null);
     const [form] = Form.useForm();
@@ -83,14 +84,40 @@ const Dashboard_Add_Project = () => {
 
 
 
-    const handleRemoveImage = () => {
+    const handleRemoveImage = async (val) => {
+        let newArr = projectImages.filter((e) => e.id !== val.id);
+        const generateSHA1 = async (data) => {
+            return await sha1(data)
+        }
+        const generateSignature = (publicId, apiSecret) => {
+            const timestamp = new Date().getTime();
+            return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+        };
 
+        const cloudName = "dxf9h9jqf";
+        const timestamp = new Date().getTime();
+        const apiKey = '137384169193345';
+        const apiSecret = 'NSgwzaWoBFa0t1B-1cp-GXfWn1A'
+        const signature = await generateSHA1(generateSignature(val.public_id, apiSecret));
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
+        try {
+            console.log(val, signature, apiKey, timestamp);
+            const response = await axios.post(url, {
+                public_id: val.public_id,
+                signature: signature,
+                api_key: apiKey,
+                timestamp: timestamp,
+            });
+            setProjectImages(newArr)
+            console.error(response);
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    const handleButtonClick = () => {
 
 
-    }
 
 
     useEffect(() => {
@@ -126,7 +153,7 @@ const Dashboard_Add_Project = () => {
                                     className="preview-img"
                                 />
                                 <div className="remove-overlay">
-                                    <RiDeleteBin2Fill />
+                                    <RiDeleteBin2Fill onClick={() => handleRemoveImage(prev)} />
                                 </div>
                             </div>
                         ))}
