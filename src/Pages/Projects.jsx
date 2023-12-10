@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
-import { Card, Tabs } from "antd";
-import Meta from "antd/es/card/Meta";
 import Heading from "../Components/Common/Heading";
 import { Link, useLocation } from "react-router-dom";
 import AvialableFlats from "./AvialableFlats";
@@ -10,7 +8,10 @@ import UpcomingProjects from "./UpcomingProjects";
 import AllFlats from "./AllFlats";
 import ReadyProjects from "./ReadyProjects";
 import { Helmet } from "react-helmet";
+import Tabs from 'react-responsive-tabs';
 
+// IMPORTANT you need to include the default styles
+import 'react-responsive-tabs/styles.css';
 const content = "Discover our impressive portfolio of completed projects at Mahmud Builders. From residential to commercial, our skilled team has successfully delivered exceptional construction projects. Explore our innovative designs, quality craftsmanship, and attention to detail. Trust us to bring your vision to life. Contact us to discuss your next project."
 const Projects = () => {
   const { search } = useLocation();
@@ -55,6 +56,17 @@ const Projects = () => {
   const [tabPosition] = useState(window.innerWidth < 576 ? "top" : "left")
 
 
+  function getTabs() {
+    return items.map((item, index) => ({
+      title: item.label,
+      getContent: () => item.children,
+      /* Optional parameters */
+      key: index,
+      tabClassName: 'tab',
+      panelClassName: 'panel',
+    }));
+  }
+
 
   return (
     <Layout>
@@ -68,7 +80,8 @@ const Projects = () => {
         </div>
         <div className="projects grid">
           <div className="col-12 md:col-12 lg:col-12">
-            <Tabs
+          <Tabs items={getTabs()} />
+            {/* <Tabs
               centered
               size="large"
               activeKey={activeKey}
@@ -76,7 +89,7 @@ const Projects = () => {
               onChange={keyChange}
               tabPosition={tabPosition}
 
-            />
+            /> */}
           </div>
         </div>
       </div>
