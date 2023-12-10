@@ -1,16 +1,12 @@
 {
-    "rewrites":[{"source":"/(.*)", "destination":"/index.html"}],
+    "rewrites": [{"source":"/(.*)", "destination":"/index.html"}],
     "version": 2,
     "builds": [
-      {
-        "src": "your-source-directory",
-        "use": "@vercel/node",
-        "config": { "maxLambdaSize": "2048mb" },
-        "env": { "CUSTOM_ENV_VAR": "value" },
-        "buildCommand": "npm install --force && npm run build"
-      }
+        {
+            "src": "./src",
+            "use": "@vercel/node",
+            "config": { "maxLambdaSize": "2048mb" },
+            "buildCommand": "npm install && npm run build"
+        }
     ]
 }
-    
-  
-  
