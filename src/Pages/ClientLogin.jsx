@@ -1,10 +1,8 @@
 
-import React, { useContext, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getCurrentUser, loginUserWithEmailPassword, signinWithGooglePopup } from "../dbconfig";
-import GoogleButton from "react-google-button";
+import { loginUserWithEmailPassword, }from "../dbconfig";
 import Loader from "../Components/Common/Loader";
-import { Store } from "../Context/context";
 
 const ClientLogin = () => {
   const emailRef = useRef();
