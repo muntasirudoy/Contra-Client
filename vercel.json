@@ -3,11 +3,10 @@
     "version": 2,
     "builds": [
       {
-        "src": "./src",
+        "src": "./",
         "use": "@vercel/node",
         "config": { "maxLambdaSize": "2048mb" },
-        "cmd": "npm install --legacy-peer-deps && npm run build"
+        "buildCommand": "npm install --legacy-peer-deps && npm run build"
       }
     ]
   }
-  
