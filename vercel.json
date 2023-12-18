@@ -1,12 +1,13 @@
 {
-    "rewrites": [{"source":"/(.*)", "destination":"/index.html"}],
+    "rewrites": [{"source": "/(.*)", "destination": "/index.html"}],
     "version": 2,
     "builds": [
-        {
-            "src": "./src",
-            "use": "@vercel/node",
-            "config": { "maxLambdaSize": "2048mb" },
-            "buildCommand": "npm install --legacy-peer-deps && npm run build"
-        }
+      {
+        "src": "./src",
+        "use": "@vercel/node",
+        "config": { "maxLambdaSize": "2048mb" },
+        "cmd": "npm install --legacy-peer-deps && npm run build"
+      }
     ]
-}
+  }
+  
