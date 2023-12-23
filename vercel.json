@@ -1,12 +1,8 @@
 {
-    "rewrites": [{"source": "/(.*)", "destination": "/index.html"}],
-    "version": 2,
-    "builds": [
-      {
-        "src": "./",
-        "use": "@vercel/node",
-        "config": { "maxLambdaSize": "2048mb" },
-        "buildCommand": "npm install && npm run build"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
